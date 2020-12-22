@@ -7,7 +7,7 @@ int main(void)
 {
 	char str1[30] = "jeon";
 
-	printf("strlcpy : %d\n", strlcpy(str1, "hello", 0));
+	printf("strlcpy : %ld\n", strlcpy(str1, "hello", 0));
 	
 	char str2[30] = "jeon";
 
