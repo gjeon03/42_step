@@ -6,11 +6,11 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 22:25:36 by gjeon             #+#    #+#             */
-/*   Updated: 2020/12/21 22:56:35 by gjeon            ###   ########.fr       */
+/*   Updated: 2020/12/22 20:52:59 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	check(char *str, int *sign)
+int	check(const char *str, int *sign)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	check(char *str, int *sign)
 	return (i);
 }
 
-int	ft_atoi(char *str)
+int	ft_atoi(const char *str)
 {
 	int	i;
 	int	j;
