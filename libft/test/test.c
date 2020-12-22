@@ -1,25 +1,32 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
-int ft_strncmp(const char *s1, const char *s2, size_t n);
+int ft_isascii(int c);
 
 int main(void)
 {
 	char str1[30] = "abcdefg";
 	char str2[30] = "abc0123456";
 
-	printf("strncmp : %d\n", strncmp(str1, str2, -1));
-	printf("ft_strncmp : %d\n", ft_strncmp(str1, str2, -1));
+	printf("isalnum : %d\n", isascii('A'));
+	printf("ft_isalnum : %d\n", ft_isascii('A'));
 
-	printf("strncmp : %d\n", strncmp(str1, str2, 0));
-	printf("ft_strncmp : %d\n", ft_strncmp(str1, str2, 0));
-	
-	printf("strncmp : %d\n", strncmp(str1, str2, 4));
-	printf("ft_strncmp : %d\n", ft_strncmp(str1, str2, 4));
+	printf("isalnum : %d\n", isascii('g'));
+	printf("ft_isalnum : %d\n", ft_isascii('g'));
 
-	printf("strncmp : %d\n", strncmp(str1, str2, 6));
-	printf("ft_strncmp : %d\n", ft_strncmp(str1, str2, 6));
+	printf("isalnum : %d\n", isascii('2'));
+	printf("ft_isalnum : %d\n", ft_isascii('2'));
+
+	printf("isalnum : %d\n", isascii('\n'));
+	printf("ft_isalnum : %d\n", ft_isascii('\n'));
+
+	printf("isalnum : %d\n", isascii(230));
+	printf("ft_isalnum : %d\n", ft_isascii(230));
+
+	printf("isalnum : %d\n", isascii(-1));
+	printf("ft_isalnum : %d\n", ft_isascii(-1));
 
 	return (0);
 }
