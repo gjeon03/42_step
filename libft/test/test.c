@@ -3,30 +3,25 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-int ft_isascii(int c);
+size_t ft_strlcat(char *dest, const char *src, size_t size);
+int	ft_atoi(const char *str);
+void *ft_memset(void *b, int c, size_t n);
+void ft_bzero(void *s, size_t n);
+void *ft_memcpy(void *restrict s1, const void *restrict s2, size_t n);
 
 int main(void)
 {
-	char str1[30] = "abcdefg";
-	char str2[30] = "abc0123456";
+	char str1[15] = "abc";
+	char str2[15] = "0123456";
+	int a[20];
+	int b[20];
 
-	printf("isalnum : %d\n", isascii('A'));
-	printf("ft_isalnum : %d\n", ft_isascii('A'));
+	//bzero(a, sizeof(int));
+	//ft_bzero(b, sizeof(int));
 
-	printf("isalnum : %d\n", isascii('g'));
-	printf("ft_isalnum : %d\n", ft_isascii('g'));
-
-	printf("isalnum : %d\n", isascii('2'));
-	printf("ft_isalnum : %d\n", ft_isascii('2'));
-
-	printf("isalnum : %d\n", isascii('\n'));
-	printf("ft_isalnum : %d\n", ft_isascii('\n'));
-
-	printf("isalnum : %d\n", isascii(230));
-	printf("ft_isalnum : %d\n", ft_isascii(230));
-
-	printf("isalnum : %d\n", isascii(-1));
-	printf("ft_isalnum : %d\n", ft_isascii(-1));
-
+	printf("memcpy : %s\n", memcpy(str1, str2, 4));
+	char str3[15] = "abc";
+	char str4[15] = "0123456";
+	printf("ft_memcpy : %s\n", ft_memcpy(str3, str4, 4));
 	return (0);
 }

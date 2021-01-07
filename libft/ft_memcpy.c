@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/22 16:54:24 by gjeon             #+#    #+#             */
-/*   Updated: 2020/12/31 16:39:18 by gjeon            ###   ########.fr       */
+/*   Created: 2020/12/30 17:27:53 by gjeon             #+#    #+#             */
+/*   Updated: 2020/12/31 17:56:51 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "libft.h"
 
-#include <unistd.h>
+void	*ft_memcpy(void *restrict s1, const void *restrict s2, size_t n)
+{
+	size_t	i;
 
-void	*ft_memset(void *b, int c, size_t n);
-void	bzero(void *s, size_t n);
-void	*ft_memcpy(void *restrict s1, const void *restrict s2, size_t n);
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-size_t	ft_strlen(const char *str);
-
-#endif
+	if (s1 == 0 && s2 == 0)
+		return (0);
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char*)s1)[i] = ((unsigned char*)s2)[i];
+		i++;
+	}
+	return (s1);
+}

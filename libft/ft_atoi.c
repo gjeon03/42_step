@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 22:25:36 by gjeon             #+#    #+#             */
-/*   Updated: 2020/12/22 22:20:19 by gjeon            ###   ########.fr       */
+/*   Updated: 2020/12/28 18:50:13 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	check(const char *str, int *sign)
 
 int	ft_atoi(const char *str)
 {
-	int	i;
-	int	j;
-	int	sign;
+	int			i;
+	long long	j;
+	int			sign;
 
 	j = 0;
 	sign = 1;
@@ -45,5 +45,7 @@ int	ft_atoi(const char *str)
 		j += (str[i] - '0');
 		i++;
 	}
+	if (sign > 0 && j >= 9223372036854775807)
+		return (-1);
 	return (j * sign);
 }
