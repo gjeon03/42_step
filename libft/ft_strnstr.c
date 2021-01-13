@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/21 22:10:13 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/11 19:57:59 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/11 22:12:59 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/12 00:03:33 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t size)
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
-
-	if (dest == 0 || src == 0)
-		return (0);
-	i = 0;
-	if (size > 0)
+	if (*s2 == 0)
+		return ((char*)s1);
+	while (*s1 && n-- >= ft_strlen(s2))
 	{
-		while (src[i] && i < size - 1)
+		if (*s1 == *s2)
 		{
-			dest[i] = src[i];
-			i++;
+			if (ft_strncmp(s1, s2, ft_strlen(s2)) == 0)
+				return ((char*)s1);
 		}
-		dest[i] = '\0';
+		s1++;
 	}
-	i = ft_strlen(src);
-	return (i);
+	return (0);
 }
