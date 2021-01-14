@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/14 02:43:25 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/14 21:21:58 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/14 21:30:41 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/14 21:43:06 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstlast(t_list *lst)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	if (lst)
+	t_list	*new_lst;
+	t_list	*temp;
+
+	if (lst == 0 || f == 0)
+		return (0);
+	if (!(new_lst = ft_lstnew(f(lst->content))))
 	{
-		while (lst->next)
-			lst = lst->next;
+		ft_lstclear(&lst, del);
+		return (0);
 	}
-	return (lst);
+	temp = new_lst;
+	lst = lst->next;
+	while (lst)
+	{
+		new_lst->next = temp;
+		new_lst = temp;
+		lst = lst->next;
+	}
+	return (new_lst);
 }

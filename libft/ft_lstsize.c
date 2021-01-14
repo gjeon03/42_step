@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 02:34:15 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/14 02:41:47 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/14 21:22:09 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_lstsize(t_list *lst)
 	count = 0;
 	while (lst)
 	{
-		lst = lst -> next;
+		lst = lst->next;
 		count++;
 	}
 	return (count);

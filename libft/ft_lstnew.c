@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 01:27:45 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/14 01:33:36 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/14 21:22:31 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list	*ft_lstnew(void *content)
 
 	if (!(new = (t_list*)malloc(sizeof(t_list))))
 		return (0);
-	new -> content = content;
-	new -> next = 0;
+	new->content = content;
+	new->next = 0;
 	return (new);
 }
