@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 20:22:35 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/30 18:36:51 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/31 20:42:53 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int			get_next_line(int fd, char **line);
+int			get_next_line_bonus(int fd, char **line);
 size_t		ft_strlen(const char *str);
 size_t		ft_strlcpy(char *dest, const char *src, size_t size);
 size_t		ft_strlcat(char *dest, const char *src, size_t size);

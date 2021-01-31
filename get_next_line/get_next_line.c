@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 21:40:53 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/31 15:54:03 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/31 20:38:20 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	get_next_line(int fd, char **line)
 	ssize_t		read_size;
 	static char	*back_up[O_MAX];
 
-	if (fd <= 0 || line == 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || line == 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
