@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/26 21:40:53 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/31 20:43:30 by gjeon            ###   ########.fr       */
+/*   Created: 2021/02/01 02:59:00 by gjeon             #+#    #+#             */
+/*   Updated: 2021/02/01 02:59:20 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,24 @@ int	read_remainder(char **str, char **line, char *buf)
 int	get_next_line_bonus(int fd, char **line)
 {
 	char		*buf;
-	int			newline_location;
 	ssize_t		read_size;
 	static char	*back_up[O_MAX];
+	char		*temp;
 
 	if (fd < 0 || line == 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (!(buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))))
 		return (-1);
+	if (back_up[fd] == 0)
+		back_up[fd] = ft_strdup("");
 	while ((read_size = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[read_size] = '\0';
-		back_up[fd] = ft_strjoin(back_up[fd], buf);
-		newline_location = new_line_find(back_up[fd]);
-		if (newline_location >= 0)
-			return (output_line(&back_up[fd], line, newline_location, buf));
+		temp = ft_strjoin(back_up[fd], buf);
+		free(back_up[fd]);
+		back_up[fd] = temp;
+		if (new_line_find(back_up[fd]) >= 0)
+			return (output_line(&back_up[fd], line, new_line_find(back_up[fd]), buf));
 	}
 	if (read_size < 0)
 		return (-1);

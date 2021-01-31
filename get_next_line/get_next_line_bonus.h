@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/27 20:22:35 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/31 20:42:53 by gjeon            ###   ########.fr       */
+/*   Created: 2021/02/01 00:33:11 by gjeon             #+#    #+#             */
+/*   Updated: 2021/02/01 01:04:51 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
+
+#ifndef O_MAX
 # define O_MAX 256
+#endif
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 2000
+#endif
 
 # include <fcntl.h>
 # include <stdlib.h>

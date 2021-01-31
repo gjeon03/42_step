@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 22:31:42 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/27 22:41:21 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/01 02:04:07 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*ft_strdup(const char *s1)
 		((unsigned char*)str)[i] = ((unsigned char*)s1)[i];
 		i++;
 	}
+	s1 = 0;
 	return (str);
 }
 
