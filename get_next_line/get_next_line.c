@@ -6,13 +6,13 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 21:40:53 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/01 02:57:35 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/01 03:05:53 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	new_line_find(char *str)
+int	nl_find(char *str)
 {
 	size_t	i;
 
@@ -49,8 +49,8 @@ int	output_line(char **str, char **line, int i, char *buf)
 
 int	read_remainder(char **str, char **line, char *buf)
 {
-	if (*str && new_line_find(*str) >= 0)
-		return (output_line(str, line, new_line_find(*str), buf));
+	if (*str && nl_find(*str) >= 0)
+		return (output_line(str, line, nl_find(*str), buf));
 	else if (*str)
 	{
 		*line = *str;
@@ -82,8 +82,8 @@ int	get_next_line(int fd, char **line)
 		temp = ft_strjoin(back_up[fd], buf);
 		free(back_up[fd]);
 		back_up[fd] = temp;
-		if (new_line_find(back_up[fd]) >= 0)
-			return (output_line(&back_up[fd], line, new_line_find(back_up[fd]), buf));
+		if (nl_find(back_up[fd]) >= 0)
+			return (output_line(&back_up[fd], line, nl_find(back_up[fd]), buf));
 	}
 	if (read_size < 0)
 		return (-1);
