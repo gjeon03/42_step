@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 02:59:00 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/01 03:07:08 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/01 16:00:50 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	read_remainder(char **str, char **line, char *buf)
 	return (0);
 }
 
-int	get_next_line_bonus(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	char		*buf;
 	ssize_t		read_size;
