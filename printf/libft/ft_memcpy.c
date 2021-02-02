@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 23:08:10 by gjeon            ###   ########.fr       */
+/*   Created: 2020/12/30 17:27:53 by gjeon             #+#    #+#             */
+/*   Updated: 2020/12/31 17:56:51 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# ifndef TYPE
-#  define TYPE "csdiupxX%"
-# endif
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "./libft/libft.h"
-#include <stdio.h>
-
-typedef struct s_info
+void	*ft_memcpy(void *restrict s1, const void *restrict s2, size_t n)
 {
-	char	type;
-	int		flag;
-}			t_info;
+	size_t	i;
 
-int	ft_printf(const char *format, ...);
-int	c_format(char ch);
-int	s_format(char *str);
-
-int	print_str(char *str);
-
-#endif
+	if (s1 == 0 && s2 == 0)
+		return (0);
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char*)s1)[i] = ((unsigned char*)s2)[i];
+		i++;
+	}
+	return (s1);
+}

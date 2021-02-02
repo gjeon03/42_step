@@ -1,38 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 23:08:10 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/11 19:31:25 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/11 19:36:59 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# ifndef TYPE
-#  define TYPE "csdiupxX%"
-# endif
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "./libft/libft.h"
-#include <stdio.h>
-
-typedef struct s_info
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char	type;
-	int		flag;
-}			t_info;
+	size_t	i;
 
-int	ft_printf(const char *format, ...);
-int	c_format(char ch);
-int	s_format(char *str);
-
-int	print_str(char *str);
-
-#endif
+	i = 0;
+	while (i < n)
+	{
+		if (((unsigned char*)s1)[i] != ((unsigned char*)s2)[i])
+			return (((unsigned char*)s1)[i] - ((unsigned char*)s2)[i]);
+		i++;
+	}
+	return (0);
+}

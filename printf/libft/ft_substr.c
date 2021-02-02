@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 23:08:10 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/12 01:29:39 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/16 23:53:10 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# ifndef TYPE
-#  define TYPE "csdiupxX%"
-# endif
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "./libft/libft.h"
-#include <stdio.h>
-
-typedef struct s_info
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	char	type;
-	int		flag;
-}			t_info;
+	char	*str;
+	size_t	i;
 
-int	ft_printf(const char *format, ...);
-int	c_format(char ch);
-int	s_format(char *str);
-
-int	print_str(char *str);
-
-#endif
+	i = 0;
+	if (s == 0)
+		return (0);
+	if (!(str = (char*)malloc(sizeof(char) * (len + 1))))
+		return (0);
+	if (ft_strlen(s) > start)
+		ft_strlcpy(str, s + start, len + 1);
+	else
+		str[0] = '\0';
+	return (str);
+}

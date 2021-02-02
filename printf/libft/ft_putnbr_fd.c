@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 23:08:10 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/14 00:25:02 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/16 23:35:45 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# ifndef TYPE
-#  define TYPE "csdiupxX%"
-# endif
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "./libft/libft.h"
-#include <stdio.h>
-
-typedef struct s_info
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	type;
-	int		flag;
-}			t_info;
-
-int	ft_printf(const char *format, ...);
-int	c_format(char ch);
-int	s_format(char *str);
-
-int	print_str(char *str);
-
-#endif
+	if (n == INT_MIN)
+		ft_putstr_fd("-2147483648", fd);
+	else
+	{
+		if (n < 0)
+		{
+			ft_putchar_fd('-', fd);
+			n = -n;
+		}
+		if (n >= 10)
+			ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd('0' + (n % 10), fd);
+	}
+}

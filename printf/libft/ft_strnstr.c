@@ -1,38 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 23:08:10 by gjeon            ###   ########.fr       */
+/*   Created: 2021/01/11 22:12:59 by gjeon             #+#    #+#             */
+/*   Updated: 2021/01/12 00:03:33 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "libft.h"
 
-# ifndef TYPE
-#  define TYPE "csdiupxX%"
-# endif
-
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include "./libft/libft.h"
-#include <stdio.h>
-
-typedef struct s_info
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	char	type;
-	int		flag;
-}			t_info;
-
-int	ft_printf(const char *format, ...);
-int	c_format(char ch);
-int	s_format(char *str);
-
-int	print_str(char *str);
-
-#endif
+	if (*s2 == 0)
+		return ((char*)s1);
+	while (*s1 && n-- >= ft_strlen(s2))
+	{
+		if (*s1 == *s2)
+		{
+			if (ft_strncmp(s1, s2, ft_strlen(s2)) == 0)
+				return ((char*)s1);
+		}
+		s1++;
+	}
+	return (0);
+}
