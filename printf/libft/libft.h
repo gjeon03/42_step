@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 16:54:24 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/02 22:45:38 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/04 20:38:22 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ typedef struct		s_list
 
 void				*ft_memset(void *b, int c, size_t n);
 void				ft_bzero(void *s, size_t n);
-void				*ft_memcpy(void *restrict s1,
+void				*ft_memcpy(void *restrict s1,\
 		const void *restrict s2, size_t n);
-void				*ft_memccpy(void *restrict s,
+void				*ft_memccpy(void *restrict s,\
 		const void *restrict h, int c, size_t n);
 void				*ft_memmove(void *s1, const void *s2, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
@@ -61,10 +61,10 @@ void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
 t_list				*ft_lstnew(void *content);
-void				ft_lstadd_front(t_list **lst, t_list *new);
+void				ft_lstadd_front(t_list **lst, t_list *n);
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);
-void				ft_lstadd_back(t_list **lst, t_list *new);
+void				ft_lstadd_back(t_list **lst, t_list *n);
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));

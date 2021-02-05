@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   format_type.c                                      :+:      :+:    :+:   */
+/*   format_type2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/02 19:29:28 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/03 00:45:27 by gjeon            ###   ########.fr       */
+/*   Created: 2021/02/04 15:57:39 by gjeon             #+#    #+#             */
+/*   Updated: 2021/02/05 21:00:47 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	c_format(char ch)
+int	x_format(unsigned int nb, t_info *info)
 {
-	write(1, &ch, 1);
-	return (1);
-}
+	int		len;
+	char	*nb_str;
 
-int	s_format(char *str)
-{
-	size_t	len;
-
-	len = 0;
-	if (str == 0)
-		str = "(null)";
-	printf("ft==%s\n",str);
-	/*while (str[len])
-	{
-		c_format(str[len++]);
-		len++;
-	}*/
+	nb_str = ft_itoa_x(nb, info);
+	nb_str = set_flags(nb_str, info);
+	len = ft_putstr_l(nb_str);
+	free(nb_str);
 	return (len);
 }
