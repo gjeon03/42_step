@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 16:00:47 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/06 00:44:48 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/16 19:16:06 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	set_star(t_info *info, va_list ap)
 	star_digit = va_arg(ap, int);
 	temp = ft_itoa(star_digit);
 	i = 0;
-	printf("=====%s\n", temp);
 	while (temp[i])
 		check_flags(temp[i++], info, ap);
 	free(temp);
@@ -49,9 +48,9 @@ void	set_star(t_info *info, va_list ap)
 
 void	check_flags(char format_ch, t_info *info, va_list ap)
 {
-	if (format_ch == '0' && !info->zero)
+	if (format_ch == '0' && !info->zero && !info->star)
 		info->zero = 1;
-	else if (format_ch == '-' && !info->minus)
+	else if (format_ch == '-' && !info->minus &&!info->star)
 		info->minus = 1;
 	else if (ft_isdigit(format_ch) && !info->dot)
 		info->digit = (info->digit * 10) + (format_ch - '0');
