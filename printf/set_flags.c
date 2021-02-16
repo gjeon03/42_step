@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 22:50:16 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/05 21:11:46 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/16 20:49:48 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,8 @@ char	*zero_flags(char *nb_str, t_info *info)
 		ft_memset(temp, '0', info->digit + minus);
 	else
 		ft_memset(temp, ' ', info->digit + minus);
-	if (minus == 1)
-	{
-		temp[0] = '-';
-		nb_str = ft_memmove(nb_str, nb_str + 1, len - 1);
-	}
-	ft_strlcpy(temp + (info->digit + minus - len),\
-			nb_str, len - minus + 1);
+	ft_strlcpy(temp + (info->digit - len),\
+			nb_str, len + 1);
 	free(nb_str);
 	return (temp);
 }
@@ -73,13 +68,8 @@ char	*minus_flags(char *nb_str, t_info *info)
 		return (0);
 	ft_memset(temp, ' ', info->digit + minus);
 	temp[info->digit] = '\0';
-	if (minus == 1)
-	{
-		temp[0] = '-';
-		nb_str = ft_memmove(nb_str, nb_str + 1, len - 1);
-	}
-	ft_strlcpy(temp + minus, nb_str, len + 1);
-	temp[len + minus] = ' ';
+	ft_strlcpy(temp, nb_str, len + 1);
+	temp[len] = ' ';
 	free(nb_str);
 	return (temp);
 }

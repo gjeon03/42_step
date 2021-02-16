@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 17:48:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/05 21:27:08 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/16 20:48:34 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(void)
 	printf("1.ft_len : %d\n", len);
 	len = ft_printf("2.--c:%c--%%:%%\n", ch);
 	printf("2.ft_len : %d\n", len);
-	len = ft_printf("3.--d:%*d:\n", 10, nb);
+	len = ft_printf("3.--d:%-4d:\n", -12);
 	printf("3.ft_len : %d\n", len);
 	len = ft_printf("4.--i:%010i\n", nb);
 	printf("4.ft_len : %d\n", len);
@@ -45,7 +45,7 @@ int	main(void)
 	printf("1.len : %d\n", len);
 	len = printf("2.--c:%c--%%:%%\n", ch);
 	printf("2.len : %d\n", len);
-	len = printf("3.--d:%*d:\n", 10, nb);
+	len = printf("3.--d:%-4d:\n", -12);
 	printf("3.len : %d\n", len);
 	len = printf("3.--d:%10d:\n", nb);
 	printf("3.len : %d\n", len);
