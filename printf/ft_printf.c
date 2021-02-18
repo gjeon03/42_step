@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 16:00:47 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/16 19:16:06 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/18 23:53:14 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	check_flags(char format_ch, t_info *info, va_list ap)
 		info->zero = 1;
 	else if (format_ch == '-' && !info->minus &&!info->star)
 		info->minus = 1;
-	else if (ft_isdigit(format_ch) && !info->dot)
-		info->digit = (info->digit * 10) + (format_ch - '0');
 	else if (format_ch == '.' && !info->dot)
 		info->dot = 1;
 	else if (ft_isdigit(format_ch))
-		info->dot_digit = (info->dot_digit * 10) + (format_ch - '0');
+		info->digit = (info->digit * 10) + (format_ch - '0');
+	//else if (ft_isdigit(format_ch))
+	//	info->dot_digit = (info->dot_digit * 10) + (format_ch - '0');
 	else if (format_ch == '*')
 		set_star(info, ap);
 	else if (format_ch == '+')
