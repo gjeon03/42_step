@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 22:50:16 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/19 00:32:16 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 02:21:33 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,34 @@ char	*set_flags(char *nb_str, t_info *info)
 	return (nb_str);
 }
 
+char	*dot_flags(char *nb_str, t_info *info)
+{
+	char	*temp;
+	char	*temp2;
+	size_t	len;
+	int		minus;
+
+	minus = nb_str[0] == '-' ? 1 : 0;
+	len = ft_strlen(nb_str);
+	if (!(temp = (char *)malloc(sizeof(char) *\
+					(info->digit + 1))))
+		return (0);
+	ft_memset(temp, '0', info->digit + minus);
+	ft_strlcpy(temp + (info->dot_digit - len),\
+			nb_str, len + 1);
+	if (info->dot_digit > info->digit)
+	{
+		if (!(temp2 = (char *)malloc(sizeof(char) *\
+						(info->dot_digit + 1))))
+			return (0);
+		ft_memset(temp2, ' ', info->digit);
+		ft_strlcpy(temp2 + (info->dot_digit - len),\
+				temp, len + 1);
+	}
+	free(nb_str);
+	return (temp);
+}
+
 char	*zero_flags(char *nb_str, t_info *info)
 {
 	char	*temp;
@@ -47,7 +75,7 @@ char	*zero_flags(char *nb_str, t_info *info)
 	if (!(temp = (char *)malloc(sizeof(char) *\
 					(info->digit + 1))))
 		return (0);
-	if (info->zero || info->dot)
+	if (info->zero)
 		ft_memset(temp, '0', info->digit + minus);
 	else
 		ft_memset(temp, ' ', info->digit + minus);

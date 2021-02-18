@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/05 21:26:51 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 01:07:49 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef struct s_info
 	int		plus;
 	int		blank;
 	int		dot;
-	int		dot_digit;
+	size_t	dot_digit;
 	int		star;
-	int		star_digit;
+	size_t	star_digit;
 }			t_info;
 
 void		check_flags(char ch, t_info *info, va_list ap);
