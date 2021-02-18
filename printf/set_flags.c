@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 22:50:16 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/18 23:54:15 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 00:05:18 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*set_flags(char *nb_str, t_info *info)
 		}
 		else
 		{
-			//if (ft_strlen(nb_str) < info->digit)
+			if (ft_strlen(nb_str) < info->digit || info->dot)
 				nb_str = zero_flags(nb_str, info);
 			if (info->plus && nb_str[0] != '-')
 				nb_str[0] = '+';

@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 17:48:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/18 23:54:05 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 00:05:31 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(void)
 	printf("1.len : %d\n", len);
 	len = printf("2.--c:%c--%%:%%\n", ch);
 	printf("2.len : %d\n", len);
-	len = printf("3.--d:%0.d:\n", 0);
+	len = printf("3.--d:%1d:\n", 0);
 	printf("3.len : %d\n", len);
 	len = printf("3.--d:%10d:\n", nb);
 	printf("3.len : %d\n", len);
