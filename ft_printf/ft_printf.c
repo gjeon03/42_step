@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:37:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/19 23:11:24 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/20 01:59:50 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,18 @@ int		print_type(va_list ap, t_info *info)
 {
 	if (info->type == 'c')
 		return (c_format(va_arg(ap, int), info));
-	if (info->type == 's')
+	else if (info->type == 's')
 		return (s_format(va_arg(ap, char *), info));
-	if (info->type == 'd')
+	else if (info->type == 'd' || info->type == 'i')
 		return (d_format(va_arg(ap, int), info));
+	else if (info->type == 'u')
+		return (u_format(va_arg(ap, unsigned int), info));
+	else if (info->type == 'p')
+		return (p_format(va_arg(ap, unsigned long long), info));
+	else if (info->type == 'x' || info->type == 'X')
+		return (x_format(va_arg(ap, unsigned int), info));
+	else if (info->type == '%')
+		return (c_format('%', info));
 	return (0);
 }
 
@@ -51,7 +59,7 @@ int		ft_format(char *format, va_list ap)
 		{
 			set_info(info);
 			while (format[++i] && ft_strchr(TYPE, format[i]) == 0)
-					check_flags(format[i], info, ap);
+				check_flags(format[i], info, ap);
 			info->type = format[i];
 			len += print_type(ap, info);
 			i++;
