@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/19 15:37:36 by gjeon             #+#    #+#             */
+/*   Updated: 2021/02/19 23:11:24 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int		print_type(va_list ap, t_info *info)
+{
+	if (info->type == 'c')
+		return (c_format(va_arg(ap, int), info));
+	if (info->type == 's')
+		return (s_format(va_arg(ap, char *), info));
+	if (info->type == 'd')
+		return (d_format(va_arg(ap, int), info));
+	return (0);
+}
+
+void	check_flags(char format_ch, t_info *info, va_list ap)
+{
+	if (format_ch == '.' && !info->dot)
+		info->dot = 1;
+	else if (ft_isdigit(format_ch) && !info->dot)
+		info->width = (info->width * 10) + (format_ch - '0');
+	else if (ft_isdigit(format_ch))
+		info->prec = (info->prec * 10) + (format_ch - '0');
+}
+
+int		ft_format(char *format, va_list ap)
+{
+	int		i;
+	t_info	*info;
+	int		len;
+
+	i = 0;
+	len = 0;
+	if (!(info = malloc(sizeof(t_info))))
+		return (0);
+	while (format[i])
+	{
+		while (format[i] != '%' && format[i])
+			len += ft_putchar(format[i++]);
+		if (format[i] == '%')
+		{
+			set_info(info);
+			while (format[++i] && ft_strchr(TYPE, format[i]) == 0)
+					check_flags(format[i], info, ap);
+			info->type = format[i];
+			len += print_type(ap, info);
+			i++;
+		}
+	}
+	free(info);
+	return (len);
+}
+
+int		ft_printf(const char *format, ...)
+{
+	va_list	ap;
+	int		len;
+
+	va_start(ap, format);
+	len = ft_format((char *)format, ap);
+	va_end(ap);
+	return (len);
+}
