@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 16:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/19 01:07:49 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 13:29:08 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char		*ft_itoa_p(unsigned long long nb);
 char		*ft_itoa_x(unsigned int nb, t_info *info);
 char		*set_flags(char *nb_str, t_info *info);
 char		*zero_flags(char *nb_str, t_info *info);
+char		*dot_flags(char *nb_str, t_info *info);
 char		*minus_flags(char *nb_str, t_info *info);
 char		*plus_flags(char *nb_str);
 

@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 17:48:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/19 01:14:03 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 14:05:14 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main(void)
 	len = ft_printf("3.--d:%1.d:\n", 0);
 	len = ft_printf("3.--d:%5.2d:\n", 8);
 	len = ft_printf("3.--d:%1.d:\n", -12);
-	printf("3.ft_len : %d\n", len);
+	/*printf("3.ft_len : %d\n", len);
 	len = ft_printf("4.--i:%010i\n", nb);
 	printf("4.ft_len : %d\n", len);
 	len = ft_printf("5.--u:%010u\n", nb);
@@ -40,7 +40,7 @@ int	main(void)
 	printf("7.ft_len : %d\n", len);
 	len = ft_printf("8.--X:%09X\n", nb);
 	printf("8.ft_len : %d\n", len);
-	
+	*/
 	printf("\n");
 
 	len = printf("1.--s:%s\n", str);
@@ -51,7 +51,7 @@ int	main(void)
 	len = printf("3.--d:%5.2d:\n", 8);
 	len = printf("3.--d:%1.d:\n", -12);
 	printf("3.len : %d\n", len);
-	len = printf("3.--d:%10d:\n", nb);
+	/*len = printf("3.--d:%10d:\n", nb);
 	printf("3.len : %d\n", len);
 	len = printf("4.--i:%010i\n", nb);
 	printf("4.len : %d\n", len);
@@ -63,5 +63,6 @@ int	main(void)
 	printf("7.len : %d\n", len);
 	len = printf("8.--X:%09X\n", nb);
 	printf("8.len : %d\n", len);
+	*/
 	return (0);
 }

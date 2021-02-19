@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 16:00:47 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/19 01:13:30 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/19 15:43:09 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		ft_format(char *format, va_list ap)
 		{
 			set_info(info);
 			while (format[++i] && ft_strchr(TYPE, format[i]) == 0)
-				check_flags(format[i], info , ap);
+				check_flags(format[i], info ,ap);
 			info->type = format[i];
 			len += print_type(ap, info);
 			i++;
