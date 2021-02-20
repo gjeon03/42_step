@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:37:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/20 01:59:50 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 06:35:34 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,39 @@ int		print_type(va_list ap, t_info *info)
 	return (0);
 }
 
+void	star_flags(t_info *info, va_list ap)
+{
+	int		star_width;
+	char	*temp;
+	int		i;
+
+	star_width = va_arg(ap, int);
+	temp = ft_itoa(star_width);
+	i = 0;
+	while (temp[i])
+		check_flags(temp[i++], info, ap);
+	free(temp);
+}
+
 void	check_flags(char format_ch, t_info *info, va_list ap)
 {
 	if (format_ch == '.' && !info->dot)
 		info->dot = 1;
+	else if (format_ch == '0' && !info->zero && info->width == 0 && info->prec == 0)
+		info->zero = 1;
+	else if (format_ch == '-' && info->dot)
+	{
+		info->prec_flag = 1;
+		info->prec = 1;
+	}
+	else if (format_ch == '-' && !info->minus && info->width == 0)
+		info->minus = 1;
 	else if (ft_isdigit(format_ch) && !info->dot)
 		info->width = (info->width * 10) + (format_ch - '0');
-	else if (ft_isdigit(format_ch))
+	else if (ft_isdigit(format_ch) && !info->prec_flag)
 		info->prec = (info->prec * 10) + (format_ch - '0');
+	else if (format_ch == '*')
+		star_flags(info, ap);
 }
 
 int		ft_format(char *format, va_list ap)
@@ -62,6 +87,8 @@ int		ft_format(char *format, va_list ap)
 				check_flags(format[i], info, ap);
 			info->type = format[i];
 			len += print_type(ap, info);
+			if (info->type == 'n')
+				n_format(len, ap);
 			i++;
 		}
 	}

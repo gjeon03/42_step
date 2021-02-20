@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 01:06:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/20 02:00:48 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 05:19:11 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ char	*ft_itoa_p(unsigned long long n)
 	i = n * (size_t)16;
 	while (i /= 16)
 		count++;
-	if (n == 0)
-		count++;
+	count += n == 0 ? 1 : 0;
 	if (!(str = (char*)malloc(sizeof(char) * (count + 1))))
 		return (0);
 	str[0] = '0';
@@ -57,7 +56,7 @@ char	*ft_itoa_p(unsigned long long n)
 	i = n * (size_t)16;
 	while (i /= 16)
 		str[--count] = hexademical[i % 16];
-	if (n == 0)
+	if (n == 0 && count > 2)
 		str[2] = '0';
 	free(hexademical);
 	return (str);
