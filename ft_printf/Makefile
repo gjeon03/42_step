@@ -6,7 +6,7 @@
 #    By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/16 19:24:12 by gjeon             #+#    #+#              #
-#    Updated: 2021/02/19 16:06:16 by gjeon            ###   ########.fr        #
+#    Updated: 2021/02/20 14:48:54 by gjeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		= libftprintf.a
 LIBFT		= libft
 LIBFT_LIB	= libft.a
 
-FILES		= ft_printf ft_format_type ft_printf_utils
+FILES		= ft_printf ft_set_flags ft_printf_utils
 
 OBJS		= $(SRCS:.c=.o)
 INCS		= .
