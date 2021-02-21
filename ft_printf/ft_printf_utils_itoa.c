@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 01:06:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 22:17:59 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:25:59 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_itoa_u(va_list ap, t_info *info)
 	if (!(str = (char*)malloc(sizeof(char) * (count + 1))))
 		return (0);
 	str[count] = '\0';
-	i = nb * (size_t)10;
+	i = nb * 10;
 	while (i /= 10)
 		str[--count] = '0' + (i % 10);
 	if (nb == 0)
