@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:57:49 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 06:05:44 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:14:51 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,14 @@ int	s_format(char *str, t_info *info)
 	return (len);
 }
 
-int	d_format(int nb, t_info *info)
+int	d_format(va_list ap, t_info *info)
 {
 	char	*temp;
 	char	*nb_str;
 	int		len;
 
-	if (nb < 0)
-		info->sign = 1;
-	nb_str = ft_itoa(nb);
+	nb_str = ft_itoa_d(ap, info);
+	info->sign = info->sign < 0 ? 1 : 0;
 	if (info->minus)
 		temp = width_prec(nb_str, info);
 	else if (info->dot && !info->prec_flag)
@@ -77,13 +76,13 @@ int	d_format(int nb, t_info *info)
 	return (len);
 }
 
-int	u_format(unsigned int nb, t_info *info)
+int	u_format(va_list ap, t_info *info)
 {
 	char	*temp;
 	char	*nb_str;
 	int		len;
 
-	nb_str = ft_itoa_u(nb);
+	nb_str = ft_itoa_u(ap, info);
 	if (info->minus)
 		temp = width_prec(nb_str, info);
 	else if (info->dot && !info->prec_flag)

@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 16:02:45 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 02:36:37 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 21:07:34 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	set_info(t_info *info)
 	info->prec = 0;
 	info->prec_flag = 0;
 	info->sign = 0;
+	info->l_format = 0;
 }
 
 int		ft_putchar(char ch)

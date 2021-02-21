@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:37:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 06:44:37 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:06:11 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int		print_type(va_list ap, t_info *info)
 	else if (info->type == 's')
 		return (s_format(va_arg(ap, char *), info));
 	else if (info->type == 'd' || info->type == 'i')
-		return (d_format(va_arg(ap, int), info));
+		return (d_format(ap, info));
 	else if (info->type == 'u')
-		return (u_format(va_arg(ap, unsigned int), info));
+		return (u_format(ap, info));
 	else if (info->type == 'p')
 		return (p_format(va_arg(ap, unsigned long long), info));
 	else if (info->type == 'x' || info->type == 'X')
@@ -64,6 +64,8 @@ void	check_flags(char format_ch, t_info *info, va_list ap)
 		info->prec = (info->prec * 10) + (format_ch - '0');
 	else if (format_ch == '*')
 		star_flags(info, ap);
+	else if (format_ch == 'l')
+		info->l_format++;
 }
 
 int		ft_format(char *format, va_list ap)

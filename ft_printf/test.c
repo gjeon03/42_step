@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 17:48:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 06:44:50 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:02:45 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,18 @@ int	main(void)
 	int		nb = 12345;
 	int		p_test = 1;
 	int		b;
+	long aa = -123456789;
+	long long bb = -987654321123;
 
 	ch = 'a';
 	printf("==========================\n");
-	len = ft_printf("1:%d:%n\n", 42, &b);
-	printf("b = %d\n", b);
+	len = ft_printf("1:%d:\n", 123456789);
+	len = ft_printf("1:%ld:\n", aa);
+	len = ft_printf("1:%lld:\n", bb);
 	printf("1.ft_len : %d\n", len);
-	len = printf("1:%d:%n\n", 42, &b);
-	printf("b = %d\n", b);
+	len = printf("1:%d:\n", 123456789);
+	len = printf("1:%ld:\n", aa);
+	len = printf("1:%lld:\n", bb);
 	printf("1.ft_len : %d\n", len);
 	/*len = ft_printf("1.--c:%c:\n", '-');
 	printf("1.ft_len : %d\n", len);
