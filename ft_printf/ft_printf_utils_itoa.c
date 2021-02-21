@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 01:06:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 22:25:59 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:30:28 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ char	*ft_itoa_d(va_list ap, t_info *info)
 
 char	*ft_itoa_u(va_list ap, t_info *info)
 {
-	long long			i;
-	long long			count;
+	unsigned long long	i;
+	unsigned long long	count;
 	char				*str;
 	unsigned long long	nb;
 
