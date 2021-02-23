@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 15:37:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 22:06:11 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/23 16:10:13 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		print_type(va_list ap, t_info *info)
 	else if (info->type == 'p')
 		return (p_format(va_arg(ap, unsigned long long), info));
 	else if (info->type == 'x' || info->type == 'X')
-		return (x_format(va_arg(ap, unsigned int), info));
+		return (x_format(ap, info));
 	else if (info->type == '%')
 		return (c_format('%', info));
 	return (0);
@@ -49,7 +49,8 @@ void	check_flags(char format_ch, t_info *info, va_list ap)
 {
 	if (format_ch == '.' && !info->dot)
 		info->dot = 1;
-	else if (format_ch == '0' && !info->zero && info->width == 0 && info->prec == 0)
+	else if (format_ch == '0' && !info->zero &&
+			info->width == 0 && info->prec == 0)
 		info->zero = 1;
 	else if (format_ch == '-' && info->dot)
 	{
@@ -66,17 +67,19 @@ void	check_flags(char format_ch, t_info *info, va_list ap)
 		star_flags(info, ap);
 	else if (format_ch == 'l')
 		info->l_format++;
+	else if (format_ch == 'h')
+		info->h_format++;
+	else if (format_ch == '+')
+		info->plus = 1;
 }
 
-int		ft_format(char *format, va_list ap)
+int		ft_format(char *format, va_list ap, int i)
 {
-	int		i;
 	t_info	*info;
 	int		len;
 
-	i = 0;
 	len = 0;
-	if (!(info = malloc(sizeof(t_info))))
+	if (!(info = (t_info *)malloc(sizeof(t_info))))
 		return (0);
 	while (format[i])
 	{
@@ -90,7 +93,7 @@ int		ft_format(char *format, va_list ap)
 			info->type = format[i];
 			len += print_type(ap, info);
 			if (info->type == 'n')
-				n_format(len, ap);
+				n_format(len, ap, info);
 			i++;
 		}
 	}
@@ -102,9 +105,11 @@ int		ft_printf(const char *format, ...)
 {
 	va_list	ap;
 	int		len;
+	int		i;
 
+	i = 0;
 	va_start(ap, format);
-	len = ft_format((char *)format, ap);
+	len = ft_format((char *)format, ap, i);
 	va_end(ap);
 	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/19 16:53:53 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 06:44:41 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/23 16:52:37 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*zero_flags(char *str, t_info *info)
 	ft_strlcpy(temp + size, str + info->sign, len + 1);
 	if (info->sign == 1)
 		temp[0] = '-';
+	else if (info->plus == 1)
+		temp[0] = '+';
 	free(str);
 	return (temp);
 }
@@ -42,6 +44,7 @@ char	*prec_set(char *str, t_info *info)
 			(str[0] == '0' && info->dot && ft_strlen(str) == 1) ||\
 			info->prec >= len ?\
 			info->prec + info->sign : ft_strlen(str);
+	p_size += info->sign == 0 && info->plus == 1 ? 1 : 0;
 	if (!(prec_temp = (char *)malloc(sizeof(char) * (p_size + 1))))
 		return (0);
 	if (info->type == 's' && info->dot)
@@ -53,6 +56,7 @@ char	*prec_set(char *str, t_info *info)
 		ft_strlcpy(prec_temp + size, str + info->sign, p_size + 1);
 		if (info->sign == 1)
 			prec_temp[0] = '-';
+		prec_temp[0] = info->plus == 1 && info->sign == 0 ? '+' : prec_temp[0];
 	}
 	return (prec_temp);
 }
@@ -81,5 +85,7 @@ char	*width_prec(char *str, t_info *info)
 		temp = ft_strjoin(width_temp, prec_temp);
 	free(width_temp);
 	free(prec_temp);
+	if (info->type != 's')
+		free(str);
 	return (temp);
 }
