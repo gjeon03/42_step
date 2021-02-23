@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 01:06:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 22:30:28 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/21 22:42:13 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,26 @@ char	*ft_itoa_u(va_list ap, t_info *info)
 	count = 0;
 	if (info->l_format == 1)
 		nb = va_arg(ap, unsigned long);
-	else if (info->l_format == 2)
-		nb = va_arg(ap, unsigned long long);
 	else
-		nb = va_arg(ap, unsigned int);
-	i = nb * 10;
-	while (i /= 10)
+		nb = info->l_format == 2 ? va_arg(ap, unsigned long long) :\
+			 va_arg(ap, unsigned int);
+	i = nb;
+	while (i)
+	{
 		count++;
+		i /= 10;
+	}
 	if (nb == 0)
 		count++;
 	if (!(str = (char*)malloc(sizeof(char) * (count + 1))))
 		return (0);
 	str[count] = '\0';
-	i = nb * 10;
-	while (i /= 10)
+	i = nb;
+	while (i)
+	{
 		str[--count] = '0' + (i % 10);
+		i /= 10;
+	}
 	if (nb == 0)
 		str[0] = '0';
 	return (str);
