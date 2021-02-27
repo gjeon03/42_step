@@ -6,32 +6,60 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 01:06:40 by gjeon             #+#    #+#             */
-/*   Updated: 2021/02/21 03:52:51 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/02/23 15:51:22 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-char	*ft_itoa_u(unsigned int n)
+char	*ft_itoa_d(va_list ap, t_info *info)
 {
-	size_t	i;
-	size_t	count;
-	char	*str;
+	long long	i;
+	long long	count;
+	char		*str;
+	long long	nb;
 
 	count = 0;
-	i = n * (size_t)10;
+	l_ll_type(ap, &nb, info);
+	info->sign = nb < 0 ? -1 : 1;
+	i = nb * 10 * info->sign;
 	while (i /= 10)
 		count++;
-	if (n == 0)
+	if (nb == 0 || info->sign < 0)
 		count++;
+	if (!(str = (char *)malloc(sizeof(char) * (count + 1))))
+		return (0);
+	str[count] = '\0';
+	i = nb * 10 * info->sign;
+	while (i /= 10)
+		str[--count] = '0' + (i % 10);
+	str[0] = info->sign < 0 ? '-' : str[0];
+	str[0] = nb == 0 ? '0' : str[0];
+	return (str);
+}
+
+char	*ft_itoa_u(va_list ap, t_info *info)
+{
+	unsigned long long	i;
+	unsigned long long	count;
+	char				*str;
+	unsigned long long	nb;
+
+	count = 0;
+	l_ll_type(ap, &nb, info);
+	count += (i = nb) != 0 ? 1 : 0;
+	while (i /= 10)
+		count++;
+	count += nb == 0 ? 1 : 0;
 	if (!(str = (char*)malloc(sizeof(char) * (count + 1))))
 		return (0);
 	str[count] = '\0';
-	i = n * (size_t)10;
-	while (i /= 10)
-		str[--count] = '0' + (i % 10);
-	if (n == 0)
-		str[0] = '0';
+	str[0] = nb == 0 ? '0' : str[0];
+	while (nb)
+	{
+		str[--count] = '0' + (nb % 10);
+		nb /= 10;
+	}
 	return (str);
 }
 
@@ -62,31 +90,31 @@ char	*ft_itoa_p(unsigned long long n)
 	return (str);
 }
 
-char	*ft_itoa_x(unsigned int n, t_info *info)
+char	*ft_itoa_x(va_list ap, t_info *info)
 {
-	size_t	i;
-	size_t	count;
-	char	*str;
-	char	*hexademical;
+	unsigned long long	i;
+	unsigned long long	count;
+	char				*str;
+	char				*hexademical;
+	unsigned long long	nb;
 
-	if (info->type == 'x')
-		hexademical = ft_strdup("0123456789abcdef");
-	else if (info->type == 'X')
-		hexademical = ft_strdup("0123456789ABCDEF");
+	hexademical = info->type == 'x' ?
+		ft_strdup("0123456789abcdef") : ft_strdup("0123456789ABCDEF");
 	count = 0;
-	i = n * (size_t)16;
+	l_ll_type(ap, &nb, info);
+	count += (i = nb) != 0 ? 1 : 0;
 	while (i /= 16)
 		count++;
-	if (n == 0)
-		count++;
+	count += nb == 0 ? 1 : 0;
 	if (!(str = (char*)malloc(sizeof(char) * (count + 1))))
 		return (0);
 	str[count] = '\0';
-	i = n * (size_t)16;
-	while (i /= 16)
-		str[--count] = hexademical[i % 16];
-	if (n == 0)
-		str[0] = '0';
+	str[0] = nb == 0 ? '0' : str[0];
+	while (nb)
+	{
+		str[--count] = hexademical[nb % 16];
+		nb /= 16;
+	}
 	free(hexademical);
 	return (str);
 }
