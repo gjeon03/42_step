@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 02:31:18 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/13 18:24:21 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/18 17:18:22 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ size_t	charset_count(char *s, char c)
 	size_t	i;
 	size_t	count;
 
-	count = 0;
 	i = 0;
+	count = 0;
+	if (s[i] == 0)
+		return (2);
 	while (s[i])
 	{
 		if (s[i] != c)
@@ -33,23 +35,32 @@ size_t	charset_count(char *s, char c)
 	return (count + 1);
 }
 
-size_t	start_set(char *s, char c, size_t end)
+char	**malloc_error(char **arr)
 {
-	size_t	i;
+	unsigned int	i;
 
-	i = end;
-	while (s[i] && s[i] == c)
-		i++;
-	return (i);
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
+	return (0);
 }
 
-size_t	end_set(char *s, char c, size_t start)
+size_t	start_end(char *s, char c, size_t set, int division)
 {
 	size_t	i;
 
-	i = start;
-	while (s[i] && s[i] != c)
-		i++;
+	i = set;
+	if (division == 0)
+	{
+		while (s[i] && s[i] == c)
+			i++;
+	}
+	else
+	{
+		while (s[i] && s[i] != c)
+			i++;
+	}
 	return (i);
 }
 
@@ -68,12 +79,12 @@ char	**ft_split(char const *s, char c)
 	end = 0;
 	while (s[end])
 	{
-		start = start_set((char*)s, c, end);
-		end = end_set((char*)s, c, start);
+		start = start_end((char*)s, c, end, 0);
+		end = start_end((char*)s, c, start, 1);
 		if (end - start != 0)
 		{
 			if (!(arr[i] = (char*)malloc(sizeof(char) * (end - start + 1))))
-				return (0);
+				return (malloc_error(arr));
 			ft_strlcpy(arr[i++], ((char*)&s[start]), end - start + 1);
 		}
 	}

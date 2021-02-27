@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 22:25:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/14 01:05:09 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/17 01:26:02 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_atoi(const char *str)
 	}
 	if (j > LLONG_MAX && sign == -1)
 		return (0);
-	if (j > LLONG_MAX && sign == 1)
+	if (j >= LLONG_MAX && sign == 1)
 		return (-1);
 	return (j * sign);
 }

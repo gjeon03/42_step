@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 17:49:04 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/11 20:21:51 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/17 01:03:16 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,13 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	src_len = ft_strlen(src);
 	dest_len = ft_strlen(dest);
 	i = 0;
-	if (size > 0)
+	if (size <= dest_len)
+		return (src_len + size);
+	while (dest_len + i < size - 1 && src[i])
 	{
-		while (dest_len + i < size - 1 && src[i])
-		{
-			dest[dest_len + i] = src[i];
-			i++;
-		}
+		dest[dest_len + i] = src[i];
+		i++;
 	}
 	dest[dest_len + i] = '\0';
-	if (dest_len < size)
-		return (dest_len + src_len);
-	return (src_len + size);
+	return (dest_len + src_len);
 }

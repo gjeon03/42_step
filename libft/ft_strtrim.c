@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 02:58:44 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/13 02:18:38 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/01/16 23:54:56 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 		return (0);
 	if (start < end)
 		ft_strlcpy(str, s1 + start, end - start + 1);
+	else
+		str[0] = '\0';
 	return (str);
 }
