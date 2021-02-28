@@ -1,0 +1,184 @@
+WARNING: The return values reported here may be bugged on some systems.
+          See https://github.com/gavinfielder/pft/issues/11
+          Run in non-fork mode (-X) to ensure accurate return value
+          reporting, set IGNORE_RETURN_VALUE=1 in options-config.ini,
+          or run test_pipes.sh to see if your system has this bug.
+          This bug does not affect the pass/fail result of a test, nor
+          the function output--only the reported return value.
+
+
+Test  11 (nocrash_nullspec_basic) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%");}
+    SEGFAULT
+
+Test  12 (nocrash_nullspec_5w) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%5");}
+    SEGFAULT
+
+Test  13 (nocrash_nullspec_5wzp) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%05");}
+    SEGFAULT
+
+Test  14 (nocrash_nullspec_5wzplj) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%-05");}
+    SEGFAULT
+
+Test  15 (nocrash_nullspec_5wlj) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%-5");}
+    SEGFAULT
+
+Test 130 (s_undefbehav_0_width_9) : FAILED.
+    First line of code: {return test("%09s", s_hidden);}
+      expected return value : 9
+      your return value     : 9
+      expected output : "000hi low"
+      your output     : "   hi low"
+      expected (nonprintable as hex) : "000hi low"
+      actual   (nonprintable as hex) : "   hi low"
+
+Test 433 (p_ftfc_literal_2w_prec9_undefbehav) : FAILED.
+    First line of code: {return test("%2.9p
+", 1234);}
+      expected return value : 13
+      your return value     : 11
+      expected output : "0x0000004d2
+"
+      your output     : "00000x4d2
+"
+      expected (nonprintable as hex) : "0x0000004d2\x0a"
+      actual   (nonprintable as hex) : "00000x4d2\x0a"
+
+Test 434 (p_ftfc_zero_prec5_undefbehav) : FAILED.
+    First line of code: {return test("%.5p", 0);}
+      expected return value : 7
+      your return value     : 5
+      expected output : "0x00000"
+      your output     : "000x0"
+      expected (nonprintable as hex) : "0x00000"
+      actual   (nonprintable as hex) : "000x0"
+
+Test 479 (nocrash_noarg_1_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%1$"); }
+    SEGFAULT
+
+Test 480 (nocrash_noarg_2_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%0"); }
+    SEGFAULT
+
+Test 481 (nocrash_noarg_3_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("% "); }
+    SEGFAULT
+
+Test 482 (nocrash_noarg_4_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%#"); }
+    SEGFAULT
+
+Test 483 (nocrash_noarg_5_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%-"); }
+    SEGFAULT
+
+Test 484 (nocrash_noarg_6_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%+"); }
+    SEGFAULT
+
+Test 485 (nocrash_noarg_9_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%23"); }
+    SEGFAULT
+
+Test 486 (nocrash_noarg_10_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%."); }
+    SEGFAULT
+
+Test 487 (nocrash_noarg_11_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%hh"); }
+    SEGFAULT
+
+Test 488 (nocrash_noarg_12_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%h"); }
+    SEGFAULT
+
+Test 489 (nocrash_noarg_13_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%ll"); }
+    SEGFAULT
+
+Test 490 (nocrash_noarg_14_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%l"); }
+    SEGFAULT
+
+Test 491 (nocrash_noarg_15_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%L"); }
+    SEGFAULT
+
+Test 497 (nocrash_noarg_22_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%f"); }
+    SEGFAULT
+
+Test 499 (nocrash_noarg_25_notmandatory) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%o"); }
+    SEGFAULT
+
+Test 615 (nocrash_mandatory_f_size_hh) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%hhf", 42.5);}
+    SEGFAULT
+
+Test 616 (nocrash_mandatory_f_size_h) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%hf", 42.5);}
+    SEGFAULT
+
+Test 617 (nocrash_mandatory_f_size_ll) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%llf", 42.5);}
+    SEGFAULT
+
+Test 618 (nocrash_mandatory_f_size_lll) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%lllf", 42.5);}
+    SEGFAULT
+
+Test 619 (nocrash_mandatory_f_size_llll) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%llllf", 42.5);}
+    SEGFAULT
+
+Test 620 (nocrash_mandatory_f_size_LL) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%LLf", 42.5);}
+    SEGFAULT
+
+Test 621 (nocrash_mandatory_f_size_Ll) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%Llf", 42.5);}
+    SEGFAULT
+
+Test 622 (nocrash_mandatory_f_size_lL) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%lLf", 42.5);}
+    SEGFAULT
+
+Test 623 (nocrash_mandatory_f_lj_nowidth) : FAILED.
+    (nocrash test: automatically passes provided no unexpected failure)
+    First line of code: {return test("%-f", 42.5);}
+    SEGFAULT
+

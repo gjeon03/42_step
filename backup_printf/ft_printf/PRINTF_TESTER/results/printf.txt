@@ -1,0 +1,252 @@
+/********************     %p     *******************/
+
+-------------------- start while loop with nb[0] --------------------
+
+1 [0x7ffeec27fa40]18
+
+2 [NULL is undef] [0x0]23
+
+1.1 [0x7ffeec27fa40]20
+
+3 ! [0x7ffeec27fa40]20
+
+3.4 ![0x7ffeec27fa40]21
+
+5 [0x7ffeec27fa40]18
+
+
+**********  [  * loop with -444 ]  *********
+
+10 [0x7ffeec27fa40                                                                                                                                                                                                                                                                                                                                                                                                                                              ]449
+
+
+**********  [  * loop with -5 ]  *********
+
+10 [0x7ffeec27fa40]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa40]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa40]19
+
+
+**********  [  * loop with 7 ]  *********
+
+10 [0x7ffeec27fa40]19
+
+
+**********  [  * loop with 222 ]  *********
+
+10 [                                                                                                                                                                                                                0x7ffeec27fa40]227
+
+
+**********  [  * loop with 555 ]  *********
+
+10 [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0x7ffeec27fa40]560
+
+-------------------- start while loop with nb[6] --------------------
+
+1 [0x7ffeec27fa44]18
+
+2 [NULL is undef] [0x0]23
+
+1.1 [0x7ffeec27fa44]20
+
+3 ! [0x7ffeec27fa44]20
+
+3.4 ![0x7ffeec27fa44]21
+
+5 [0x7ffeec27fa44]18
+
+
+**********  [  * loop with -444 ]  *********
+
+10 [0x7ffeec27fa44                                                                                                                                                                                                                                                                                                                                                                                                                                              ]449
+
+
+**********  [  * loop with -5 ]  *********
+
+10 [0x7ffeec27fa44]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa44]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa44]19
+
+
+**********  [  * loop with 7 ]  *********
+
+10 [0x7ffeec27fa44]19
+
+
+**********  [  * loop with 222 ]  *********
+
+10 [                                                                                                                                                                                                                0x7ffeec27fa44]227
+
+
+**********  [  * loop with 555 ]  *********
+
+10 [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0x7ffeec27fa44]560
+
+-------------------- start while loop with nb[451] --------------------
+
+1 [0x7ffeec27fa48]18
+
+2 [NULL is undef] [0x0]23
+
+1.1 [0x7ffeec27fa48]20
+
+3 ! [0x7ffeec27fa48]20
+
+3.4 ![0x7ffeec27fa48]21
+
+5 [0x7ffeec27fa48]18
+
+
+**********  [  * loop with -444 ]  *********
+
+10 [0x7ffeec27fa48                                                                                                                                                                                                                                                                                                                                                                                                                                              ]449
+
+
+**********  [  * loop with -5 ]  *********
+
+10 [0x7ffeec27fa48]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa48]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa48]19
+
+
+**********  [  * loop with 7 ]  *********
+
+10 [0x7ffeec27fa48]19
+
+
+**********  [  * loop with 222 ]  *********
+
+10 [                                                                                                                                                                                                                0x7ffeec27fa48]227
+
+
+**********  [  * loop with 555 ]  *********
+
+10 [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0x7ffeec27fa48]560
+
+-------------------- start while loop with nb[2000000] --------------------
+
+1 [0x7ffeec27fa4c]18
+
+2 [NULL is undef] [0x0]23
+
+1.1 [0x7ffeec27fa4c]20
+
+3 ! [0x7ffeec27fa4c]20
+
+3.4 ![0x7ffeec27fa4c]21
+
+5 [0x7ffeec27fa4c]18
+
+
+**********  [  * loop with -444 ]  *********
+
+10 [0x7ffeec27fa4c                                                                                                                                                                                                                                                                                                                                                                                                                                              ]449
+
+
+**********  [  * loop with -5 ]  *********
+
+10 [0x7ffeec27fa4c]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa4c]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa4c]19
+
+
+**********  [  * loop with 7 ]  *********
+
+10 [0x7ffeec27fa4c]19
+
+
+**********  [  * loop with 222 ]  *********
+
+10 [                                                                                                                                                                                                                0x7ffeec27fa4c]227
+
+
+**********  [  * loop with 555 ]  *********
+
+10 [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0x7ffeec27fa4c]560
+
+-------------------- start while loop with nb[4294967295] --------------------
+
+1 [0x7ffeec27fa50]18
+
+2 [NULL is undef] [0x0]23
+
+1.1 [0x7ffeec27fa50]20
+
+3 ! [0x7ffeec27fa50]20
+
+3.4 ![0x7ffeec27fa50]21
+
+5 [0x7ffeec27fa50]18
+
+
+**********  [  * loop with -444 ]  *********
+
+10 [0x7ffeec27fa50                                                                                                                                                                                                                                                                                                                                                                                                                                              ]449
+
+
+**********  [  * loop with -5 ]  *********
+
+10 [0x7ffeec27fa50]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa50]19
+
+
+**********  [  * loop with 0 ]  *********
+
+10 [0x7ffeec27fa50]19
+
+
+**********  [  * loop with 7 ]  *********
+
+10 [0x7ffeec27fa50]19
+
+
+**********  [  * loop with 222 ]  *********
+
+10 [                                                                                                                                                                                                                0x7ffeec27fa50]227
+
+
+**********  [  * loop with 555 ]  *********
+
+10 [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0x7ffeec27fa50]560
+
+ 
+ 
+ 
+ 
+ PRINTF
