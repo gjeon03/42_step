@@ -11,6 +11,7 @@ RUN		apt-get update && apt-get install -y \
 
 COPY	./srcs/run.sh /
 COPY	./srcs/default /tmp/
+COPY	./srcs/auto_off_default /tmp/
 COPY	./srcs/wp-config.php /tmp/
 COPY	./srcs/config.inc.php /tmp/
 

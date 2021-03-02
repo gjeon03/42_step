@@ -6,27 +6,28 @@
 #    By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/01 00:01:58 by gjeon             #+#    #+#              #
-#    Updated: 2021/03/02 23:41:35 by gjeon            ###   ########.fr        #
+#    Updated: 2021/03/03 00:59:33 by gjeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #!/bin/bash
-
-# chmod 775 /tmp/run.sh
-# chown -R www-data:www-data /var/www/
-# chmod -R 755 /var/www/
 
 # ssl
 openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=Lee/CN=localhost" -keyout etc/ssl/private/private.key -out etc/ssl/certs/public.crt
 chmod 600 etc/ssl/private/private.key etc/ssl/certs/public.crt
 
 # nginx
-cp -rp /tmp/default /etc/nginx/sites-available/
+if [ "$AUTOINDEX" == "N" ];
+then
+	cp -rp /tmp/auto_off_default /etc/nginx/sites-available/default
+else
+	cp -rp /tmp/default /etc/nginx/sites-available/
+fi
 
 # wordpress 설치
 wget https://wordpress.org/latest.tar.gz
 tar -xvf latest.tar.gz
-mv wordpress/ /var/www/html/
+mv wordpress /var/www/html/
 rm latest.tar.gz
 chown -R www-data:www-data /var/www/html/wordpress
 cp -rp ./tmp/wp-config.php /var/www/html/wordpress
