@@ -28,11 +28,11 @@ server {
 server {
 	# SSL configuration
 	#
-	listen 443;
+	listen 443 ssl;
 
 	ssl on;
 	ssl_certificate_key /etc/ssl/private/private.key;
-	ssl-certificate /etc/ssl/certs/public.crt;
+	ssl_certificate /etc/ssl/certs/public.crt;
 	# listen [::]:443 ssl default_server;
 	#
 	# Note: You should disable gzip for SSL traffic.
@@ -56,6 +56,7 @@ server {
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
+		autoindex on;
 		try_files $uri $uri/ =404;
 	}
 
