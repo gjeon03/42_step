@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx/mlx.h"
 #include <stdio.h>
 
 typedef struct	s_data
