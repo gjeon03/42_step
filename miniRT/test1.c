@@ -34,7 +34,7 @@ int	color_map(t_vars *vars, int w, int h)
 		y = -1;
 		while (y++ < h)
 		{
-			//color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255) / h) << 8);
+			color = (x * 255) / w + ((((w - x) * 255) / w) << 16) + (((y * 255) / h) << 8);
 			mlx_pixel_put(vars->mlx, vars->win, x, y, color);
 		}
 	}

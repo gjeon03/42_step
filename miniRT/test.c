@@ -1,4 +1,5 @@
-#include "mlx.h"
+#include "mlx/mlx.h"
+#include <stdio.h>
 
 void	*mlx_ptr;
 void	*win_ptr;
