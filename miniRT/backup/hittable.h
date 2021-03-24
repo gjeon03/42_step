@@ -1,27 +1,20 @@
 #ifndef HITTABLE_H
 # define HITTABLE_H
 
-# include "vec3.h"
-# include "sphere.h"
-
-typedef struct	s_hit_record
+typedef struct s_hit_record
 {
-	t_vec3		p;
-	t_vec3		normal;
-	double		t;
-	int			front_face;
-}				t_hit_record;
-
-typedef struct	s_hittable_list
-{
-	t_sphere	sp[2];
-}				t_hittable_list;
+	t_vec3	p;
+	t_vec3	normal;
+	double	t;
+	int	front_face;
+}		t_hit_record;
 
 void	set_face_normal(t_vec3 direction, t_vec3 normal, t_vec3 outward_normal, int front_face)
 {
 	front_face = dot(direction, outward_normal) < 0 ? 1 : 0;
 	normal = front_face ? outward_normal : v_mul_n(outward_normal, -1);
 }
+
 
 int	hit(t_ray r, double t_min, double t_max, t_hit_record rec, t_sphere s)
 {

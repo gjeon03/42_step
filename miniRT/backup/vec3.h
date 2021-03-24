@@ -4,9 +4,6 @@
 # include <math.h>
 # include <stdlib.h>
 
-# define TRUE 1
-# define FALSE 0
-
 typedef struct	s_vec3
 {
 	double		x;
@@ -26,12 +23,6 @@ typedef struct	s_mlx
 	t_vec3		color;
 	int			int_color;
 }				t_mlx;
-
-typedef struct	s_ray
-{
-	t_vec3		orig;
-	t_vec3		dir;
-}				t_ray;
 
 t_vec3	make_vec(double n)
 {
@@ -122,14 +113,5 @@ t_vec3	cross(t_vec3 v1, t_vec3 v2)
 	result.z = v1.x * v2.y - v1.y * v2.x;
 	return (result);
 }
-
-t_vec3	at(t_ray r, double t)
-{
-	return (r.dir);
-}
-
-//void	write_color(t_mlx *app, t_vec3 c);
-//t_vec3	ray_color(t_vec3 orig, t_vec3 dir);
-//int		hit_sphere(t_vec3 center, double radius, t_vec3 origin, t_vec3 direction);
 
 #endif

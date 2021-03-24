@@ -1,9 +1,9 @@
 #include "mlx.h"
 #include "vec3.h"
 #include "color.h"
-#include "ray.h"
+#include "ray1.h"
 #include "sphere.h"
-#include "rtweekend.h"
+#include "ray2.h"
 #include "hittable.h"
 
 int	main(void)
