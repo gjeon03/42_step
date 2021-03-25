@@ -1,8 +1,12 @@
 #ifndef VEC3_H
 # define VEC3_H
 
+# include <stdio.h>
 # include <math.h>
 # include <stdlib.h>
+
+# define TRUE	1
+# define FALSE	0
 
 typedef struct	s_vec3
 {
@@ -61,14 +65,14 @@ t_vec3	divide(t_vec3 v, double t)
 	return (multiply(v, 1 / t));
 }
 
-double	dot(t_vec3 v1, t_vec3 v2)
+double	length_squared(t_vec3 v)
 {
-	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
 }
 
 double	length(t_vec3 v)
 {
-	return (sqrt(dot(v, v)));
+	return (sqrt(length_squared(v)));
 }
 
 void	add_(t_vec3 *u, t_vec3 v)
@@ -89,6 +93,11 @@ void	subtract_(t_vec3 *u, t_vec3 v)
 t_vec3	subtract(t_vec3 u, t_vec3 v)
 {
 	return (vec3_(u.x - v.x, u.y - v.y, u.z - v.z));
+}
+
+double	dot(t_vec3 v1, t_vec3 v2)
+{
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
 t_vec3	cross(t_vec3 u, t_vec3 v)

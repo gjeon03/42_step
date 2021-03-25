@@ -1,7 +1,9 @@
 #include "mlx.h"
-#include "vec3.h"
-#include "ray.h"
+
+#include "rtweekend.h"
 #include "color.h"
+#include "hittable_list.h"
+#include "sphere.h"
 
 typedef struct	s_mlx
 {
@@ -21,32 +23,14 @@ int	close(int keycode, t_mlx *app)
 	return (0);
 }
 
-double	hit_sphere(point3 center, double radius, t_ray r)
+color	ray_color(t_ray r, t_list **world)
 {
-	t_vec3	oc = subtract(r.orig, center);
-	double	a = dot(r.dir, r.dir);
-	double	b = 2.0 * dot(oc, r.dir);
-	double	c = dot(oc, oc) - radius * radius;
-	double	discriminant = b * b - 4 * a * c;
-	if (discriminant < 0)
-		return (-1.0);
-	else
-		return ((-b - sqrt(discriminant)) / (2.0 * a));
-}
+	t_vec3			unit_direction;
+	double			t;
+	t_hit_record	rec;
 
-color	ray_color(t_ray r)
-{
-	t_vec3	unit_direction;
-	double	t;
-	t_vec3	N;
-
-	t = hit_sphere(point3_(0, 0, -1), 0.5, r);
-	if (t > 0.0)
-	{
-		N = unit_vector(subtract(at(r, t), vec3_(0, 0, -1)));
-		return (multiply(color_(N.x + 1, N.y + 1, N.z + 1), 0.5));
-	}
-
+	if (list_hit(world, r, 0, infinity, &rec))
+		return (multiply(add(rec.normal, color_(1, 1, 1)), 0.5));
 	unit_direction = unit_vector(r.dir);
 	t = 0.5 * (unit_direction.y + 1.0);
 	return (add(multiply(color_(1.0, 1.0, 1.0), 1.0 - t),
@@ -57,7 +41,7 @@ int	main(void)
 {
 	const float	aspect_ratio = 16.0 / 9.0;
 	const int	image_width = 1000;
-	const int	image_height = image_width / aspect_ratio;
+	const int	image_height = (int)image_width / aspect_ratio;
 
 	t_mlx		app;
 	int			i;
@@ -68,7 +52,14 @@ int	main(void)
 	app.mlx = mlx_init();
 	app.win = mlx_new_window(app.mlx, image_width, image_height, "step04");
 	app.img = mlx_new_image(app.mlx, image_width, image_height);
+	//app.img = mlx_new_image(app.mlx, 800, 600);
 	app.data = (int *)mlx_get_data_addr(app.img, &app.bpp, &app.size_l, &app.endian);
+
+	//location
+	t_list		**world;
+	world = malloc(sizeof(t_list *));
+	push(world, list_(sphere_(point3_(0, 0, -1), 0.5)));
+	push(world, list_(sphere_(point3_(0, -100.5, -1), 100)));
 
 	//camera
 	double		viewport_height = 2.0;
@@ -97,10 +88,10 @@ int	main(void)
 			//subtract_(&direction, origin);
 
 			t_ray	r = ray_(origin, direction);
-			color	pixel_color = ray_color(r);
+			color	pixel_color = ray_color(r, world);
 			write_color(&rgb, pixel_color);
 			mlx_pixel_put(app.mlx, app.win, i, j, rgb.int_color);
-			app.data[j * image_width + i] = rgb.int_color;
+			//app.data[j * image_width + i] = rgb.int_color;
 			i++;
 		}
 		j--;
@@ -108,4 +99,6 @@ int	main(void)
 	mlx_put_image_to_window(app.mlx, app.win, app.img, 0, 0);
 	mlx_hook(app.win, 2, 1L<<0, close, &app);
 	mlx_loop(app.mlx);
+
+	clear(world);
 }
