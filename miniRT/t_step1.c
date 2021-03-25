@@ -98,19 +98,8 @@ t_vec	direction(t_vec orig, t_vec dir)
 {
 	return (dir);
 }
-/*
-t_vec	ray(t_vec orig, t_vec dir)
-{
-		
-}
 
-t_vec	at(t_vec orig, t_vec dir, double t)
-{
-	return (orig + t * dir);
-}
-*/
-
-void	write_color(t_mlx *app, t_vec c) 
+void	write_color(t_mlx *app, t_vec c)
 {
 	int	ir = 255.999 * c.x;
 	int	ig = 255.999 * c.y;
@@ -137,13 +126,47 @@ t_vec	unit_vector(t_vec v)
 	return (v_div(v, length(v)));
 }
 
+t_vec	at(t_vec orig, t_vec dir, double t)
+{
+	return (v_add(orig, v_mul_n(dir, t)));
+}
+
+double	hit_sphere(t_vec center, double radius, t_vec origin, t_vec direction)
+{
+	t_vec oc = v_sub(origin, center);
+	float a = dot(direction, direction);
+	float b = 2.0 * dot(oc, direction);
+	float c = dot(oc, oc) - radius * radius;
+	float discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (-1.0);
+	else
+		return ((-b - sqrt(discriminant)) / (2.0 * a));
+}
+
 t_vec	ray_color(t_vec orig, t_vec dir)
 {
+	t_vec sphere = {0, 0, -1};
+	float t = hit_sphere(sphere, 0.5, orig, dir);
+	if (t > 0.0)
+	{
+		t_vec N = unit_vector(v_sub(at(orig, dir, t), sphere));
+		t_vec color;
+		color.x = N.x + 1;
+		color.y = N.y + 1;
+		color.z = N.z + 1;
+
+		return (v_mul_n(color, 0.5));
+
+	}
+//	t_vec sphere_color = {1, 0, 0};
+//	if (hit_sphere(sphere, 0.5, orig, dir))
+//		return (sphere_color);
 	t_vec unit_direction = unit_vector(dir);
-	float t = 0.5 * (unit_direction.y + 1.0);
+	t = 0.5 * (unit_direction.y + 1.0);
 	t_vec a= make_v(1.0);
 	t_vec b; b.x = 0.5; b.y = 0.7; b.z = 1.0;
-	return v_add(v_mul_n(a, 1.0 - t), v_mul_n(b, t));
+	return (v_add(v_mul_n(a, 1.0 - t), v_mul_n(b, t)));
 }
 
 #include <stdio.h>
@@ -176,26 +199,30 @@ int	main()
 	t_vec	lower_left_corner = v_sub(origin, v_add(v_add(v_div(horizontal, 2), v_div(vertical, 2)), any));
 
 	// Render
-	
-	int j = 0;
-	while (j < image_height)
+
+	int jj = 0;
+	int j = image_height - 1;
+	while (j >= 0 && jj < image_height)
 	{
 		int i = 0;
 		while (i < image_width)
-		{	
+		{
+
 			float u = (double)i / (image_width - 1);
-			float v = (image_height - (double)j - 1) / (image_height - 1);
-			
+			float v = (double)j / (image_height - 1);
+
 			t_vec a = origin;
 			t_vec b = v_add(lower_left_corner, v_add(v_mul_n(horizontal, u), v_mul_n(v_sub(vertical, origin), v)));
 			t_vec pixel_color = ray_color(a, b);
 			write_color(app, pixel_color);
-			mlx_pixel_put(app->mlx_ptr, app->win_ptr, i, jj, app->int_color);	
-			app->data[jj * image_width + i] = app->int_color;	
+			mlx_pixel_put(app->mlx_ptr, app->win_ptr, i, jj, app->int_color);
+			app->data[jj * 400 + i] = app->int_color;
+
 			++i;
 		}
-		++j;
+		--j;
+		++jj; //예제의 점 찍히는 순서를 똑같이 하려고 jj를 따로 만들었음..
 	}
-	mlx_put_image_to_window (app->mlx_ptr, app->win_ptr, app->img_ptr, 0, 0);
+//	mlx_put_image_to_window (app->mlx_ptr, app->win_ptr, app->img_ptr, 0, 0);
 	mlx_loop(app->mlx_ptr);
 }

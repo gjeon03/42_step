@@ -21,23 +21,32 @@ int	close(int keycode, t_mlx *app)
 	return (0);
 }
 
-int		hit_sphere(point3 center, double radius, t_ray r)
+double	hit_sphere(point3 center, double radius, t_ray r)
 {
 	t_vec3	oc = subtract(r.orig, center);
 	double	a = dot(r.dir, r.dir);
 	double	b = 2.0 * dot(oc, r.dir);
 	double	c = dot(oc, oc) - radius * radius;
 	double	discriminant = b * b - 4 * a * c;
-	return (discriminant > 0 ? 1 : 0);
+	if (discriminant < 0)
+		return (-1.0);
+	else
+		return ((-b - sqrt(discriminant)) / (2.0 * a));
 }
 
 color	ray_color(t_ray r)
 {
 	t_vec3	unit_direction;
 	double	t;
+	t_vec3	N;
 
-	if (hit_sphere(point3_(0, 0, -1), 0.5, r))
-		return (color_(1, 0, 0));
+	t = hit_sphere(point3_(0, 0, -1), 0.5, r);
+	if (t > 0.0)
+	{
+		N = unit_vector(subtract(at(r, t), vec3_(0, 0, -1)));
+		return (multiply(color_(N.x + 1, N.y + 1, N.z + 1), 0.5));
+	}
+
 	unit_direction = unit_vector(r.dir);
 	t = 0.5 * (unit_direction.y + 1.0);
 	return (add(multiply(color_(1.0, 1.0, 1.0), 1.0 - t),
@@ -47,7 +56,7 @@ color	ray_color(t_ray r)
 int	main(void)
 {
 	const float	aspect_ratio = 16.0 / 9.0;
-	const int	image_width = 400;
+	const int	image_width = 1000;
 	const int	image_height = image_width / aspect_ratio;
 
 	t_mlx		app;
@@ -55,8 +64,9 @@ int	main(void)
 	int			j;
 	t_color		rgb;
 
+	//start mlx
 	app.mlx = mlx_init();
-	app.win = mlx_new_window(app.mlx, 800, 600, "step2");
+	app.win = mlx_new_window(app.mlx, image_width, image_height, "step04");
 	app.img = mlx_new_image(app.mlx, image_width, image_height);
 	app.data = (int *)mlx_get_data_addr(app.img, &app.bpp, &app.size_l, &app.endian);
 
@@ -72,18 +82,19 @@ int	main(void)
 	subtract_(&lower_left_corner, divide(vertical, 2));
 	subtract_(&lower_left_corner, vec3_(0, 0, focal_length));
 
-	j = 0;
-	while (j < image_height)
+	//render
+	j = image_height - 1;
+	while (j >= 0)
 	{
 		i = 0;
 		while (i < image_width)
 		{
 			double	u = (double)i / (image_width - 1);
-			double	v = (image_height - (double)j - 1) / (image_height - 1);
+			double	v = (double)j / (image_height - 1);
 			
 			t_vec3	direction = add(lower_left_corner, multiply(horizontal, u));
 			add_(&direction, multiply(vertical, v));
-			subtract_(&direction, origin);
+			//subtract_(&direction, origin);
 
 			t_ray	r = ray_(origin, direction);
 			color	pixel_color = ray_color(r);
@@ -92,7 +103,7 @@ int	main(void)
 			app.data[j * image_width + i] = rgb.int_color;
 			i++;
 		}
-		j++;
+		j--;
 	}
 	mlx_put_image_to_window(app.mlx, app.win, app.img, 0, 0);
 	mlx_hook(app.win, 2, 1L<<0, close, &app);
