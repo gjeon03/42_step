@@ -21,11 +21,23 @@ int	close(int keycode, t_mlx *app)
 	return (0);
 }
 
+/*int		hit_sphere(point3 center, double radius, t_ray r)
+{
+	t_vec3	oc = subtract(r.orig, center);
+	double	a = dot(r.dir, r.dir);
+	double	b = 2.0 * dot(oc, r.dir);
+	double	c = dot(oc, oc) - radius * radius;
+	double	discriminant = b * b - 4 * a * c;
+	return (discriminant > 0 ? 1 : 0);
+}*/
+
 color	ray_color(t_ray r)
 {
 	t_vec3	unit_direction;
 	double	t;
 
+	//if (hit_sphere(point3_(0, 0, -1), 0.5, r))
+	//	return (color_(1, 0, 0));
 	unit_direction = unit_vector(r.dir);
 	t = 0.5 * (unit_direction.y + 1.0);
 	return (add(multiply(color_(1.0, 1.0, 1.0), 1.0 - t),
@@ -56,7 +68,7 @@ int	main(void)
 	point3		origin = point3_(0, 0, 0);
 	t_vec3		horizontal = vec3_(viewport_width, 0, 0);
 	t_vec3		vertical = vec3_(0, viewport_height, 0);
-	t_vec3		lower_left_corner = subtract(&origin, divide(horizontal, 2));
+	t_vec3		lower_left_corner = subtract(origin, divide(horizontal, 2));
 	subtract_(&lower_left_corner, divide(vertical, 2));
 	subtract_(&lower_left_corner, vec3_(0, 0, focal_length));
 
