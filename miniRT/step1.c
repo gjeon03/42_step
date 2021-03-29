@@ -20,6 +20,7 @@ int	close(int keycode, t_mlx *app)
 {
 	if (keycode == 53)
 		mlx_destroy_window(app->mlx, app->win);
+	//clear(world);
 	return (0);
 }
 

@@ -35,8 +35,8 @@ int			hit_sphere(t_sphere *s, t_ray r, double t_min, double t_max, t_hit_record 
 	double	discriminant = half_b * half_b - a * c;
 	if (discriminant < 0)
 		return (FALSE);
+	
 	double	sqrtd = sqrt(discriminant);
-
 	double	root = (-half_b - sqrtd) / a;
 	if (root < t_min || t_max < root)
 	{
@@ -49,6 +49,7 @@ int			hit_sphere(t_sphere *s, t_ray r, double t_min, double t_max, t_hit_record 
 	rec->p = at(r, rec->t);
 	t_vec3	outward_normal = divide(subtract(rec->p, s->center), s->radius);
 	set_face_normal(rec, r, outward_normal);
+
 	return (TRUE);
 }
 
