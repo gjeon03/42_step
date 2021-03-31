@@ -14,10 +14,10 @@
 #define X_EVENT_KEY_EXIT 17
 
 //direction
-#define KEY_F 126
-#define KEY_B 125
-#define KEY_L 123
-#define KEY_R 124
+#define KEY_W 13
+#define KEY_A 0
+#define KEY_S 1
+#define KEY_D 2
 
 //keyboard ESC
 #define K_ESC 53
@@ -97,10 +97,8 @@ int		main_loop(t_info *info)
 void	imageDraw(t_info *info)
 {
 	for (int y = 0; y < screenHeight; y++)
-	{
 		for (int x = 0; x < screenWidth; x++)
 			info->img.data[y * screenWidth + x] = info->buf[y][x];
-	}
 	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
@@ -378,37 +376,18 @@ int	calculateAndSaveToMap(t_info *info)
 		x++;
 	}
 }
-/*
-    https://42kchoi.tistory.com/229?category=886844
-    위 링크에서 설명했듯이 mlx_png_file_to_image는 메모리 누수 이슈가 있기 때문에,
-    mlx_xpm_file_to_image를 사용한다.
-    참고로 여기서 path는 상대경로다.
-*/
-void	load_image(t_info *info, int *texture, char *path, t_img *img)
-{
-	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
-	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
-	for (int y = 0; y < img->img_height; y++)
-	{
-		for (int x = 0; x < img->img_width; x++)
-			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
-	}
-	mlx_destroy_image(ingo->mlx, img->img);
-}
-
-
 
 int	key_press(int key, t_info *info)
 {
 	//FB
-	if (key == KEY_F)
+	if (key == KEY_W)
 	{
 		if (!worldMap[(int)(info->playerPositionX + info->directionVectorX * info->moveSpeed)][(int)(info->playerPositionY)])
 			info->playerPositionX += info->directionVectorX * info->moveSpeed;
 		if (!worldMap[(int)(info->playerPositionX)][(int)(info->playerPositionY + info->directionVectorY * info->moveSpeed)])
 			info->playerPositionY += info->directionVectorY * info->moveSpeed;
 	}
-	if (key == KEY_B)
+	if (key == KEY_S)
 	{
 		/*
 		 * 아래 방향키를 누르면 뒤로 이동한다.
@@ -426,7 +405,7 @@ int	key_press(int key, t_info *info)
 		if (!worldMap[(int)(info->playerPositionX)][(int)(info->playerPositionY - info->directionVectorY * info->moveSpeed)])
 			info->playerPositionY -= info->directionVectorY * info->moveSpeed;
 	}
-	if (key == KEY_L)
+	if (key == KEY_A)
 	{
 		double	oldDirectionX = info->directionVectorX;
 		info->directionVectorX = info->directionVectorX * cos(info->rotSpeed) - info->directionVectorY * sin(info->rotSpeed);
@@ -435,7 +414,7 @@ int	key_press(int key, t_info *info)
 		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
 	}
-	if (key == KEY_R)
+	if (key == KEY_D)
 	{
 		double	oldDirectionX = info->directionVectorX;
 		info->directionVectorX = info->directionVectorX * cos(-info->rotSpeed) - info->directionVectorY * sin(-info->rotSpeed);
@@ -449,6 +428,38 @@ int	key_press(int key, t_info *info)
 	return (0);
 }
 
+/*
+    https://42kchoi.tistory.com/229?category=886844
+    위 링크에서 설명했듯이 mlx_png_file_to_image는 메모리 누수 이슈가 있기 때문에,
+    mlx_xpm_file_to_image를 사용한다.
+    참고로 여기서 path는 상대경로다.
+*/
+void	load_image(t_info *info, int *texture, char *path, t_img *img)
+{
+	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	for (int y = 0; y < img->img_height; y++)
+	{
+		for (int x = 0; x < img->img_width; x++)
+			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
+	}
+	mlx_destroy_image(info->mlx, img->img);
+}
+
+void	load_texture(t_info *info)
+{
+	t_img	img;
+
+	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
+	load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
+	load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
+	load_image(info, info->texture[3], "textures/greystone.xpm", &img);
+	load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
+	load_image(info, info->texture[5], "textures/mossy.xpm", &img);
+	load_image(info, info->texture[6], "textures/wood.xpm", &img);
+	load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+}
+
 int	main(void)
 {
 	//double	posX = 22, posY = 12;//시작 위치
@@ -460,11 +471,11 @@ int	main(void)
 
 	t_info	info;
 
-	info.playerPositionX = 12;
-	info.playerPositionY = 5;
-	info.directionVectorX = -1;
-	info.directionVectorY = 0;
-	info.planeX = 0;
+	info.playerPositionX = 22.0;
+	info.playerPositionY = 11.5;
+	info.directionVectorX = -1.0;
+	info.directionVectorY = 0.0;
+	info.planeX = 0.0;
 	info.planeY = 0.66;
 	info.moveSpeed = 0.05;
 	info.rotSpeed = 0.05;
@@ -475,12 +486,14 @@ int	main(void)
 	 * x->screenWidth 로 가면서 화면을 그려내기 때문에
 	 * y값이 버퍼의 앞에 온다.(info.buf는 [y][x] 형태)
 	 */
-	info.buf = (int **)malloc(sizeof(int *) * screenHeight);
-	for (int i = 0; i < screenHeight; i++)
-		info.buf[i] = (int *)malloc(sizeof(int) * screenWidth);
-	for (int i = 0; i < screenHeight; i++)
-		for (int j = 0; j < screenWidth; j++)
-			info.buf[i][j] = 0;
+	if (!(info.texture = (int **)malloc(sizeof(int *) * 8)))
+		return (-1);
+	for (int i = 0; i < 8; i++)
+		if (!(info.texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth))))
+			return (-1);
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < texHeight * texWidth; j++)
+			info.texture[i][j] = 0;
 	/*
 	 * info.texture 변수는 다음과 같이 선언돼 있는데,
 	 * int	texture[8][texHeight * texWidth];
@@ -490,13 +503,14 @@ int	main(void)
 	for (int i = 0; i < 8; i++)
 		for (int j = 0; j < texHeight * texWidth; j++)
 			info.texture[i][j] = 0;
+
 	/*
 	 * 텍스쳐를 생성한다.
 	 * (비트 연산자인) xor 컬러 및 x,xy 컬러를 지정한다.
 	 * 세 가지 값은 각각 xor패턴, 그라데이션, 벽돌스타일의 패턴을 나타낸다.
 	 * 각각의 텍스쳐 값 뒤에 그것이 무엇을 의미하는지에 대한 주석이 달려있다.
 	 */
-	for (int x = 0; x < texWidth; x++)
+	/*for (int x = 0; x < texWidth; x++)
 	{
 		for (int y = 0; y < texHeight; y++)
 		{
@@ -512,9 +526,10 @@ int	main(void)
 			info.texture[6][texWidth * y + x] = 65536 * ycolor; //red gradient
 			info.texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey texture
 		}
-	}
+	}*/
 
 	info.mlx = mlx_init();
+	load_texture(&info);
 	info.win = mlx_new_window(info.mlx, screenWidth, screenHeight, "test");
 	info.img.img = mlx_new_image(info.mlx, screenWidth, screenHeight);
 	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
