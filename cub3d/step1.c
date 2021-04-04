@@ -43,39 +43,39 @@ typedef struct	s_info
 	double		rotSpeed;
 	
 	t_img		img;
-	int			**buf;
-	int			texture[8][texHeight * texWidth];
+	int			buf[screenHeight][screenWidth];
+	int			**texture;
 }				t_info;
 
 int worldMap[mapWidth][mapHeight] =
-{  
-	{4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,7,7,7,7,7,7,7,7},
-	{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-	{4,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-	{4,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7},
-	{4,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,0,0,0,7},
-	{4,0,4,0,0,0,0,5,5,5,5,5,5,5,5,5,7,7,0,7,7,7,7,7},
-	{4,0,5,0,0,0,0,5,0,5,0,5,0,5,0,5,7,0,0,0,7,7,7,1},
-	{4,0,6,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-	{4,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,7,1},
-	{4,0,8,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,0,0,0,8},
-	{4,0,0,0,0,0,0,5,0,0,0,0,0,0,0,5,7,0,0,0,7,7,7,1},
-	{4,0,0,0,0,0,0,5,5,5,5,0,5,5,5,5,7,7,7,7,7,7,7,1},
-	{6,6,6,6,6,6,6,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-	{8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4},
-	{6,6,6,6,6,6,0,6,6,6,6,0,6,6,6,6,6,6,6,6,6,6,6,6},
-	{4,4,4,4,4,4,0,4,4,4,6,0,6,2,2,2,2,2,2,2,3,3,3,3},
-	{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-	{4,0,0,0,0,0,0,0,0,0,0,0,6,2,0,0,5,0,0,2,0,0,0,2},
-	{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-	{4,0,6,0,6,0,0,0,0,4,6,0,0,0,0,0,5,0,0,0,0,0,0,2},
-	{4,0,0,5,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,2,0,2,2},
-	{4,0,6,0,6,0,0,0,0,4,6,0,6,2,0,0,5,0,0,2,0,0,0,2},
-	{4,0,0,0,0,0,0,0,0,4,6,0,6,2,0,0,0,0,0,2,0,0,0,2},
-	{4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3}
+{ 
+	{8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
+  {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+  {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
+  {8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
+  {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+  {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
+  {8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
+  {7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
+  {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
+  {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
+  {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
+  {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
+  {7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
+  {2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
+  {2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+  {2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+  {1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
+  {2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
+  {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+  {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
+  {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+  {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+  {2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5} 
 };
 
-void	verLine(t_info *info, int x, int drawS, int drawE, int color)
+/*void	verLine(t_info *info, int x, int drawS, int drawE, int color)
 {
 	int	temp;
 
@@ -85,12 +85,87 @@ void	verLine(t_info *info, int x, int drawS, int drawE, int color)
 		mlx_pixel_put(info->mlx, info->win, x, temp, color);
 		temp++;
 	}
+}*/
+
+void	imageDraw(t_info *info)
+{
+	for (int y = 0; y < screenHeight; y++)
+	{
+		for (int x = 0; x < screenWidth; x++)
+			info->img.data[y * screenWidth + x] = info->buf[y][x];
+	}
+	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
-int		main_loop(t_info *info)
+int		calculateAndSaveToMap(t_info *info)
 {
-	for (int x = 0; x < screenWidth; x++)
-		mlx_pixel_put(info->mlx, info->win, x, 0, 0x000000);
+	/*for (int x = 0; x < screenWidth; x++)
+		for (int y = 0; y < screenHeight; y++)
+		{
+			info->buf[y][x] = 0xFFFFFF;
+			info->buf[screenHeight - y - 1][x] = 0x000000;
+		}
+	*/
+    //int color = info->texture[texNum][texHeight * texY + texX];
+	int	color;
+	for (int y = 0; y < screenHeight; y++)
+	{
+		//가장 왼쪽 광선 (x = 0) 및 가장 오른쪽 광선 (x = w)에 대한
+		float	rayDirX0 = info->dirX - info->planeX;
+		float	rayDirY0 = info->dirY - info->planeY;
+		float	rayDirX1 = info->dirX + info->planeX;
+		float	rayDirY1 = info->dirY + info->planeY;
+
+		//화면 중앙 (수평선)과 비교한 현재 y위치
+		int		p = y - screenHeight / 2;
+		
+		//카메라의 수직 위치.
+		float	posZ = 0.5 * screenHeight;
+
+		//현재 행의 ㄱ카메라에서 바닥까지의 수평 거리
+		//0.5는 정확히 바닥과 천장 중간의 z위치이다.
+		float	rowDistance = posZ / p;
+
+		//각 x에 대해 추가해야하는 실제 단계 벡터를 계산한다. (카메라 평면에 평행)
+		//단계별 추가는 내부 루프에 가중치가 있는 곱셈을 방지한다.
+		float	floorStepX = rowDistance * (rayDirX1 - rayDirX0) / screenWidth;
+		float	floorStepY = rowDistance * (rayDirY1 - rayDirY0) / screenWidth;
+
+		//가장 왼쪽 열의 실제 좌표. 오른쪽으로 이동하면 업데이트된다.
+		float	floorX = info->posX + rowDistance * rayDirX0;
+		float	floorY = info->posY + rowDistance * rayDirY0;
+
+		for (int x = 0; x < screenWidth; x++)
+		{
+			//cell coord는 floorX와 floorY의 정수 부분에서 간단히 얻는다.
+			int	cellX = (int)(floorX);
+			int	cellY = (int)(floorY);
+
+			//소수 부분에서 텍스처 좌표를 가져온다.
+			int	tx = (int)(texWidth * (floorX - cellX) / 2) & (texWidth - 1);
+			int	ty = (int)(texHeight * (floorY - cellY) / 2) & (texHeight - 1);
+
+			floorX += floorStepX;
+			floorY += floorStepY;
+
+			//텍스처를 선택하고 픽셀을 그린다.
+			int	floorTexture = 3;
+			int	ceilingTexture = 6;
+
+			//바닥
+			color = info->texture[floorTexture][texWidth * ty + tx];
+			color = (color << 1) & 8355711; //조금 더 어둡게 만든다.
+			info->buf[y][x] = color;
+
+			tx = (int)(texWidth * (floorX - cellX) * 20) & (texWidth - 1);
+			ty = (int)(texHeight * (floorY - cellY) * 20) & (texHeight - 1);
+			//천장(대칭, screenHeight - y 대신 y - 1)
+			color = info->texture[ceilingTexture][texWidth * ty + tx];
+			color = (color << 1) & 8355711; //조금 더 어둡게
+			//color = 0xDC143C;
+			info->buf[screenHeight - y - 1][x] = color;
+		}
+	}
 	for (int x = 0; x < screenWidth; x++)
 	{
 		double	cameraX = (2 * x / (double)(screenWidth)) - 1;
@@ -288,7 +363,7 @@ int		main_loop(t_info *info)
             // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
             int texY = (int)texPos & (texHeight - 1);
             texPos += step;
-            int color = info->texture[texNum][texHeight * texY + texX];
+            color = info->texture[texNum][texHeight * texY + texX];
             // 광선이 벽의 y면에 부딪힌 경우(side == 1).
             // 조명표현을 위해 색상을 더 검게 만든다.
             // 이진수를 2로 나눔으로써 RGB값을 반감시킨다.
@@ -340,6 +415,39 @@ int		key_press(int key, t_info *info)
 	return (0);
 }
 
+void	load_image(t_info *info, int *texture, char *path, t_img *img)
+{
+	img->img = mlx_xpm_file_to_image(info->mlx, path, &img->img_width, &img->img_height);
+	img->data = (int *)mlx_get_data_addr(img->img, &img->bpp, &img->size_l, &img->endian);
+	for (int y = 0; y < img->img_height; y++)
+	{
+		for (int x = 0; x < img->img_width; x++)
+			texture[img->img_width * y + x] = img->data[img->img_width * y + x];
+	}
+	mlx_destroy_image(info->mlx, img->img);
+}
+
+void	load_texture(t_info *info)
+{
+	t_img	img;
+
+	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
+    load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
+    load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
+    load_image(info, info->texture[3], "textures/greystone.xpm", &img);
+    load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
+    load_image(info, info->texture[5], "textures/mossy.xpm", &img);
+    load_image(info, info->texture[6], "textures/wood.xpm", &img);
+    load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+}
+
+int		main_loop(t_info *info)
+{
+	calculateAndSaveToMap(info);
+	imageDraw(info);
+	return (0);
+}
+
 int		main(void)
 {
 	t_info	info;
@@ -361,13 +469,13 @@ int		main(void)
         x->screenWidth 로 가면서 화면을 그려내기 때문에
         y값이 버퍼의 앞에 온다.(info.buf는 [y][x] 형태)
     */
-    info.buf = (int **)malloc(sizeof(int *) * screenHeight);
-    for (int i = 0; i < screenHeight; i++)
-        info.buf[i] = (int *)malloc(sizeof(int) * screenWidth);
+    info.texture = (int **)malloc(sizeof(int *) * 8);
+    for (int i = 0; i < 9; i++)
+        info.texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth));
 
-    for (int i = 0; i < screenHeight; i++)
-        for (int j = 0; j < screenWidth; j++)
-            info.buf[i][j] = 0;
+    for (int i = 0; i < 9; i++)
+        for (int j = 0; j < texHeight * texWidth; j++)
+            info.texture[i][j] = 0;
 
     /*
         info.texture 변수는 다음과 같이 선언돼 있는데,
@@ -375,36 +483,19 @@ int		main(void)
         이것이 의미하는 바는 총 8가지 종류의 텍스쳐를 저장할 수 있고,
         그 크기가 texHeight * texWidth 라는 뜻이다.
     */
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 9; i++)
         for (int j = 0; j < texHeight * texWidth; j++)
             info.texture[i][j] = 0;
 
-	for (int x = 0; x < texWidth; x++)
-	{
-		for (int y = 0; y < texHeight; y++)
-		{
-			int xorcolor = (x * 256 / texWidth) ^ (y * 256 / texHeight);
-			int ycolor = y * 256 / texHeight;
-			int xycolor = y * 128 / texHeight + x * 128 / texWidth;
-			info.texture[0][texWidth * y + x] = 65536 * 254 * (x != y && x != texWidth - y); //flat red texture with black cross
-			info.texture[1][texWidth * y + x] = xycolor + 256 * xycolor + 65536 * xycolor; //sloped greyscale
-			info.texture[2][texWidth * y + x] = 256 * xycolor + 65536 * xycolor; //sloped yellow gradien
-			info.texture[3][texWidth * y + x] = xorcolor + 256 * xorcolor + 65536 * xorcolor; //xor greyscale
-			info.texture[4][texWidth * y + x] = 256 * xorcolor;
-			info.texture[5][texWidth * y + x] = 65536 * 192 * (x % 16 && y & 16);
-			info.texture[6][texWidth * y + x] = 65536 * ycolor;
-			info.texture[7][texWidth * y + x] = 128 + 256 * 128 + 65536 * 128;
-		}
-	}
 
 	info.mlx = mlx_init();
+	load_texture(&info);
 	info.win = mlx_new_window(info.mlx, screenWidth, screenHeight, "step");
 	info.img.img = mlx_new_image(info.mlx, screenWidth, screenHeight);
 	info.img.data = (int *)mlx_get_data_addr(info.img.img, &info.img.bpp, &info.img.size_l, &info.img.endian);
 
-	mlx_loop_hook(info.mlx, *main_loop, &info);
-	//imageDraw(img);
+	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, 2, 0, &key_press, &info);
 	mlx_loop(info.mlx);
-	return (0);
+	//return (0);
 }
