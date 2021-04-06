@@ -1,6 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   step1.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/04/05 23:08:51 by gjeon             #+#    #+#             */
+/*   Updated: 2021/04/06 03:05:34 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "mlx.h"
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #define mapWidth 24
 #define mapHeight 24
@@ -13,8 +27,53 @@
 #define KEY_D 2
 #define	K_ESC 53
 
+#define K_U 126
+#define K_D 125
+#define K_L 123
+#define K_R 124
+
 #define texWidth 64
 #define texHeight 64
+
+#define numSprites 19
+
+struct	Sprite
+{
+	double		x;
+	double		y;
+	int			texture;
+};
+
+struct Sprite sprite[numSprites] =
+{
+	{20.5, 11.5, 10}, //green light in front of playerstart
+	//green lights in every room
+	{18.5,4.5, 10},
+	{10.0,4.5, 10},
+	{10.0,12.5,10},
+	{3.5, 6.5, 10},
+	{3.5, 20.5,10},
+	{3.5, 14.5,10},
+	{14.5,20.5,10},
+
+	//row of pillars in front of wall: fisheye test
+	{18.5, 10.5, 9},
+	{18.5, 11.5, 9},
+	{18.5, 12.5, 9},
+
+	//some barrels around the map
+	{21.5, 1.5, 8},
+	{15.5, 1.5, 8},
+	{16.0, 1.8, 8},
+	{16.2, 1.2, 8},
+	{3.5,  2.5, 8},
+	{9.5, 15.5, 8},
+	{10.0, 15.1,8},
+	{10.5, 15.8,8},
+};
+
+int	spriteOrder[numSprites];
+double	spriteDistance[numSprites];
 
 typedef struct	s_img
 {
@@ -29,6 +88,12 @@ typedef struct	s_img
 
 typedef struct	s_info
 {
+	int			key_a;
+	int			key_w;
+	int			key_s;
+	int			key_d;
+	int			key_esc;
+
 	void		*mlx;
 	void		*win;
 	double		posX;
@@ -41,38 +106,97 @@ typedef struct	s_info
 	//double		oldTime;
 	double		moveSpeed;
 	double		rotSpeed;
-	
+
+	double		zBuffer[screenWidth];	
 	t_img		img;
 	int			buf[screenHeight][screenWidth];
 	int			**texture;
 }				t_info;
 
+typedef struct	s_pair
+{
+	double		first;
+	int			second;
+}				t_pair;
+
+void	key_update(t_info *info);
+
+static int	compare(const void *first, const void *second)
+{
+	if (*(int *)first > *(int *)second)
+		return (1);
+	else if (*(int *)first < *(int *)second)
+		return (-1);
+	else
+		return (0);
+}
+
+void	sort_order(t_pair *orders, int amount)
+{
+	t_pair	tmp;
+
+	for (int i = 0; i < amount; i++)
+	{
+		for (int j = 0; j < amount - 1; j++)
+		{
+			if (orders[j].first > orders[j + 1].first)
+			{
+				tmp.first = orders[j].first;
+				tmp.second = orders[j].second;
+				orders[j].first = orders[j + 1].first;
+				orders[j].second = orders[j + 1].second;
+				orders[j + 1].first = tmp.first;
+				orders[j + 1].second = tmp.second;
+			}
+		}
+	}
+}
+
+void	sortSprites(int *order, double *dist, int amount)
+{
+	t_pair	*sprites;
+
+	sprites = (t_pair*)malloc(sizeof(t_pair) * amount);
+	for (int i = 0; i < amount; i++)
+	{
+		sprites[i].first = dist[i];
+		sprites[i].second = order[i];
+	}
+	sort_order(sprites, amount);
+	for (int i = 0; i< amount; i++)
+	{
+		dist[i] = sprites[amount - i - 1].first;
+		order[i] = sprites[amount - i - 1].second;
+	}
+	free(sprites);
+}
+
 int worldMap[mapWidth][mapHeight] =
-{ 
+{
 	{8,8,8,8,8,8,8,8,8,8,8,4,4,6,4,4,6,4,6,4,4,4,6,4},
-  {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
-  {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
-  {8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
-  {8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
-  {8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
-  {8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
-  {7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
-  {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
-  {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
-  {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
-  {7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
-  {7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
-  {2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
-  {2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
-  {2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
-  {1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
-  {2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
-  {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
-  {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
-  {2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
-  {2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
-  {2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5} 
+	{8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+	{8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,6},
+	{8,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6},
+	{8,0,3,3,0,0,0,0,0,8,8,4,0,0,0,0,0,0,0,0,0,0,0,4},
+	{8,0,0,0,0,0,0,0,0,0,8,4,0,0,0,0,0,6,6,6,0,6,4,6},
+	{8,8,8,8,0,8,8,8,8,8,8,4,4,4,4,4,4,6,0,0,0,0,0,6},
+	{7,7,7,7,0,7,7,7,7,0,8,0,8,0,8,0,8,4,0,4,0,6,0,6},
+	{7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,0,0,0,0,0,6},
+	{7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,0,0,0,0,4},
+	{7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,6,0,6,0,6,0,6},
+	{7,7,0,0,0,0,0,0,7,8,0,8,0,8,0,8,8,6,4,6,0,6,6,6},
+	{7,7,7,7,0,7,7,7,7,8,8,4,0,6,8,4,8,3,3,3,0,3,3,3},
+	{2,2,2,2,0,2,2,2,2,4,6,4,0,0,6,0,6,3,0,0,0,0,0,3},
+	{2,2,0,0,0,0,0,2,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+	{2,0,0,0,0,0,0,0,2,4,0,0,0,0,0,0,4,3,0,0,0,0,0,3},
+	{1,0,0,0,0,0,0,0,1,4,4,4,4,4,6,0,6,3,3,0,0,0,3,3},
+	{2,0,0,0,0,0,0,0,2,2,2,1,2,2,2,6,6,0,0,5,0,5,0,5},
+	{2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+	{2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5},
+	{2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,5,0,5,0,5,0,5,0,5},
+	{2,2,0,0,0,0,0,2,2,2,0,0,0,2,2,0,5,0,5,0,0,0,5,5},
+	{2,2,2,2,1,2,2,2,2,2,2,1,2,2,2,5,5,5,5,5,5,5,5,5}
 };
 
 /*void	verLine(t_info *info, int x, int drawS, int drawE, int color)
@@ -107,7 +231,32 @@ int		calculateAndSaveToMap(t_info *info)
 		}
 	*/
     //int color = info->texture[texNum][texHeight * texY + texX];
-	int	color;
+
+	/*double	cameraX;
+	double	rayDirX;
+	double	rayDirY;
+	int		mapX;
+	int		mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	perpWallDist;
+	int		stepX;
+	int		stepY;
+	int		side;
+	int		hit;
+
+	int		lineHeight;
+	int		drawStart;
+	int		drawEnd;
+	int		texNum;
+	int		wallX;
+	int		texX;
+	double	step;
+	double	texPos;
+*/
+	int		color;
 	for (int y = 0; y < screenHeight; y++)
 	{
 		//가장 왼쪽 광선 (x = 0) 및 가장 오른쪽 광선 (x = w)에 대한
@@ -154,18 +303,18 @@ int		calculateAndSaveToMap(t_info *info)
 
 			//바닥
 			color = info->texture[floorTexture][texWidth * ty + tx];
-			color = (color << 1) & 8355711; //조금 더 어둡게 만든다.
+			color = (color >> 1) & 8355711; //조금 더 어둡게 만든다.
 			info->buf[y][x] = color;
 
-			tx = (int)(texWidth * (floorX - cellX) * 20) & (texWidth - 1);
-			ty = (int)(texHeight * (floorY - cellY) * 20) & (texHeight - 1);
 			//천장(대칭, screenHeight - y 대신 y - 1)
 			color = info->texture[ceilingTexture][texWidth * ty + tx];
-			color = (color << 1) & 8355711; //조금 더 어둡게
+			color = (color >> 1) & 8355711; //조금 더 어둡게
 			//color = 0xDC143C;
+			
 			info->buf[screenHeight - y - 1][x] = color;
 		}
 	}
+
 	for (int x = 0; x < screenWidth; x++)
 	{
 		double	cameraX = (2 * x / (double)(screenWidth)) - 1;
@@ -201,7 +350,7 @@ int		calculateAndSaveToMap(t_info *info)
 		//x, y 면은 두개의 칸의 경계가 되는 선을 의미함.
 		int	hit = 0;
 		int	side;
-
+		
 		if (rayDirX < 0)
 		{
 			stepX = -1;
@@ -286,10 +435,10 @@ int		calculateAndSaveToMap(t_info *info)
 		//스크린에 그릴 line의 높이를 계산.
 		int	lineHeight = (int)(screenHeight / perpWallDist);
 		//거리가 멀어질수록 높이도 낮아진다.
-		int drawStart = -lineHeight / 2 + screenHeight / 2;
+		int	drawStart = -lineHeight / 2 + screenHeight / 2;
 		if(drawStart < 0)//0보다 작으면 화면 위로 벗어남.
 			drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2;
+		int	drawEnd = lineHeight / 2 + screenHeight / 2;
 		if(drawEnd >= screenHeight)//스크린 높이보다 크면 스크린 아래로 벗어남.
 			drawEnd = screenHeight - 1;
 		/* 위의 코드는 벽의 높이 계산
@@ -355,9 +504,9 @@ int		calculateAndSaveToMap(t_info *info)
 		 * 이전 코드에서 벽의 색상을 선택해 주었다면, 이번 코드는
 		 * 벽의 텍스처를 선택해주는 것이다.
 		 */
-		double step = 1.0 * texHeight / lineHeight;
+		double	step = 1.0 * texHeight / lineHeight;
         // Starting texture coordinate
-        double texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
+        double	texPos = (drawStart - screenHeight / 2 + lineHeight / 2) * step;
         for (int y = drawStart; y < drawEnd; y++)
         {
             // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
@@ -372,27 +521,154 @@ int		calculateAndSaveToMap(t_info *info)
             if (side == 1)
                 color = (color >> 1) & 8355711;
             info->buf[y][x] = color;
-        }
+		}
+
+		info->zBuffer[x] = perpWallDist;
+		/*for (int x = 0; x < screenWidth; x++)
+		{
+			double	floorXWall, floorYWall;
+
+			if (side == 0 && rayDirX > 0)
+			{
+				floorXWall = mapX;
+				floorYWall = mapY + wallX;
+			}
+			else if (side == 0 && rayDirX < 0)
+			{
+				floorXWall = mapX + 1.0;
+				floorYWall = mapY + wallX;
+			}
+			else if (side == 1 && rayDirY > 0)
+			{
+				floorXWall = mapX + wallX;
+				floorYWall = mapY;
+			}
+			else
+			{
+				floorXWall = mapX + wallX;
+				floorYWall = mapY + 1.0;
+			}
+
+			double	distWall, distPlayer, currentDist;
+			
+			distWall = perpWallDist;
+			distPlayer = 0.0;
+
+			if (drawEnd < 0)
+				drawEnd = screenHeight;
+			for (int y = drawEnd + 1; y < screenHeight; y++)
+			{
+				currentDist = screenHeight / (2.0 * y - screenHeight);
+				double	weight = (currentDist - distPlayer) / (distWall - distPlayer);
+
+				double	currentFloorX = weight * floorXWall + (1.0 - weight) * info->posX;
+				double	currentFloorY = weight * floorXWall + (1.0 - weight) * info->posY;
+
+				int	floorTexX, floorTexY;
+				floorTexX = (int)(currentFloorX * texWidth) & texWidth;
+				floorTexY = (int)(currentFloorY * texHeight) & texHeight;
+
+				info->buf[y][x] = (info->texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
+				info->buf[screenHeight - y][x] = info->texture[6][texWidth * floorTexY + floorTexX];
+			}
+		}*/
+	}
+	//SPRITE
+	//원거리에서 가까운 스프라이트 정렬
+	for (int i = 0; i< numSprites; i++)
+	{
+		spriteOrder[i] = i;
+		spriteDistance[i] = ((info->posX - sprite[i].x) * (info->posX - sprite[i].x) + (info->posY - sprite[i].y) * (info->posY - sprite[i].y));
+	}
+	sortSprites(spriteOrder, spriteDistance, numSprites);
+	//스프라이트를 정렬한 후 프로젝션을 수행하고 다음을 그린다.
+	for (int i = 0; i < numSprites; i++)
+	{
+		//스프라이트 위치를 카메라를 기준으로 변환
+		double	spriteX = sprite[spriteOrder[i]].x - info->posX;
+		double	spriteY = sprite[spriteOrder[i]].y - info->posY;
+
+		//역 카메라 행렬로 스프라이트 변환
+		//[planeZX dirX] - 1 [dirY - dirX]
+		//[] = 1 / (planeX * dirY - dirX * planeY) * []
+		//[planeY dirY] [-planeY planeX]
+		double	invDet = 1.0 / (info->planeX * info->dirY - info->dirX * info->planeY); // 올바른 행렬 곱셈에 필요
+
+		double	transformX = invDet * (info->dirY * spriteX - info->dirX * spriteY);
+
+		double	transformY = invDet * (-info->planeY * spriteX + info->planeX * spriteY); //이것은 실제로 z가 3D에 있는 화면 내부의 깊이이다.
+
+		int		spriteScreenX = (int)((screenWidth / 2) * (1 + transformX / transformY));
+
+		#define uDiv 1
+		#define vDiv 1
+		#define vMove 0.0
+		int		vMoveScreen = (int)(vMove / transformY);
+
+		//스프라이트 높이 계
+		int	spriteHeight = (int)fabs((screenHeight / transformY) / vDiv);
+		//실제 거리 대신 'transformY' 를 사용하면 어안이 방지된다.
+		
+		//현재 스프라이프를 채우기 위해 가장 낮은 픽셀과 가장 높은 픽셀을 계산한다.
+		int	drawStartY = -spriteHeight / 2 + screenHeight / 2 + vMoveScreen;
+		if (drawStartY < 0)
+			drawStartY = 0;
+		int drawEndY = spriteHeight / 2 + screenHeight / 2 + vMoveScreen;
+		if (drawEndY >= screenHeight)
+			drawEndY = screenHeight - 1;
+
+		//스프라이트의 너비 계산
+		int	spriteWidth = (int)fabs((screenHeight / transformY) / uDiv);
+		int	drawStartX = -spriteWidth / 2 + spriteScreenX;
+		if (drawStartX < 0)
+			drawStartX = 0;
+		int	drawEndX = spriteWidth / 2 + spriteScreenX;
+		if (drawEndX >= screenWidth)
+			drawEndX = screenWidth - 1;
+
+		//화면에서 스프라이트의 모든 수직 스프라이프를 반복한다.
+		for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+		{
+			int	texX = (int)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256);
+
+			//if 의 조건은 다음과 같다.
+			//1) 카메라 평면 앞에 있으므로 뒤에있는 것은 보이지 않는다.
+			//2) 화면에 있습니다. (왼쪽)
+			//3) 화면에 있습니다. (오른쪽)
+			//4) zBuffer, 수직 거리
+			if (transformY > 0 && stripe > 0 && stripe < screenWidth && transformY < info->zBuffer[stripe])
+				for (int y = drawStartY; y < drawEndY; y++)
+				{//현재 스트라이프의 모든 픽셀에 대해
+					int d = (y - vMoveScreen) * 256 - screenHeight * 128 + spriteHeight * 128;
+					//수레를 피하기 위한 256 및 128요소
+					int	texY = ((d * texHeight) / spriteHeight) / 256;
+					int	color = info->texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX];
+					//텍스처에서 현재 색상 가져오기
+					if ((color & 0x00FFFFFF) != 0)
+						info->buf[y][stripe] = color;
+					//검은 색이 아닌 경우 픽셀 페인트, 검은 색은 보이지 않는 색상
+				}
+		}
 	}
 }
 
-int		key_press(int key, t_info *info)
+void	key_update(t_info *info)
 {
-	if (key == KEY_W)
+	if (info->key_w)
 	{
 		if(!worldMap[(int)(info->posX + info->dirX * info->moveSpeed)][(int)(info->posY)])
 			info->posX += info->dirX * info->moveSpeed;
 		if(!worldMap[(int)(info->posX)][(int)(info->posY + info->dirY * info->moveSpeed)])
 			info->posY += info->dirY * info->moveSpeed;
 	}
-	if (key == KEY_S)
+	if (info->key_s)
 	{
 		if(!worldMap[(int)(info->posX - info->dirX * info->moveSpeed)][(int)(info->posY)])
 			info->posX -= info->dirX * info->moveSpeed;
 		if(!worldMap[(int)(info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
 			info->posY -= info->dirY * info->moveSpeed;
 	}
-	if (key == KEY_D)
+	if (info->key_d)
 	{
 		double oldDirX = info->dirX;
 		info->dirX = info->dirX * cos(-info->rotSpeed) - info->dirY * sin(-info->rotSpeed);
@@ -401,7 +677,7 @@ int		key_press(int key, t_info *info)
 		info->planeX = info->planeX * cos(-info->rotSpeed) - info->planeY * sin(-info->rotSpeed);
 		info->planeY = oldPlaneX * sin(-info->rotSpeed) + info->planeY * cos(-info->rotSpeed);
 	}
-	if (key == KEY_A)
+	if (info->key_a)
 	{
 		double oldDirX = info->dirX;
 		info->dirX = info->dirX * cos(info->rotSpeed) - info->dirY * sin(info->rotSpeed);
@@ -410,8 +686,37 @@ int		key_press(int key, t_info *info)
 		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
 	}
+	if (info->key_esc)
+		exit(0);
+}
+
+int		key_press(int key, t_info *info)
+{
 	if (key == K_ESC)
 		exit(0);
+	else if (key == KEY_W)
+		info->key_w = 1;
+	else if (key == KEY_A)
+		info->key_a = 1;
+	else if (key == KEY_S)
+		info->key_s = 1;
+	else if (key == KEY_D)
+		info->key_d = 1;
+	return (0);
+}
+
+int		key_release(int key, t_info *info)
+{
+	if (key == K_ESC)
+		exit(0);
+	else if (key == KEY_W)
+		info->key_w = 0;
+	else if (key == KEY_A)
+		info->key_a = 0;
+	else if (key == KEY_S)
+		info->key_s = 0;
+	else if (key == KEY_D)
+		info->key_d = 0;
 	return (0);
 }
 
@@ -439,12 +744,16 @@ void	load_texture(t_info *info)
     load_image(info, info->texture[5], "textures/mossy.xpm", &img);
     load_image(info, info->texture[6], "textures/wood.xpm", &img);
     load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+	load_image(info, info->texture[8], "textures/barrel.xpm", &img);
+	load_image(info, info->texture[9], "textures/pillar.xpm", &img);
+	load_image(info, info->texture[10], "textures/greenlight.xpm", &img);
 }
 
 int		main_loop(t_info *info)
 {
 	calculateAndSaveToMap(info);
 	imageDraw(info);
+	key_update(info);
 	return (0);
 }
 
@@ -453,13 +762,13 @@ int		main(void)
 	t_info	info;
 
 	info.posX = 22;//초기 위치
-	info.posY = 12;
-	info.dirX = -1;//초기 방향
-	info.dirY = 0;
-	info.planeX = 0;//플레이어의 카메라 평면
+	info.posY = 11.5;
+	info.dirX = -1.0;//초기 방향
+	info.dirY = 0.0;
+	info.planeX = 0.0;//플레이어의 카메라 평면
 	info.planeY = 0.66;
-	info.moveSpeed = 0.1;
-	info.rotSpeed = 0.1;
+	info.moveSpeed = 0.05;
+	info.rotSpeed = 0.05;
 	//info.time = 0;//현재 프레임의 시간
 	//info.oldTime = 0;//이전 프레임의 시간
 	
@@ -469,11 +778,11 @@ int		main(void)
         x->screenWidth 로 가면서 화면을 그려내기 때문에
         y값이 버퍼의 앞에 온다.(info.buf는 [y][x] 형태)
     */
-    info.texture = (int **)malloc(sizeof(int *) * 8);
-    for (int i = 0; i < 9; i++)
+    info.texture = (int **)malloc(sizeof(int *) * 11);
+    for (int i = 0; i < 11; i++)
         info.texture[i] = (int *)malloc(sizeof(int) * (texHeight * texWidth));
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 11; i++)
         for (int j = 0; j < texHeight * texWidth; j++)
             info.texture[i][j] = 0;
 
@@ -483,9 +792,9 @@ int		main(void)
         이것이 의미하는 바는 총 8가지 종류의 텍스쳐를 저장할 수 있고,
         그 크기가 texHeight * texWidth 라는 뜻이다.
     */
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 11; i++)
         for (int j = 0; j < texHeight * texWidth; j++)
-            info.texture[i][j] = 0;
+            info.buf[i][j] = 0;
 
 
 	info.mlx = mlx_init();
@@ -496,6 +805,7 @@ int		main(void)
 
 	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, 2, 0, &key_press, &info);
+	mlx_hook(info.win, 3, 0, &key_release, &info);
 	mlx_loop(info.mlx);
 	//return (0);
 }
