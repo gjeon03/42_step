@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 23:08:51 by gjeon             #+#    #+#             */
-/*   Updated: 2021/04/06 03:05:34 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/04/08 20:02:51 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -638,7 +638,7 @@ void	key_update(t_info *info)
 		if(!worldMap[(int)(info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
 			info->posY -= info->dirY * info->moveSpeed;
 	}
-	if (info->key_d)
+	if (info->key_r)
 	{
 		double oldDirX = info->dirX;
 		info->dirX = info->dirX * cos(-info->rotSpeed) - info->dirY * sin(-info->rotSpeed);
@@ -647,7 +647,7 @@ void	key_update(t_info *info)
 		info->planeX = info->planeX * cos(-info->rotSpeed) - info->planeY * sin(-info->rotSpeed);
 		info->planeY = oldPlaneX * sin(-info->rotSpeed) + info->planeY * cos(-info->rotSpeed);
 	}
-	if (info->key_a)
+	if (info->key_l)
 	{
 		double oldDirX = info->dirX;
 		info->dirX = info->dirX * cos(info->rotSpeed) - info->dirY * sin(info->rotSpeed);
@@ -656,14 +656,14 @@ void	key_update(t_info *info)
 		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
 	}
-	if (info->key_l)
+	if (info->key_a)
 	{
 		if(!worldMap[(int)(info->posX + info->planeX * info->moveSpeed)][(int)(info->posY)])
 			info->posX -= info->planeX * info->moveSpeed;
 		if(!worldMap[(int)(info->posX)][(int)(info->posY + info->planeY * info->moveSpeed)])
 			info->posY -= info->planeY * info->moveSpeed;
 	}
-	if (info->key_r)
+	if (info->key_d)
 	{
 		if(!worldMap[(int)(info->posX + info->planeX * info->moveSpeed)][(int)(info->posY)])
 			info->posX += info->planeX * info->moveSpeed;
@@ -735,7 +735,7 @@ void	load_texture(t_info *info)
     load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
     load_image(info, info->texture[5], "textures/mossy.xpm", &img);
     load_image(info, info->texture[6], "textures/wood.xpm", &img);
-    load_image(info, info->texture[7], "textures/colorstone.xpm", &img);
+    load_image(info, info->texture[7], "textures/barrel.xpm", &img);
 	load_image(info, info->texture[8], "textures/barrel.xpm", &img);
 	load_image(info, info->texture[9], "textures/pillar.xpm", &img);
 	load_image(info, info->texture[10], "textures/greenlight.xpm", &img);
