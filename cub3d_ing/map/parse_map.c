@@ -6,9 +6,47 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 16:12:38 by gjeon             #+#    #+#             */
-/*   Updated: 2021/04/12 17:22:54 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/04/21 17:58:14 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "cub3d.h"
+
+int		is_space(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	else
+		return (-1);
+}
+
+int		is_map_character(char c)
+{
+	if (c == '0' || c == '1' || c == '2' || c == 'N' || c == 'S' ||
+			c == 'W' || c == 'E')
+		return (1);
+	return (0);
+}
+
+int		save_map(char *line, int gnl_return)
+{
+	static char	**save;
+	char		*tmp;
+	int			line_len;
+
+	line_len = ft_strlen(line);
+	tmp = *save;
+	*save = ft_strjoin(*save, line);
+	free(tmp);
+	if (gnl_return != 0)
+	{
+		tmp = *save;
+		*save = ft_strjoin(*save, "\n");
+		free(tmp);
+	}
+	free(line);
+	return (line_len);
+}
 
 int		is_type_identifier(char a, char b, char *line)
 {
