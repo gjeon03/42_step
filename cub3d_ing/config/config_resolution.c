@@ -6,11 +6,11 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:26:03 by gjeon             #+#    #+#             */
-/*   Updated: 2021/04/21 18:02:24 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/03 05:30:28 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 int		config_resolution(char *line,  t_info *info)
 {
@@ -70,7 +70,7 @@ int		config_path(int index, char *line, t_info *info)
 	int		start;
 	int		end;
 	char	*path;
-
+	
 	start = 0;
 	while (is_space(line[start]))
 		start++;
@@ -112,8 +112,8 @@ int		config_color(char location, char *line, t_info *info)
 	}
 	color = (r * 256 * 256) + (g * 256) + b;
 	if (location == 'F')
-		info->f_color = color;
+		info->color->f_color = color;
 	else if (location == 'C')
-		info->c_color = color;
+		info->color->c_color = color;
 	return (1);
 }
