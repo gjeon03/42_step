@@ -6,11 +6,11 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 16:28:22 by gjeon             #+#    #+#             */
-/*   Updated: 2021/04/21 17:57:53 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/03 05:30:57 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../include/cub3d.h"
 
 int		check_file_name(char *file_name)
 {

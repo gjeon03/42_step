@@ -42,8 +42,14 @@ typedef struct	s_key
 
 typedef struct	s_path
 {
-	char		**path;
+	char		*path[5];
 }				t_path;
+
+typedef struct	s_color
+{
+	int			f_color;
+	int			c_color;
+}				t_color;
 
 int		check_file_name(char *file_name);
 int		treat_description(char *file_name, t_info *info);
