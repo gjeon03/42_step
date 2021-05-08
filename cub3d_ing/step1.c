@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 23:08:51 by gjeon             #+#    #+#             */
-/*   Updated: 2021/04/08 20:02:51 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/08 10:52:22 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,21 +179,21 @@ void	sortSprites(int *order, double *dist, int amount)
 int worldMap[mapWidth][mapHeight] =
 {
 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,2,0,2,0,2,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,2,0,0,0,2,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,2,0,2,0,2,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,1,0,1,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,1,2,2,2,2,2,1,0,1,0,2,0,2,0,2,0,0,0,1},
+  {1,1,1,1,1,1,2,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1},
+  {1,0,0,0,0,0,2,0,0,0,2,1,0,1,0,2,0,0,0,2,0,0,0,1},
+  {1,0,0,1,0,0,2,0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,1,1,1,2,2,0,2,2,0,1,1,0,2,0,2,0,2,0,0,0,1},
+  {1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1},
+  {1,0,0,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+  {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,2,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
   {1,2,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -228,13 +228,12 @@ void	imageDraw(t_info *info)
 
 int		calculateAndSaveToMap(t_info *info)
 {
-	/*for (int x = 0; x < screenWidth; x++)
+	for (int x = 0; x < screenWidth; x++)
 		for (int y = 0; y < screenHeight; y++)
 		{
 			info->buf[y][x] = 0xFFFFFF;
 			info->buf[screenHeight - y - 1][x] = 0x000000;
 		}
-	*/
     //int color = info->texture[texNum][texHeight * texY + texX];
 
 	/*double	cameraX;
@@ -262,6 +261,7 @@ int		calculateAndSaveToMap(t_info *info)
 	double	texPos;
 */
 	int		color;
+	/*======
 	for (int y = 0; y < screenHeight; y++)
 	{
 		//가장 왼쪽 광선 (x = 0) 및 가장 오른쪽 광선 (x = w)에 대한
@@ -318,7 +318,7 @@ int		calculateAndSaveToMap(t_info *info)
 			
 			info->buf[screenHeight - y - 1][x] = color;
 		}
-	}
+	}=====*/
 
 	/*int p = 0;
 	for (int x = 0; x < mapWidth; x++)
@@ -638,6 +638,20 @@ void	key_update(t_info *info)
 		if(!worldMap[(int)(info->posX)][(int)(info->posY - info->dirY * info->moveSpeed)])
 			info->posY -= info->dirY * info->moveSpeed;
 	}
+	if (info->key_a)
+	{
+		if(!worldMap[(int)(info->posX - info->planeX * info->moveSpeed)][(int)(info->posY)])
+			info->posX -= info->planeX * info->moveSpeed;
+		if(!worldMap[(int)(info->posX)][(int)(info->posY - info->planeY * info->moveSpeed)])
+			info->posY -= info->planeY * info->moveSpeed;
+	}
+	if (info->key_d)
+	{
+		if(!worldMap[(int)(info->posX + info->planeX * info->moveSpeed)][(int)(info->posY)])
+			info->posX += info->planeX * info->moveSpeed;
+		if(!worldMap[(int)(info->posX)][(int)(info->posY + info->planeY * info->moveSpeed)])
+			info->posY += info->planeY * info->moveSpeed;
+	}
 	if (info->key_r)
 	{
 		double oldDirX = info->dirX;
@@ -655,20 +669,6 @@ void	key_update(t_info *info)
 		double oldPlaneX = info->planeX;
 		info->planeX = info->planeX * cos(info->rotSpeed) - info->planeY * sin(info->rotSpeed);
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
-	}
-	if (info->key_a)
-	{
-		if(!worldMap[(int)(info->posX + info->planeX * info->moveSpeed)][(int)(info->posY)])
-			info->posX -= info->planeX * info->moveSpeed;
-		if(!worldMap[(int)(info->posX)][(int)(info->posY + info->planeY * info->moveSpeed)])
-			info->posY -= info->planeY * info->moveSpeed;
-	}
-	if (info->key_d)
-	{
-		if(!worldMap[(int)(info->posX + info->planeX * info->moveSpeed)][(int)(info->posY)])
-			info->posX += info->planeX * info->moveSpeed;
-		if(!worldMap[(int)(info->posX)][(int)(info->posY + info->planeY * info->moveSpeed)])
-			info->posY += info->planeY * info->moveSpeed;
 	}
 	if (info->key_esc)
 		exit(0);
@@ -728,17 +728,17 @@ void	load_texture(t_info *info)
 {
 	t_img	img;
 
-	load_image(info, info->texture[0], "textures/eagle.xpm", &img);
-    load_image(info, info->texture[1], "textures/redbrick.xpm", &img);
-    load_image(info, info->texture[2], "textures/purplestone.xpm", &img);
-    load_image(info, info->texture[3], "textures/greystone.xpm", &img);
-    load_image(info, info->texture[4], "textures/bluestone.xpm", &img);
-    load_image(info, info->texture[5], "textures/mossy.xpm", &img);
-    load_image(info, info->texture[6], "textures/wood.xpm", &img);
-    load_image(info, info->texture[7], "textures/barrel.xpm", &img);
+	load_image(info, info->texture[0], "textures/north.xpm", &img);
+    load_image(info, info->texture[1], "textures/south.xpm", &img);
+    load_image(info, info->texture[2], "textures/west.xpm", &img);
+    load_image(info, info->texture[3], "textures/east.xpm", &img);
+    load_image(info, info->texture[4], "textures/north.xpm", &img);
+    load_image(info, info->texture[5], "textures/south.xpm", &img);
+    load_image(info, info->texture[6], "textures/west.xpm", &img);
+    load_image(info, info->texture[7], "textures/east.xpm", &img);
 	load_image(info, info->texture[8], "textures/barrel.xpm", &img);
-	load_image(info, info->texture[9], "textures/pillar.xpm", &img);
-	load_image(info, info->texture[10], "textures/greenlight.xpm", &img);
+	load_image(info, info->texture[9], "textures/barrel.xpm", &img);
+	load_image(info, info->texture[10], "textures/barrel.xpm", &img);
 }
 
 int		main_loop(t_info *info)

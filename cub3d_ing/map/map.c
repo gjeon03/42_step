@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 16:28:22 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/03 05:30:57 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/07 00:29:57 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		treat_description(char *file_name, t_info *info)
 		return (-1);
 	while ((gnl_return = get_next_line(fd, &line)) >= 0)
 	{
-		parse_line(line, info, gnl_return);
+		parse_line(line, gnl_return, info);
 		free(line);
 	}
 	close(fd);

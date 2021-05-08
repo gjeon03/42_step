@@ -5,8 +5,10 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <math.h>
-# include <./libft/libft.h>
-# include "mlx"
+# include "../utiles/libft/libft.h"
+# include "../utiles/get_next_line/get_next_line.h"
+//# include "mlx"
+# include <fcntl.h>
 
 # define WIN_TITLE "cub3D"
 # define KEY_ESC 53
@@ -24,6 +26,12 @@ typedef struct	s_mlx
 	void		*mlx;
 	void		*win;
 }				t_mlx;
+
+typedef struct	s_window
+{
+	int			width;
+	int			height;
+}				t_window;
 
 typedef struct	s_img
 {
@@ -51,13 +59,34 @@ typedef struct	s_color
 	int			c_color;
 }				t_color;
 
+typedef struct	s_map
+{
+	int			row;
+	int			col;
+	char		**tab;
+}				t_map;
+
+typedef struct	s_info
+{
+	t_mlx		mlx;
+	t_map		map;
+	t_window	window;
+	t_color		color;
+	t_path		path;
+}				t_info;
+
 int		check_file_name(char *file_name);
 int		treat_description(char *file_name, t_info *info);
+
 int		is_space(char c);
 int		is_map_character(char c);
-int		save_map(char *line, int gnl_return);
-int		is_type_identifier(char a, char b, char *line);
-int		parse_line(char *line, t_info *info, int gnl_return);
+int		save_map(char *line, int gnl_return, t_info *info);
+int		is_type_identifier(char a, char b, char *line, t_info *info);
+int		parse_line(char *line, int gnl_return, t_info *info);
+
+void	check_map(t_info *info);
+int		check_space_sround_position(t_info *info, int i, int j);
+int		set_map(t_info *info, char *save);
 
 int		config_resolution(char *line, t_info *info);
 int 	file_exists(char *file_name);
@@ -67,4 +96,5 @@ int		config_color(char location, char *line, t_info *info);
 int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 
+int		print_error(char *str);
 # endif

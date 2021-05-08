@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:26:03 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/03 05:30:28 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/07 00:43:17 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int		config_resolution(char *line,  t_info *info)
 		return (-1);
 	else
 	{
-		info->window->width = x;
-		info->window->height = y;
+		info->window.width = x;
+		info->window.height = y;
 	}
 	return (1);
 }
@@ -78,7 +78,7 @@ int		config_path(int index, char *line, t_info *info)
 	path = ft_substr(line, start, end - start);
 	if (!path || !file_exists(path))
 		return (print_error("invalid path"));
-	info->path[index] = path;
+	info->path.path[index] = path;
 	return (1);
 }
 
@@ -88,7 +88,7 @@ int		config_color(char location, char *line, t_info *info)
 	int				r;
 	int				g;
 	int				b;
-	unsigned int	*color;
+	unsigned int	color;
 
 	i = 0;
 	while (is_space(line[i]))
@@ -112,8 +112,8 @@ int		config_color(char location, char *line, t_info *info)
 	}
 	color = (r * 256 * 256) + (g * 256) + b;
 	if (location == 'F')
-		info->color->f_color = color;
+		info->color.f_color = color;
 	else if (location == 'C')
-		info->color->c_color = color;
+		info->color.c_color = color;
 	return (1);
 }
