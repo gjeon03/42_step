@@ -6,9 +6,12 @@
 # include <unistd.h>
 # include <math.h>
 # include "../utiles/libft/libft.h"
-# include "../utiles/get_next_line/get_next_line.h"
+//# include "../utiles/get_next_line/get_next_line.h"
 //# include "mlx"
 # include <fcntl.h>
+
+# define O_MAX 256
+# define BUFFER_SIZE 200
 
 # define WIN_TITLE "cub3D"
 # define KEY_ESC 53
@@ -68,8 +71,9 @@ typedef struct	s_map
 
 typedef struct	s_info
 {
+	int			test;
 	t_mlx		mlx;
-	t_map		map;
+	t_map		*map;
 	t_window	window;
 	t_color		color;
 	t_path		path;
@@ -97,4 +101,6 @@ int		key_press(int key, t_info *info);
 int		key_release(int key, t_info *info);
 
 int		print_error(char *str);
+
+int		get_next_line(int fd, char **line);
 # endif

@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 16:12:38 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/07 00:33:22 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/08 12:24:07 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ int		is_space(char c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
-	else
-		return (-1);
+	return (0);
 }
 
 int		is_map_character(char c)
@@ -47,6 +46,7 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	}
 	else
 	{
+		printf("yyy\n");
 		set_map(info, save);
 		check_map(info);
 	}
@@ -92,13 +92,25 @@ int		parse_line(char *line, int gnl_return, t_info *info)
 	while (line[i] != '\0')
 	{
 		if (is_space(line[i]))
+		{
 			i++;
+			printf("rr111\n");
+		}
 		else if (is_type_identifier(line[i], line[i + 1], line, info))
+		{
+			printf("rr222\n");
 			break ;
+		}
 		else if (is_map_character(line[i]))
+		{
 			i += save_map(line, gnl_return, info);
+			printf("rr333\n");
+		}
 		else
+		{
+			printf("rr444\n");
 			return (-1);
+		}
 	}
 	return (1);
 }
