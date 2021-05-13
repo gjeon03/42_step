@@ -16,17 +16,51 @@ int		set_map(t_info *info, char *save)
 {
 	int		i;
 	int		j;
+	int		col;
 	int		start;
 
 	i = -1;
-	info->map->row = 1;
-	printf("ttt%s\n", save);
-	while (save[i])
-		if (save[i++] == '\n')
-			info->map->row++;
-	if (!(info->map->tab = malloc(sizeof(char) * info->map->row)))
+	if (!(info->map->tab = malloc(sizeof(char) * (info->map->row + 1))))
 		return (-1);
 	i = 0;
+	start = 0;
+	col = 0;
+	j = 0;
+	printf("row=%d\n", info->map->row);
+	printf("col=%d\n", info->map->col);
+	printf("save=\n%s\n====\n", save);
+	while (i < info->map->row)
+	{
+		col = 0;
+		while (save[col] != '\n')
+			col++;
+		if (!(info->map->tab[i] = malloc(sizeof(char) * (info->map->col + 1))))
+			return (-1);
+		ft_strlcpy(info->map->tab[i], save, col + 1);
+		printf("tab=%s\n", info->map->tab[i]);
+		i++;
+		save += col + 1;
+	}
+	/*while (i < info->map->row)
+	{
+		while (save[col] != '\n')
+			col++;
+		if (!(info->map->tab[i] = malloc(sizeof(char) * (col + 1))))
+			return (-1);
+		j = 0;
+		while (save[start] != '\n')
+		{
+			if (is_space(save[start]) == 0)
+				info->map->tab[i][j++] = save[start];
+			start++;
+		}
+		info->map->tab[i][j] = '\0';
+		printf("info-tab=\n%s\n=====", info->map->tab[i]);
+		start++;
+		col++;
+		i++;
+	}*/
+	/*
 	j = 0;
 	while (save[j] != '\n')
 		j++;
@@ -41,6 +75,7 @@ int		set_map(t_info *info, char *save)
 		i++;
 		j += (info->map->col + 1);
 	}
+	*/
 	return (0);
 }
 
@@ -66,7 +101,7 @@ void	check_map(t_info *info)
 	int	j;
 
 	i = 0;
-	while (info->map->tab[i])
+	while (i < info->map->row)
 	{
 		j = 0;
 		while (info->map->tab[i][j])
@@ -74,7 +109,10 @@ void	check_map(t_info *info)
 			if (info->map->tab[i][j] != '1' &&
 					info->map->tab[i][j] != ' ' &&
 					check_space_around_position(info, i, j))
+			{
 				print_error("map error");
+				return ;
+			}
 			j++;
 		}
 		i++;

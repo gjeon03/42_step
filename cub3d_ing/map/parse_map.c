@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/12 16:12:38 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/08 12:24:07 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/05/13 19:02:22 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		is_space(char c)
 {
-	if ((c >= 9 && c <= 13) || c == 32)
+	if ((9 <= c && c <= 13) || c == 32)
 		return (1);
 	return (0);
 }
@@ -34,23 +34,27 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	int			line_len;
 
 	line_len = ft_strlen(line);
-	tmp = save;
-	save = ft_strjoin(save, line);
+	if (line_len > info->map->col)
+		info->map->col = line_len;
+	tmp = ft_strjoin(save, line);
 	if (save != 0)
-		free(tmp);
+		free(save);
+	save = tmp;
+	//printf("line%s\n", line);
 	if (gnl_return != 0)
 	{
-		tmp = save;
-		save = ft_strjoin(save, "\n");
-		free(tmp);
+		info->map->row++;
+		tmp = ft_strjoin(save, "\n");
+		free(save);
+		save = tmp;
 	}
 	else
 	{
-		printf("yyy\n");
+		//info->map->row++;
 		set_map(info, save);
 		check_map(info);
 	}
-	free(line);
+	//free(line);
 	return (line_len);
 }
 
@@ -59,22 +63,20 @@ int		is_type_identifier(char a, char b, char *line, t_info *info)
 	if ((a == 'R' || a == 'S' || a == 'F' || a == 'C') && is_space(b))
 	{
 		if (a == 'R')
-			config_resolution(line + 1, info);
+			return (config_resolution(line + 1, info));
 		else if (a == 'S')
-			config_path(4, line + 1, info);
+			return (config_path(4, line + 1, info));
 		else
-			config_color(a, line + 1, info);
+			return (config_color(a, line + 1, info));
 	}
-	else if (a == 'N' && b == '0')
-		config_path(0, line + 2, info);
-	else if (1 == 'S' && b == '0')
-		config_path(1, line + 2, info);
-	else if (1 == 'W' && b == 'E')
-		config_path(2, line + 2, info);
-	else if (1 == 'E' && b == 'A')
-		config_path(3, line + 2, info);
-	else
-		return (-1);
+	else if (a == 'N' && b == 'O')
+		return (config_path(0, line + 2, info));
+	else if (a == 'S' && b == 'O')
+		return (config_path(1, line + 2, info));
+	else if (a == 'W' && b == 'E')
+		return (config_path(2, line + 2, info));
+	else if (a == 'E' && b == 'A')
+		return (config_path(3, line + 2, info));
 	return (0);
 }
 
@@ -86,31 +88,25 @@ int		parse_line(char *line, int gnl_return, t_info *info)
 	//int		result;
 
 	line_length = ft_strlen(line);
-	if (line_length == 0)
-		return (0);
+	if (gnl_return == 0)
+	{
+	//	return (0);
+		save_map(line, gnl_return, info);
+	}
 	i = 0;
 	while (line[i] != '\0')
 	{
 		if (is_space(line[i]))
-		{
 			i++;
-			printf("rr111\n");
-		}
-		else if (is_type_identifier(line[i], line[i + 1], line, info))
-		{
-			printf("rr222\n");
+		else if (is_type_identifier(line[i], line[i + 1], line + i, info))
 			break ;
-		}
 		else if (is_map_character(line[i]))
 		{
-			i += save_map(line, gnl_return, info);
-			printf("rr333\n");
+			save_map(line, gnl_return, info);
+			break ;
 		}
 		else
-		{
-			printf("rr444\n");
 			return (-1);
-		}
 	}
 	return (1);
 }

@@ -31,13 +31,10 @@ int		treat_description(char *file_name, t_info *info)
 	int		gnl_return;
 	char	*line;
 
-	printf("test01\n");
 	if (!check_file_name(file_name))
 		return (-1);
-	printf("test02\n");
 	if (!(fd = open(file_name, O_RDONLY)))
 		return (-1);
-	printf("test03\n");
 	while ((gnl_return = get_next_line(fd, &line)) >= 0)
 	{
 		parse_line(line, gnl_return, info);

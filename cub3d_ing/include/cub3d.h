@@ -74,9 +74,9 @@ typedef struct	s_info
 	int			test;
 	t_mlx		mlx;
 	t_map		*map;
-	t_window	window;
+	t_window	*window;
 	t_color		color;
-	t_path		path;
+	t_path		*path;
 }				t_info;
 
 int		check_file_name(char *file_name);

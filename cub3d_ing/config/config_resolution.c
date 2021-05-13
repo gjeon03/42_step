@@ -21,7 +21,7 @@ int		config_resolution(char *line,  t_info *info)
 	i = 0;
 	x = 0;
 	y = 0;
-	while (is_space(line[i]))
+	while (is_space(line[i]) || line[i] == 'R')
 		i++;
 	while (ft_isdigit(line[i]))
 	{
@@ -39,8 +39,8 @@ int		config_resolution(char *line,  t_info *info)
 		return (-1);
 	else
 	{
-		info->window.width = x;
-		info->window.height = y;
+		info->window->width = x;
+		info->window->height = y;
 	}
 	return (1);
 }
@@ -78,7 +78,7 @@ int		config_path(int index, char *line, t_info *info)
 	path = ft_substr(line, start, end - start);
 	if (!path || !file_exists(path))
 		return (print_error("invalid path"));
-	info->path.path[index] = path;
+	info->path->path[index] = path;
 	return (1);
 }
 
