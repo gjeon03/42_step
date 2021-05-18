@@ -40,7 +40,6 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	if (save != 0)
 		free(save);
 	save = tmp;
-	//printf("line%s\n", line);
 	if (gnl_return != 0)
 	{
 		info->map->row++;
@@ -50,11 +49,9 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	}
 	else
 	{
-		//info->map->row++;
 		set_map(info, save);
-		check_map(info);
+		info->map->map_flag = 1;
 	}
-	//free(line);
 	return (line_len);
 }
 
@@ -82,17 +79,12 @@ int		is_type_identifier(char a, char b, char *line, t_info *info)
 
 int		parse_line(char *line, int gnl_return, t_info *info)
 {
-	//t_map	*map;
 	int		i;
 	int		line_length;
-	//int		result;
 
 	line_length = ft_strlen(line);
 	if (gnl_return == 0)
-	{
-	//	return (0);
 		save_map(line, gnl_return, info);
-	}
 	i = 0;
 	while (line[i] != '\0')
 	{
@@ -102,11 +94,12 @@ int		parse_line(char *line, int gnl_return, t_info *info)
 			break ;
 		else if (is_map_character(line[i]))
 		{
-			save_map(line, gnl_return, info);
-			break ;
+			return (save_map(line, gnl_return, info));
 		}
 		else
 			return (-1);
 	}
+	if (info->map->map_flag == 1)
+		return (check_map(info));
 	return (1);
 }

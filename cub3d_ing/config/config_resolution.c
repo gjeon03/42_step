@@ -78,7 +78,7 @@ int		config_path(int index, char *line, t_info *info)
 	path = ft_substr(line, start, end - start);
 	if (!path || !file_exists(path))
 		return (print_error("invalid path"));
-	info->path->path[index] = path;
+	info->path[index] = path;
 	return (1);
 }
 
@@ -112,8 +112,8 @@ int		config_color(char location, char *line, t_info *info)
 	}
 	color = (r * 256 * 256) + (g * 256) + b;
 	if (location == 'F')
-		info->color.f_color = color;
+		info->color->f_color = color;
 	else if (location == 'C')
-		info->color.c_color = color;
+		info->color->c_color = color;
 	return (1);
 }

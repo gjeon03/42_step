@@ -20,15 +20,12 @@ int		set_map(t_info *info, char *save)
 	int		start;
 
 	i = -1;
-	if (!(info->map->tab = malloc(sizeof(char) * (info->map->row + 1))))
+	if (!(info->map->tab = malloc(sizeof(char*) * (info->map->row + 1))))
 		return (-1);
 	i = 0;
 	start = 0;
 	col = 0;
 	j = 0;
-	printf("row=%d\n", info->map->row);
-	printf("col=%d\n", info->map->col);
-	printf("save=\n%s\n====\n", save);
 	while (i < info->map->row)
 	{
 		col = 0;
@@ -37,45 +34,9 @@ int		set_map(t_info *info, char *save)
 		if (!(info->map->tab[i] = malloc(sizeof(char) * (info->map->col + 1))))
 			return (-1);
 		ft_strlcpy(info->map->tab[i], save, col + 1);
-		printf("tab=%s\n", info->map->tab[i]);
 		i++;
 		save += col + 1;
 	}
-	/*while (i < info->map->row)
-	{
-		while (save[col] != '\n')
-			col++;
-		if (!(info->map->tab[i] = malloc(sizeof(char) * (col + 1))))
-			return (-1);
-		j = 0;
-		while (save[start] != '\n')
-		{
-			if (is_space(save[start]) == 0)
-				info->map->tab[i][j++] = save[start];
-			start++;
-		}
-		info->map->tab[i][j] = '\0';
-		printf("info-tab=\n%s\n=====", info->map->tab[i]);
-		start++;
-		col++;
-		i++;
-	}*/
-	/*
-	j = 0;
-	while (save[j] != '\n')
-		j++;
-	info->map->col = j;
-	j = 0;
-	while (i < info->map->row)
-	{
-		start = j;
-		if (!(info->map->tab[i] = malloc(sizeof(char) * (info->map->col + 1))))
-			return (-1);
-		ft_strlcpy(info->map->tab[i], save + start, j + info->map->col + 1);
-		i++;
-		j += (info->map->col + 1);
-	}
-	*/
 	return (0);
 }
 
@@ -95,26 +56,42 @@ int		check_space_around_position(t_info *info, int i, int j)
 	return (0);
 }
 
-void	check_map(t_info *info)
+int		check_map(t_info *info)
 {
 	int	i;
 	int	j;
+	int	dir_flag;
 
+	dir_flag = 0;
 	i = 0;
 	while (i < info->map->row)
 	{
 		j = 0;
 		while (info->map->tab[i][j])
 		{
-			if (info->map->tab[i][j] != '1' &&
-					info->map->tab[i][j] != ' ' &&
-					check_space_around_position(info, i, j))
+			if (ft_strchr(DIR_CH, info->map->tab[i][j]))
 			{
-				print_error("map error");
-				return ;
+				/*if (info->map->tab[i][j] == 'N')
+					info->window->dirX = -1.0;
+				else if (info->map->tab[i][j] == 'S')
+					info->window->dirX = 1.0;
+				*/
+				info->window->posX = i;
+				info->window->posY = j;
+				info->window->dir = info->map->tab[i][j];
+				dir_flag++;
+			}
+			if ((info->map->tab[i][j] != '1' &&
+					info->map->tab[i][j] != ' ' &&
+					check_space_around_position(info, i, j)) ||
+					dir_flag > 1)
+			{
+				print_error("map error\n");
+				return (-1);
 			}
 			j++;
 		}
 		i++;
 	}
+	return (1);
 }

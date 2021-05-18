@@ -30,22 +30,20 @@ int		treat_description(char *file_name, t_info *info)
 	int		fd;
 	int		gnl_return;
 	char	*line;
+	int		error_ch;
 
+	error_ch = 1;
 	if (!check_file_name(file_name))
 		return (-1);
 	if (!(fd = open(file_name, O_RDONLY)))
 		return (-1);
 	while ((gnl_return = get_next_line(fd, &line)) >= 0)
 	{
-		parse_line(line, gnl_return, info);
+		error_ch = parse_line(line, gnl_return, info);
 		free(line);
 		if (gnl_return == 0)
 			break ;
 	}
-	info->test = 1;
-	//info->map.row = 22;
-	printf("row=%d\n", info->map->row);
-	printf("test05\n");
 	close(fd);
-	return (1);
+	return (error_ch);
 }

@@ -622,6 +622,12 @@ t_sprite	sprite[numSprites];
 	return (0);
 }
 
+int		cub_close(void)
+{
+	printf("bye\n");
+	exit(0);
+}
+
 void	key_update(t_info *info)
 {
 	if (info->key_w)
@@ -671,7 +677,7 @@ void	key_update(t_info *info)
 		info->planeY = oldPlaneX * sin(info->rotSpeed) + info->planeY * cos(info->rotSpeed);
 	}
 	if (info->key_esc)
-		exit(0);
+		cub_close();
 }
 
 int		key_press(int key, t_info *info)
@@ -798,6 +804,7 @@ int		main(void)
 	mlx_loop_hook(info.mlx, &main_loop, &info);
 	mlx_hook(info.win, 2, 0, &key_press, &info);
 	mlx_hook(info.win, 3, 0, &key_release, &info);
+	mlx_hook(info.win, 17, 1L<<5, cub_close, 0);
 	mlx_loop(info.mlx);
 	//return (0);
 }
