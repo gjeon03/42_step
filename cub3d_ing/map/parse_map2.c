@@ -56,13 +56,21 @@ int		check_space_around_position(t_info *info, int i, int j)
 	return (0);
 }
 
+int		map_error(t_info *info)
+{
+	if ((info->map->tab[i][j] != '1' &&
+			info->map->tab[i][j] != ' ' &&
+			check_space_around_position(info, i, j)) ||
+			info->window->dir_flag > 1)
+		return (print_error("map error\n"));
+	return (1);
+}
+
 int		check_map(t_info *info)
 {
 	int	i;
 	int	j;
-	int	dir_flag;
 
-	dir_flag = 0;
 	i = 0;
 	while (i < info->map->row)
 	{
@@ -71,24 +79,15 @@ int		check_map(t_info *info)
 		{
 			if (ft_strchr(DIR_CH, info->map->tab[i][j]))
 			{
-				/*if (info->map->tab[i][j] == 'N')
-					info->window->dirX = -1.0;
-				else if (info->map->tab[i][j] == 'S')
-					info->window->dirX = 1.0;
-				*/
 				info->window->posX = i;
 				info->window->posY = j;
 				info->window->dir = info->map->tab[i][j];
-				dir_flag++;
+				info->window->dir_flag++;
 			}
-			if ((info->map->tab[i][j] != '1' &&
-					info->map->tab[i][j] != ' ' &&
-					check_space_around_position(info, i, j)) ||
-					dir_flag > 1)
-			{
-				print_error("map error\n");
+			if (info->map->tab[i][j] == '2')
+				info->window->sprite_count++;
+			if ((map_error(info)) == -1)
 				return (-1);
-			}
 			j++;
 		}
 		i++;

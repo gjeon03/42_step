@@ -26,8 +26,8 @@
 
 # define DIR_CH "NSEW"
 
-# define texWidth 64
-# define texHeight 64
+# define T_WIDTH 64
+# define T_HEIGTH 64
 
 typedef struct	s_mlx
 {
@@ -47,10 +47,13 @@ typedef struct	s_window
 	double		planeY;
 	double		moveSpeed;
 	double		rotSpeed;
+	int			dir_flag;
+	int			sprite_count;
 }				t_window;
 
 typedef struct	s_img
 {
+	int			x;
 	void		*img;
 	int			*data;
 	int			size_l;
@@ -59,6 +62,18 @@ typedef struct	s_img
 	int			img_width;
 	int			img_height;
 }				t_img;
+
+typedef struct	s_tex
+{
+	void		*img;
+	char		*data;
+	int			bpp;
+	int			endian;
+	int			size_l;
+	int			img_width;
+	int			img_height;
+
+}				t_tex;
 
 typedef struct	s_key
 {
@@ -109,6 +124,9 @@ typedef struct	s_ray
 	int			side;
 	int			drawStart;
 	int			drawEnd;
+	int			lineHeight
+	int			color;
+	int			hit;
 }				t_ray;
 
 typedef struct	s_pair
@@ -119,15 +137,18 @@ typedef struct	s_pair
 
 typedef struct	s_info
 {
-	t_mlx		*mlx;
+	void		*mlx;
+	void		*win;
 	t_map		*map;
 	t_window	*window;
 	t_color		*color;
 	t_img		*img;
+	t_key		key;
 	double		*zBuffer;
 	int			*buf;
 	int			**texture;
 	char		**path;
+	t_tex		tex[5];
 }				t_info;
 
 int		check_file_name(char *file_name);

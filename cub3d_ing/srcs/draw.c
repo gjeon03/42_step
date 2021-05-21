@@ -1,20 +1,58 @@
 #include "../include/cub3d.h"
 
-void	imageDraw(t_info *info, t_ray *ray, int **buf)
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
-	int	x;
-	int	y;
+	char	*dst;
 
-	y = 0;
-	while (y < info->window->height)
+	dst = img->data + (y * img->size_l + x * (img->bpp / 8));
+	*(unsigned int*)dst = color;
+}
+
+void	draw_verline(t_img *img, int y1, int y2, int color)
+{
+	int y;
+
+	y = y1;
+	while (y < y2)
 	{
-		x = 0;
-		while (x < info->window->width)
-		{
-			info->img.data[y * info->window->width + x] = buf[y][x];
-			x++;
-		}
+		my_mlx_pixel_put(mlx, img->x, y, color);
 		y++;
 	}
-	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
+}
+
+void	start_dir(char init_dir, t_info *info)
+{
+	if (init_dir == 'N')
+	{
+		info->window->dirX = -1.0;
+		info->window->dirY = 0.0;
+		info->window->planeX = 0.0;
+		info->window->planeY = 0.66;
+	}
+	else if (init_dir == 'S')
+	{
+		info->window->dirX = 1.0;
+		info->window->dirY = 0.0;
+		info->window->planeX = 0.0;
+		info->window->planeY = -0.66;
+	}
+	star_dir2(init_dir, mlx);
+}
+
+void	tar_dir2(char init_dir, t_mlx *mlx)
+{
+	if (init_dir == 'W')
+	{
+		info->window->dirX = 0.0;
+		info->window->dirY = -1.0;
+		info->window->planeX = -0.66;
+		info->window->planeY = 0.0;
+	}
+	else if (init_dir == 'E')
+	{
+		info->window->dirX = 1.0;
+		info->window->dirY = 1.0;
+		info->window->planeX = 0.66;
+		info->window->planeY = 0.0;
+	}
 }
