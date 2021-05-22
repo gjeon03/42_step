@@ -39,8 +39,8 @@ int		config_resolution(char *line,  t_info *info)
 		return (-1);
 	else
 	{
-		info->window->width = x;
-		info->window->height = y;
+		info->config.width = x;
+		info->config.height = y;
 	}
 	return (1);
 }
@@ -70,6 +70,7 @@ int		config_path(int index, char *line, t_info *info)
 	int		start;
 	int		end;
 	char	*path;
+	int		i;
 	
 	start = 0;
 	while (is_space(line[start]))
@@ -77,7 +78,14 @@ int		config_path(int index, char *line, t_info *info)
 	end = ft_strlen(line);
 	path = ft_substr(line, start, end - start);
 	if (!path || !file_exists(path))
-		return (print_error("invalid path"));
+		return (cub_close("invalid path"));
+	i = 0;
+	while (end - i >= 0)
+	{
+		if (path[end - i] == 'm')
+			path[end - i + 1] = '\0';
+		i++;
+	}
 	info->path[index] = path;
 	return (1);
 }
@@ -112,8 +120,8 @@ int		config_color(char location, char *line, t_info *info)
 	}
 	color = (r * 256 * 256) + (g * 256) + b;
 	if (location == 'F')
-		info->color->f_color = color;
+		info->config.f_color = color;
 	else if (location == 'C')
-		info->color->c_color = color;
+		info->config.c_color = color;
 	return (1);
 }

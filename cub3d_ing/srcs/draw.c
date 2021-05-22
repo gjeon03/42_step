@@ -1,58 +1,59 @@
 #include "../include/cub3d.h"
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	imageDraw(t_info *info)
 {
-	char	*dst;
+	int x;
+	int	y;
 
-	dst = img->data + (y * img->size_l + x * (img->bpp / 8));
-	*(unsigned int*)dst = color;
-}
-
-void	draw_verline(t_img *img, int y1, int y2, int color)
-{
-	int y;
-
-	y = y1;
-	while (y < y2)
+	y = 0;
+	while (y < info->config.height)
 	{
-		my_mlx_pixel_put(mlx, img->x, y, color);
+		x = 0;
+		while (x < info->config.width)
+		{
+			info->img.data[y * info->config.width + x] = info->buf[y][x];
+			x++;
+		}
 		y++;
 	}
+	mlx_put_image_to_window(info->mlx, info->win, info->img.img, 0, 0);
 }
 
-void	start_dir(char init_dir, t_info *info)
+void	start_dir(t_info *info)
 {
-	if (init_dir == 'N')
+	info->player.moveSpeed = 0.05;
+	info->player.rotSpeed = 0.05;
+	if (info->config.dir == 'N')
 	{
-		info->window->dirX = -1.0;
-		info->window->dirY = 0.0;
-		info->window->planeX = 0.0;
-		info->window->planeY = 0.66;
+		info->player.dirX = -1.0;
+		info->player.dirY = 0.0;
+		info->player.planeX = 0.0;
+		info->player.planeY = 0.66;
 	}
-	else if (init_dir == 'S')
+	else if (info->config.dir == 'S')
 	{
-		info->window->dirX = 1.0;
-		info->window->dirY = 0.0;
-		info->window->planeX = 0.0;
-		info->window->planeY = -0.66;
+		info->player.dirX = 1.0;
+		info->player.dirY = 0.0;
+		info->player.planeX = 0.0;
+		info->player.planeY = -0.66;
 	}
-	star_dir2(init_dir, mlx);
+	start_dir2(info);
 }
 
-void	tar_dir2(char init_dir, t_mlx *mlx)
+void	start_dir2(t_info *info)
 {
-	if (init_dir == 'W')
+	if (info->config.dir == 'W')
 	{
-		info->window->dirX = 0.0;
-		info->window->dirY = -1.0;
-		info->window->planeX = -0.66;
-		info->window->planeY = 0.0;
+		info->player.dirX = 0.0;
+		info->player.dirY = -1.0;
+		info->player.planeX = -0.66;
+		info->player.planeY = 0.0;
 	}
-	else if (init_dir == 'E')
+	else if (info->config.dir == 'E')
 	{
-		info->window->dirX = 1.0;
-		info->window->dirY = 1.0;
-		info->window->planeX = 0.66;
-		info->window->planeY = 0.0;
+		info->player.dirX = 0.0;
+		info->player.dirY = 1.0;
+		info->player.planeX = 0.66;
+		info->player.planeY = 0.0;
 	}
 }

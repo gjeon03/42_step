@@ -5,22 +5,22 @@ void	player_rotright(t_info *info)
 	double oldDirX;
 	double oldPlaneX;
 
-	if (info->key->r)
+	if (info->key.r == 1)
 	{
-		oldDirX = info->window->dirX;
-		info->window->dirX = info->window->dirX
-			* cos(-info->window->rotSpeed) - info->window->dirY
-			* sin(-info->window->rotSpeed);
-		info->window->dirY = oldDirX
-			* sin(-info->window->rotSpeed) + info->window->dirY
-			* cos(-info->window->rotSpeed);
-		oldPlaneX = info->window->planeX;
-		info->window->planeX = info->window->planeX
-			* cos(-info->window->rotSpeed) - info->window->planeY
-			* sin(-info->window->rotSpeed);
-		info->window->planeY = oldPlaneX
-			* sin(-info->window->rotSpeed) + info->window->planeY
-			* cos(-info->window->rotSpeed);
+		oldDirX = info->player.dirX;
+		info->player.dirX = info->player.dirX
+			* cos(-info->player.rotSpeed) - info->player.dirY
+			* sin(-info->player.rotSpeed);
+		info->player.dirY = oldDirX
+			* sin(-info->player.rotSpeed) + info->player.dirY
+			* cos(-info->player.rotSpeed);
+		oldPlaneX = info->player.planeX;
+		info->player.planeX = info->player.planeX
+			* cos(-info->player.rotSpeed) - info->player.planeY
+			* sin(-info->player.rotSpeed);
+		info->player.planeY = oldPlaneX
+			* sin(-info->player.rotSpeed) + info->player.planeY
+			* cos(-info->player.rotSpeed);
 	}
 }
 
@@ -29,21 +29,21 @@ void	player_rotleft(t_info *info)
 	double oldDirX;
 	double oldPlaneX;
 
-	if (info->key->l)
+	if (info->key.l == 1)
 	{
-		oldDirX = info->window->dirX;
-		info->window->dirX = info->window->dirX
-			* cos(info->window->rotSpeed) - info->window->dirY
-			* sin(info->window->rotSpeed);
-		info->window->dirY = oldDirX
-			* sin(info->window->rotSpeed) + info->window->dirY
-			* cos(info->window->rotSpeed);
-		oldPlaneX = info->window->planeX;
-		info->window->planeX = info->window->planeX
-			* cos(info->window->rotSpeed) - info->window->planeY
-			* sin(info->window->rotSpeed);
-		info->window->planeY = oldPlaneX
-			* sin(info->window->rotSpeed) + info->window->planeY
-			* cos(info->window->rotSpeed);
+		oldDirX = info->player.dirX;
+		info->player.dirX = info->player.dirX
+			* cos(info->player.rotSpeed) - info->player.dirY
+			* sin(info->player.rotSpeed);
+		info->player.dirY = oldDirX
+			* sin(info->player.rotSpeed) + info->player.dirY
+			* cos(info->player.rotSpeed);
+		oldPlaneX = info->player.planeX;
+		info->player.planeX = info->player.planeX
+			* cos(info->player.rotSpeed) - info->player.planeY
+			* sin(info->player.rotSpeed);
+		info->player.planeY = oldPlaneX
+			* sin(info->player.rotSpeed) + info->player.planeY
+			* cos(info->player.rotSpeed);
 	}
 }

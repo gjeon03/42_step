@@ -20,20 +20,20 @@ int		set_map(t_info *info, char *save)
 	int		start;
 
 	i = -1;
-	if (!(info->map->tab = malloc(sizeof(char*) * (info->map->row + 1))))
+	if (!(info->map.tab = malloc(sizeof(char*) * (info->map.row + 1))))
 		return (-1);
 	i = 0;
 	start = 0;
 	col = 0;
 	j = 0;
-	while (i < info->map->row)
+	while (i < info->map.row)
 	{
 		col = 0;
 		while (save[col] != '\n')
 			col++;
-		if (!(info->map->tab[i] = malloc(sizeof(char) * (info->map->col + 1))))
+		if (!(info->map.tab[i] = malloc(sizeof(char) * (col + 1))))
 			return (-1);
-		ft_strlcpy(info->map->tab[i], save, col + 1);
+		ft_strlcpy(info->map.tab[i], save, col + 1);
 		i++;
 		save += col + 1;
 	}
@@ -42,27 +42,27 @@ int		set_map(t_info *info, char *save)
 
 int		check_space_around_position(t_info *info, int i, int j)
 {
-	if (i <= 0 || i >= info->map->row || j <= 0 || j >= info->map->col)
+	if (i <= 0 || i >= info->map.row || j <= 0)
 		return (1);
-	else if (info->map->tab[i][j + 1] == ' ' || info->map->tab[i][j + 1] == '\0' ||
-			info->map->tab[i][j - 1] == ' ')
+	else if (info->map.tab[i][j + 1] == ' ' || info->map.tab[i][j + 1] == '\0' ||
+			info->map.tab[i][j - 1] == ' ')
 		return (1);
-	else if ((int)ft_strlen(info->map->tab[i - 1]) <= j ||
-			info->map->tab[i - 1][j] == ' ' || info->map->tab[i - 1][j] == '\0')
+	else if ((int)ft_strlen(info->map.tab[i - 1]) <= j ||
+			info->map.tab[i - 1][j] == ' ' || info->map.tab[i - 1][j] == '\0')
 		return (1);
-	else if ((int)ft_strlen(info->map->tab[i + 1]) <= j ||
-			info->map->tab[i + 1][j] == ' ' || info->map->tab[i + 1][j] == '\0')
+	else if ((int)ft_strlen(info->map.tab[i + 1]) <= j ||
+			info->map.tab[i + 1][j] == ' ' || info->map.tab[i + 1][j] == '\0')
 		return (1);
 	return (0);
 }
 
-int		map_error(t_info *info)
+int		map_error(t_info *info, int i, int j)
 {
-	if ((info->map->tab[i][j] != '1' &&
-			info->map->tab[i][j] != ' ' &&
+	if ((info->map.tab[i][j] != '1' &&
+			info->map.tab[i][j] != ' ' &&
 			check_space_around_position(info, i, j)) ||
-			info->window->dir_flag > 1)
-		return (print_error("map error\n"));
+			info->config.dir_flag > 1)
+		return (cub_close("map error\n"));
 	return (1);
 }
 
@@ -72,21 +72,21 @@ int		check_map(t_info *info)
 	int	j;
 
 	i = 0;
-	while (i < info->map->row)
+	while (i < info->map.row)
 	{
 		j = 0;
-		while (info->map->tab[i][j])
+		while (info->map.tab[i][j])
 		{
-			if (ft_strchr(DIR_CH, info->map->tab[i][j]))
+			if (ft_strchr(DIR_CH, info->map.tab[i][j]))
 			{
-				info->window->posX = i;
-				info->window->posY = j;
-				info->window->dir = info->map->tab[i][j];
-				info->window->dir_flag++;
+				info->config.posX = i;
+				info->config.posY = j;
+				info->config.dir = info->map.tab[i][j];
+				info->config.dir_flag++;
 			}
-			if (info->map->tab[i][j] == '2')
-				info->window->sprite_count++;
-			if ((map_error(info)) == -1)
+			if (info->map.tab[i][j] == '2')
+				sprites_lts(i, j, info);
+			if ((map_error(info, i, j)) == -1)
 				return (-1);
 			j++;
 		}

@@ -34,23 +34,26 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	int			line_len;
 
 	line_len = ft_strlen(line);
-	if (line_len > info->map->col)
-		info->map->col = line_len;
+	//if (line_len > info->map.col)
+	//	info->map.col = line_len;
 	tmp = ft_strjoin(save, line);
 	if (save != 0)
 		free(save);
 	save = tmp;
 	if (gnl_return != 0)
 	{
-		info->map->row++;
+		info->map.row++;
 		tmp = ft_strjoin(save, "\n");
 		free(save);
 		save = tmp;
 	}
 	else
 	{
+		tmp = ft_strjoin(save, "\n");
+		free(save);
+		save = tmp;
 		set_map(info, save);
-		info->map->map_flag = 1;
+		info->map.map_flag = 1;
 	}
 	return (line_len);
 }
@@ -82,24 +85,25 @@ int		parse_line(char *line, int gnl_return, t_info *info)
 	int		i;
 	int		line_length;
 
+	i = 0;
 	line_length = ft_strlen(line);
 	if (gnl_return == 0)
 		save_map(line, gnl_return, info);
-	i = 0;
-	while (line[i] != '\0')
+	else
 	{
-		if (is_space(line[i]))
-			i++;
-		else if (is_type_identifier(line[i], line[i + 1], line + i, info))
-			break ;
-		else if (is_map_character(line[i]))
+		while (line[i] != '\0')
 		{
-			return (save_map(line, gnl_return, info));
+			if (is_space(line[i]))
+				i++;
+			else if (is_type_identifier(line[i], line[i + 1], line + i, info))
+				break ;
+			else if (is_map_character(line[i]))
+				return (save_map(line, gnl_return, info));
+			else
+				return (-1);
 		}
-		else
-			return (-1);
 	}
-	if (info->map->map_flag == 1)
+	if (info->map.map_flag == 1)
 		return (check_map(info));
 	return (1);
 }

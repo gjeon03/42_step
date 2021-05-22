@@ -1,95 +1,96 @@
 #include "../include/cub3d.h"
 
-void	wallcalculation(t_info *info, t_ray *ray)
+void	wallcalculation(t_info *info)
 {
-	ray->lineHeight = (int)(info->window->height / ray->perpWallDist);
-	ray->drawStart = -ray->lineHeight / 2 + info->window->height / 2;
-	if(ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + info->window->height / 2
-	if(ray->drawEnd >= info->window->height)
-		ray->drawEnd = info->window->height - 1;
+	info->ray.lineHeight = (int)(info->config.height / info->ray.perpWallDist);
+	info->ray.drawStart = -info->ray.lineHeight / 2 + info->config.height / 2;
+	if(info->ray.drawStart < 0)
+		info->ray.drawStart = 0;
+	info->ray.drawEnd = info->ray.lineHeight / 2 + info->config.height / 2;
+	if(info->ray.drawEnd >= info->config.height)
+		info->ray.drawEnd = info->config.height - 1;
 }
 
-void	dda_algorithm(t_info *info, t_ray *ray)
+void	dda_algorithm(t_info *info)
 {
-	ray->hit = 0;
-	while (hit == 0)
+	info->ray.hit = 0;
+	int i = 0;
+	while (info->ray.hit == 0)
 	{
-		if (ray->sideDistX < ray->sideDistY)
+		if (info->ray.sideDistX < info->ray.sideDistY)
 		{
-			ray->sideDistX += ray->deltaDistX;
-			ray->mapX += ray->stepX;
-			ray->side = 0;
+			info->ray.sideDistX += info->ray.deltaDistX;
+			info->ray.mapX += info->ray.stepX;
+			info->ray.side = 0;
 		}
 		else
 		{
-			ray->sideDistY += ray->deltaDistY;
-			ray->mapY += ray->stepY;
-			ray->side = 1;
+			info->ray.sideDistY += info->ray.deltaDistY;
+			info->ray.mapY += info->ray.stepY;
+			info->ray.side = 1;
 		}
-		if (info->map->tab[ray->mapX][ray->mapY] > 0)
-			hit = 1;
+		if (info->map.tab[info->ray.mapX][info->ray.mapY] == '1' && info->map.tab[info->ray.mapX][info->ray.mapY] != '2')
+			info->ray.hit = 1;
 	}
-	if (ray->side == 0)
-		ray->perpWallDist = (ray->mapX - info->window->posX
-				+ (1 - ray->stepX) / 2) / ray->rayDirX;
+	if (info->ray.side == 0)
+		info->ray.perpWallDist = (info->ray.mapX - info->config.posX
+				+ (1 - info->ray.stepX) / 2) / info->ray.rayDirX;
 	else
-		ray->perpWallDist = (ray->mapY - info->window->posY
-				+ (1 - ray->stepY) / 2) / ray->rayDirY;
+		info->ray.perpWallDist = (info->ray.mapY - info->config.posY
+				+ (1 - info->ray.stepY) / 2) / info->ray.rayDirY;
 }
 
-void	dist_calculation(t_info *info, t_ray *ray)
+void	dist_calculation(t_info *info)
 {
-	if (ray->rayDirX < 0)
+	if (info->ray.rayDirX < 0)
 	{
-		ray->stepX = -1;
-		ray->sideDistX = (info->window->posX - ray->mapX) * ray->deltaDistX;
+		info->ray.stepX = -1;
+		info->ray.sideDistX = (info->config.posX - info->ray.mapX) * info->ray.deltaDistX;
+	}	
+	else
+	{
+		info->ray.stepX = 1;
+		info->ray.sideDistX = (info->ray.mapX + 1.0 - info->config.posX) * info->ray.deltaDistX;
+	}
+	if (info->ray.rayDirY < 0)
+	{
+		info->ray.stepY = -1;
+		info->ray.sideDistY = (info->config.posY - info->ray.mapY) * info->ray.deltaDistY;
 	}
 	else
 	{
-		ray->stepX = 1;
-		ray->sideDistX = (ray->mapX + 1.0 - info->window->posX)
-				* ray->deltaDistX;
-	}
-	if (ray->rayDirY < 0)
-	{
-		ray->stepY = -1;
-		ray->sideDistY = (info->window->posY - ray->mapY) * ray->deltaDistY;
-	}
-	else
-	{
-		ray->stepY = 1;
-		ray->sideDistY = (ray->mapY + 1.0 - info->window->posY)
-				* ray->deltaDistY;
+		info->ray.stepY = 1;
+		info->ray.sideDistY = (info->ray.mapY + 1.0 - info->config.posY) * info->ray.deltaDistY;
 	}
 }
 
-void	ray_init(t_info *info, t_ray *ray, int x)
+void	ray_init(t_info *info, int x)
 {
-	ray->cameraX = (2 * x / (double)(info->window->width)) - 1;
-	ray->rayDirX = info->window->dirX + info->window->planeX * ray->cameraX;
-	ray->rayDirY = info->window->dirY + info->window->planeY * ray->cameraY;
-	ray->mapX = (int)info->window->posX;
-	ray->mapY = (int)info->window->posY;
-	ray->deltaDistX = fabs(1 / ray->rayDirX);
-	ray->deltaDistY = fabs(1 / ray->rayDirY);
+	info->ray.cameraX = (2 * x / (double)(info->config.width)) - 1;
+	info->ray.rayDirX = info->player.dirX + info->player.planeX * info->ray.cameraX;
+	info->ray.rayDirY = info->player.dirY + info->player.planeY * info->ray.cameraX;
+	info->ray.mapX = (int)info->config.posX;
+	info->ray.mapY = (int)info->config.posY;
+	info->ray.deltaDistX = fabs(1 / info->ray.rayDirX);
+	info->ray.deltaDistY = fabs(1 / info->ray.rayDirY);
 }
 
-int		raycast(t_info *info, t_ray *ray, t_img *img)
+int		raycast(t_info *info)
 {
-	img->x = 0;
-	while (img->x < info->window->width)
+	int	x;
+	int y;
+
+	celling_floot(info);
+	x = 0;
+	while (x < info->config.width)
 	{
-		ray_init(info, ray, img->x);
-		dist_calculation(info, ray);
-		dda_algorithm(info, ray);
-		wallcalculation(info, ray);
-		draw_verline(img, 0, ray->drawStart, info->color->c_color);
-		draw_verline(img, ray->drawEnd + 1, info->window->height - 1, info->color->f_color);
-		print_texture(info, ray, img->x, img);
-		info->zBuffer[img->x] = ray->perpWallDist;
-		img->x++;
+		ray_init(info, x);
+		dist_calculation(info);
+		dda_algorithm(info);
+		wallcalculation(info);
+		print_texture(info, x);
+		info->zBuffer[x] = info->ray.perpWallDist;
+		x++;
 	}
 	return (0);
 }

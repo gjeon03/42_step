@@ -341,8 +341,8 @@ t_sprite	sprite[numSprites];
 			{
 				sprite[k].x = (double)x + 0.5;
 				sprite[k].y = (double)y + 0.5;
-				sprite[k].texture = 8;
-				worldMap[x][y] = 0;
+				//sprite[k].texture = 8;
+				//worldMap[x][y] = 0;
 				k++;
 			}
 		}
@@ -428,7 +428,7 @@ t_sprite	sprite[numSprites];
 				mapY += stepY;//1, -1 중 하나
 				side = 1;//y면에 부딪히면 1
 			}
-			if (worldMap[mapX][mapY] > 0)
+			if (worldMap[mapX][mapY] > 0 && worldMap[mapX][mapY] != 2)
 				hit = 1;
 		}
 		/*
@@ -485,7 +485,7 @@ t_sprite	sprite[numSprites];
 		 * 0으로, 화면 범위 위에 놓여있다면 h - 1으로 덮어씌운다.
 		 */
 
-		int	texNum = worldMap[mapX][mapY] - 1;
+		//int	texNum = worldMap[mapX][mapY] - 1;
 		//1을 빼주는 이유는 0번째 텍스쳐도 0, 벽이 없어도 0이기 때문.
 		double	wallX;
 		if (side == 0)
@@ -519,7 +519,7 @@ t_sprite	sprite[numSprites];
             // Cast the texture coordinate to integer, and mask with (texHeight - 1) in case of overflow
             int texY = (int)texPos & (texHeight - 1);
             texPos += step;
-            color = info->texture[texNum][texHeight * texY + texX];
+            //color = info->texture[texNum][texHeight * texY + texX];
 			
 			if (side == 0 && rayDirX > 0)
 				color = info->texture[1][texHeight * texY + texX];
@@ -534,9 +534,9 @@ t_sprite	sprite[numSprites];
             // 조명표현을 위해 색상을 더 검게 만든다.
             // 이진수를 2로 나눔으로써 RGB값을 반감시킨다.
             // 시프트 연산을 하고 01111111 01111111 01111111(835711)을 & 연산하면
-            // 어두운 값을 줄 수 있다는데 그냥 외워야 쓰것다.
-            if (side == 1)
-                color = (color >> 1) & 8355711;
+            // 어두운 값을 줄 수 있다는데 그냥 외워야 쓰것다.(안넣어도됨.)
+            //if (side == 1)
+            //    color = (color >> 1) & 8355711;
             info->buf[y][x] = color;
 		}
 
@@ -546,6 +546,7 @@ t_sprite	sprite[numSprites];
 	//원거리에서 가까운 스프라이트 정렬
 	for (int i = 0; i< numSprites; i++)
 	{
+		printf("x=%f, y=%f\n", sprite[i].x, sprite[i].y);
 		spriteOrder[i] = i;
 		spriteDistance[i] = ((info->posX - sprite[i].x) * (info->posX - sprite[i].x) + (info->posY - sprite[i].y) * (info->posY - sprite[i].y));
 	}
@@ -556,7 +557,7 @@ t_sprite	sprite[numSprites];
 		//스프라이트 위치를 카메라를 기준으로 변환
 		double	spriteX = sprite[spriteOrder[i]].x - info->posX;
 		double	spriteY = sprite[spriteOrder[i]].y - info->posY;
-
+		
 		//역 카메라 행렬로 스프라이트 변환
 		//[planeZX dirX] - 1 [dirY - dirX]
 		//[] = 1 / (planeX * dirY - dirX * planeY) * []
@@ -575,7 +576,7 @@ t_sprite	sprite[numSprites];
 		int		vMoveScreen = (int)(vMove / transformY);
 
 		//스프라이트 높이 계
-		int	spriteHeight = (int)fabs((screenHeight / transformY) / vDiv);
+		int	spriteHeight = (int)fabs(screenHeight / transformY);
 		//실제 거리 대신 'transformY' 를 사용하면 어안이 방지된다.
 		
 		//현재 스프라이프를 채우기 위해 가장 낮은 픽셀과 가장 높은 픽셀을 계산한다.
@@ -611,7 +612,8 @@ t_sprite	sprite[numSprites];
 					int d = (y - vMoveScreen) * 256 - screenHeight * 128 + spriteHeight * 128;
 					//수레를 피하기 위한 256 및 128요소
 					int	texY = ((d * texHeight) / spriteHeight) / 256;
-					int	color = info->texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX];
+					//int	color = info->texture[sprite[spriteOrder[i]].texture][texWidth * texY + texX];
+					int	color = info->texture[8][texWidth * texY + texX];
 					//텍스처에서 현재 색상 가져오기
 					if ((color & 0x00FFFFFF) != 0)
 						info->buf[y][stripe] = color;
@@ -734,7 +736,7 @@ void	load_texture(t_info *info)
 {
 	t_img	img;
 
-	load_image(info, info->texture[0], "textures/north.xpm", &img);
+	load_image(info, info->texture[0], "./textures/north.xpm", &img);
     load_image(info, info->texture[1], "textures/south.xpm", &img);
     load_image(info, info->texture[2], "textures/west.xpm", &img);
     load_image(info, info->texture[3], "textures/east.xpm", &img);
@@ -749,6 +751,7 @@ void	load_texture(t_info *info)
 
 int		main_loop(t_info *info)
 {
+	printf("key=%d\n", info->key_w);
 	calculateAndSaveToMap(info);
 	imageDraw(info);
 	key_update(info);
