@@ -65,6 +65,20 @@ int		file_exists(char *file_name)
 	return (1);
 }
 
+void	path_free(t_info *info, int index)
+{
+	int i;
+
+	i = 0;
+	while (info->path[i])
+		free(info->path[i++]);
+	if (info->path)
+	{
+		free(info->path);
+		info->path = 0;
+	}
+}
+
 int		config_path(int index, char *line, t_info *info)
 {
 	int		start;
@@ -76,9 +90,10 @@ int		config_path(int index, char *line, t_info *info)
 	while (is_space(line[start]))
 		start++;
 	end = ft_strlen(line);
-	path = ft_substr(line, start, end - start);
-	if (!path || !file_exists(path))
-		return (cub_close("invalid path"));
+	if (!(path = ft_substr(line, start, end - start)))
+		return(print_error("ERROR\ninvalid path\n", info));
+	if (!(file_exists(path)))
+		return (print_error("ERROR\ninvalid path\n", info));
 	i = 0;
 	while (end - i >= 0)
 	{
@@ -92,36 +107,23 @@ int		config_path(int index, char *line, t_info *info)
 
 int		config_color(char location, char *line, t_info *info)
 {
-	int				i;
-	int				r;
-	int				g;
-	int				b;
-	unsigned int	color;
+	int	i;
 
 	i = 0;
 	while (is_space(line[i]))
 		i++;
 	while (line[i] && ft_isdigit(line[i]))
-	{
-		r = r * 10 + (line[i] - '0');
-		i++;
-	}
+		info->rgb.r = (info->rgb.r * 10 + (line[i++] - '0'));
 	i++;
 	while (line[i] && ft_isdigit(line[i]))
-	{
-		g = g * 10 + (line[i] - '0');
-		i++;
-	}
+		info->rgb.g = info->rgb.g * 10 + (line[i++] - '0');
 	i++;
 	while (line[i] && ft_isdigit(line[i]))
-	{
-		b = b * 10 + (line[i] - '0');
-		i++;
-	}
-	color = (r * 256 * 256) + (g * 256) + b;
+		info->rgb.b = info->rgb.b * 10 + (line[i++] - '0');
+	info->rgb.color = (info->rgb.r * 256 * 256) + (info->rgb.g * 256) + info->rgb.b;
 	if (location == 'F')
-		info->config.f_color = color;
+		info->config.f_color = info->rgb.color;
 	else if (location == 'C')
-		info->config.c_color = color;
+		info->config.c_color = info->rgb.color;
 	return (1);
 }

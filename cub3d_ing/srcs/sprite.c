@@ -112,7 +112,7 @@ int		draw_sprites(t_info *info)
 		i++;
 	}
 	if (sortSprites(s_order, s_dist, info->config.sprite_count) == -1)
-		return (cub_close("sprite_malloc error\n"));
+		return (print_error("ERROR\nsprite malloc allocation\n", info));
 	i = 0;
 	while (i < info->config.sprite_count)
 	{

@@ -46,7 +46,7 @@ int		load_texture(t_info *info)
 	{
 		if (!(info->texture[i] = (int *)malloc(sizeof(int) *
 						(T_HEIGHT * T_WIDTH))))
-			return (-1);
+			return (print_error("ERROR\ntexture table allocation\n", info));
 		j = 0;
 		while (j < T_HEIGHT * T_WIDTH)
 			info->texture[i][j++] = 0;

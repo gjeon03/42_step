@@ -34,8 +34,6 @@ int		save_map(char *line, int gnl_return, t_info *info)
 	int			line_len;
 
 	line_len = ft_strlen(line);
-	//if (line_len > info->map.col)
-	//	info->map.col = line_len;
 	tmp = ft_strjoin(save, line);
 	if (save != 0)
 		free(save);

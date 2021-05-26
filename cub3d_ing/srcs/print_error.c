@@ -12,14 +12,15 @@
 
 #include "../include/cub3d.h"
 
-int		print_error(char *str)
+int		print_error(char *str, t_info *info)
 {
 	ft_putstr_fd(str, 1);
+	cub_close(info);
 	return (-1);
 }
 
-int		cub_close(char *str)
+int		cub_close(t_info *info)
 {
-	ft_putstr_fd(str, 1);
+	malloc_clear(info);
 	exit(0);
 }

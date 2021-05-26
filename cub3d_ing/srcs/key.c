@@ -16,12 +16,16 @@ int		key_press(int k, t_info *info)
 {
 	if (k == KEY_ESC)
 		exit(0);
-	else if (k == KEY_W || k == KEY_UP)
+	else if (k == KEY_W)
 		info->key.w = 1;
+	else if (k == KEY_UP)
+		info->key.up = 1;
 	else if (k == KEY_A)
 		info->key.a = 1;
-	else if (k == KEY_S || k == KEY_DOWN)
+	else if (k == KEY_S)
 		info->key.s = 1;
+	else if (k == KEY_DOWN)
+		info->key.down = 1;
 	else if (k == KEY_D)
 		info->key.d = 1;
 	else if (k == KEY_L)
@@ -35,12 +39,16 @@ int		key_release(int k, t_info *info)
 {
 	if (k == KEY_ESC)
 		exit(0);
-	else if (k == KEY_W || k == KEY_UP)
+	else if (k == KEY_W)
 		info->key.w = 0;
+	else if (k == KEY_UP)
+		info->key.up = 0;
 	else if (k == KEY_A)
 		info->key.a = 0;
-	else if (k == KEY_S || k == KEY_DOWN)
+	else if (k == KEY_S)
 		info->key.s = 0;
+	else if (k == KEY_DOWN)
+		info->key.down = 0;
 	else if (k == KEY_D)
 		info->key.d = 0;
 	else if (k == KEY_L)

@@ -50,7 +50,10 @@ void		sprites_lts(int x, int y, t_info *info)
 	t_sprites	*tmp;
 	
 	tmp = sprite_ltsnew(x, y);
-	lstadd_back(&info->sprites, tmp);
+	if (tmp != 0)
+		lstadd_back(&info->sprites, tmp);
+	else
+		print_error("ERROR\nsprite list memory\n", info);
 	info->config.sprite_count++;
 }
 
