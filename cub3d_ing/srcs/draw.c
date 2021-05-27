@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:58:51 by gjeon             #+#    #+#             */
+/*   Updated: 2021/05/27 18:58:52 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
-void	imageDraw(t_info *info)
+void	image_draw(t_info *info)
 {
 	int x;
 	int	y;
@@ -21,21 +33,21 @@ void	imageDraw(t_info *info)
 
 void	start_dir(t_info *info)
 {
-	info->player.moveSpeed = 0.05;
-	info->player.rotSpeed = 0.05;
+	info->player.movespeed = 0.05;
+	info->player.rotspeed = 0.05;
 	if (info->config.dir == 'N')
 	{
-		info->player.dirX = -1.0;
-		info->player.dirY = 0.0;
-		info->player.planeX = 0.0;
-		info->player.planeY = 0.66;
+		info->player.dirx = -1.0;
+		info->player.diry = 0.0;
+		info->player.planex = 0.0;
+		info->player.planey = 0.66;
 	}
-	else if (info->config.dir == 'S')
+	else if (info->config.dir == 's')
 	{
-		info->player.dirX = 1.0;
-		info->player.dirY = 0.0;
-		info->player.planeX = 0.0;
-		info->player.planeY = -0.66;
+		info->player.dirx = 1.0;
+		info->player.diry = 0.0;
+		info->player.planex = 0.0;
+		info->player.planey = -0.66;
 	}
 	start_dir2(info);
 }
@@ -44,16 +56,16 @@ void	start_dir2(t_info *info)
 {
 	if (info->config.dir == 'W')
 	{
-		info->player.dirX = 0.0;
-		info->player.dirY = -1.0;
-		info->player.planeX = -0.66;
-		info->player.planeY = 0.0;
+		info->player.dirx = 0.0;
+		info->player.diry = -1.0;
+		info->player.planex = -0.66;
+		info->player.planey = 0.0;
 	}
 	else if (info->config.dir == 'E')
 	{
-		info->player.dirX = 0.0;
-		info->player.dirY = 1.0;
-		info->player.planeX = 0.66;
-		info->player.planeY = 0.0;
+		info->player.dirx = 0.0;
+		info->player.diry = 1.0;
+		info->player.planex = 0.66;
+		info->player.planey = 0.0;
 	}
 }

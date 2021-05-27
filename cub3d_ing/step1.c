@@ -799,6 +799,7 @@ int		main(void)
 
 
 	info.mlx = mlx_init();
+	exit(0);
 	load_texture(&info);
 	info.win = mlx_new_window(info.mlx, screenWidth, screenHeight, "step");
 	info.img.img = mlx_new_image(info.mlx, screenWidth, screenHeight);

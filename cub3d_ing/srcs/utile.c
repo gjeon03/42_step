@@ -1,13 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utile.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:57:41 by gjeon             #+#    #+#             */
+/*   Updated: 2021/05/27 18:57:42 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 int		info_malloc(t_info *info)
 {
+	int	i;
+
 	if (!(info->path = malloc(sizeof(char *) * 5)))
 		return (-1);
 	if (!(info->texture = malloc(sizeof(int *) * 5)))
 	{
 		free(info->path);
 		return (-1);
+	}
+	i = 0;
+	while (i < 5)
+	{
+		info->path[i] = 0;
+		info->texture[i] = 0;
+		i++;
 	}
 	return (1);
 }
@@ -17,38 +38,25 @@ void	buf_free(t_info *info)
 	int	i;
 
 	i = 0;
-	while (info->buf[i])
-		free(info->buf[i++]);
 	if (info->buf)
 	{
+		while (info->buf[i] && i < info->config.height)
+			free(info->buf[i++]);
 		free(info->buf);
 		info->buf = 0;
 	}
-	if (info->zBuffer)
-		free(info->zBuffer);
+	if (info->zbuffer)
+		free(info->zbuffer);
 }
 
 void	malloc_clear(t_info *info)
 {
-	int	i;
-
-	path_free(info, 5);
-	i = 0;
-	while (info->texture[i])
-		free(info->texture[i++]);
-	i = 0;
-	while (info->map.tab[i])
-		free(info->map.tab[i++]);
+	if (info->path)
+		path_free(info, 5);
 	if (info->map.tab)
-	{
-		free(info->map.tab);
-		info->map.tab = 0;
-	}
+		map_free(info);
 	if (info->texture)
-	{
-		free(info->texture);
-		info->texture = 0;
-	}
+		texture_free(info, 5);
 	if (info->sprites)
 		lstclear(&info->sprites);
 	buf_free(info);
@@ -74,7 +82,7 @@ int		**buf_malloc(t_info *info)
 	return (tmp);
 }
 
-double	*zBuffer_malloc(t_info *info)
+double	*zbuffer_malloc(t_info *info)
 {
 	double	*tmp;
 

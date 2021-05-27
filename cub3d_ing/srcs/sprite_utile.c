@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sprite_utile.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:42:37 by gjeon             #+#    #+#             */
+/*   Updated: 2021/05/27 18:42:39 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 void		lstclear(t_sprites **lst)
@@ -18,7 +30,6 @@ void		lstclear(t_sprites **lst)
 void		lstadd_back(t_sprites **lst, t_sprites *new)
 {
 	t_sprites	*tmp;
-	int			i = 0;
 
 	if (lst == 0 || new == 0)
 		return ;
@@ -33,7 +44,7 @@ void		lstadd_back(t_sprites **lst, t_sprites *new)
 	}
 }
 
-t_sprites  *sprite_ltsnew(int x, int y)
+t_sprites	*sprite_ltsnew(int x, int y)
 {
 	t_sprites	*new;
 
@@ -48,7 +59,7 @@ t_sprites  *sprite_ltsnew(int x, int y)
 void		sprites_lts(int x, int y, t_info *info)
 {
 	t_sprites	*tmp;
-	
+
 	tmp = sprite_ltsnew(x, y);
 	if (tmp != 0)
 		lstadd_back(&info->sprites, tmp);

@@ -12,6 +12,17 @@
 
 #include "../include/cub3d.h"
 
+void	map_free(t_info *info)
+{
+	int i;
+
+	i = 0;
+	while (i < info->map.row)
+		free(info->map.tab[i++]);
+	free(info->map.tab);
+	info->map.tab = 0;
+}
+
 int		set_map(t_info *info, char *save)
 {
 	int		i;
@@ -80,15 +91,15 @@ int		check_map(t_info *info)
 		{
 			if (ft_strchr(DIR_CH, info->map.tab[i][j]))
 			{
-				info->config.posX = i;
-				info->config.posY = j;
+				info->config.posx = (double)i + 0.5;
+				info->config.posy = (double)j + 0.5;
 				info->config.dir = info->map.tab[i][j];
 				info->config.dir_flag++;
 			}
 			if (info->map.tab[i][j] == '2')
 				sprites_lts(i, j, info);
 			if ((map_error(info, i, j)) == -1)
-				return (print_error("ERROR\nmap check\n", info));
+				return (print_error("ERROR\nThe map is not correct.\n", info));
 			j++;
 		}
 		i++;

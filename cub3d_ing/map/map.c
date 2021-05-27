@@ -30,12 +30,12 @@ int		check_file_name(char *file_name)
 {
 	int	len;
 
-	len = ft_strlen(file_name);
-	if (!file_name || len < 5)
-		return (-1);
-	if (file_name[len] != 'd' || file_name[len - 1] != 'u' ||
+	len = ft_strlen(file_name) - 1;
+	if (file_name == 0 || len < 5)
+		return (0);
+	if (file_name[len] != 'b' || file_name[len - 1] != 'u' ||
 			file_name[len - 2] != 'c' || file_name[len - 3] != '.')
-		return (-1);
+		return (0);
 	return (1);
 }
 
@@ -62,7 +62,7 @@ int		treat_description(char *file_name, t_info *info)
 	int		error_ch;
 
 	error_ch = 1;
-	if (!check_file_name(file_name))
+	if (check_file_name(file_name) == 0)
 		return (print_error("ERROR\nFile format is not correct\n", info));
 	if (!(fd = open(file_name, O_RDONLY)))
 		return (print_error("ERROR\nCouldn't open map file\n", info));

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/22 02:44:45 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/22 02:44:48 by gjeon            ###   ########.fr       */
+/*   Created: 2021/05/27 18:55:31 by gjeon             #+#    #+#             */
+/*   Updated: 2021/05/27 18:55:33 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void	pix_sprites(t_info *info, t_sprite *sprite)
 {
-	sprite->stripe = sprite->drawStartX;
-	while (sprite->stripe < sprite->drawEndX)
+	sprite->stripe = sprite->drawstartx;
+	while (sprite->stripe < sprite->drawendx)
 	{
-		sprite->texX = (int)((256 * (sprite->stripe - (-sprite->spriteWidth
-			/ 2 + sprite->spriteScreenX)) * T_WIDTH
-			/ sprite->spriteWidth) / 256);
-		if (sprite->transformY > 0 && sprite->stripe > 0
-			&& sprite->stripe < info->config.width
-			&& sprite->transformY < info->zBuffer[sprite->stripe])
+		sprite->texx = (int)((256 * (sprite->stripe - (-sprite->s_width
+			/ 2 + sprite->spritescreenx)) * T_W
+			/ sprite->s_width) / 256);
+		if (sprite->transformy > 0 && sprite->stripe > 0
+				&& sprite->stripe < info->config.width
+				&& sprite->transformy < info->zbuffer[sprite->stripe])
 		{
-			sprite->y = sprite->drawStartY;
-			while (sprite->y < sprite->drawEndY)
+			sprite->y = sprite->drawstarty;
+			while (sprite->y < sprite->drawendy)
 			{
-				sprite->d = (sprite->y - sprite->vMoveScreen) * 256
-					- info->config.height * 128 + sprite->spriteHeight * 128;
-				sprite->texY = ((sprite->d * T_HEIGHT) / sprite->spriteHeight) / 256;
-				sprite->color = info->texture[4][T_WIDTH
-					* sprite->texY + sprite->texX];
-				if ((sprite->color & 0x00FFFFFF) != 0)
-					info->buf[sprite->y][sprite->stripe] = sprite->color;
+				sprite->d = (sprite->y - sprite->vmovescreen) * 256
+					- info->config.height * 128 + sprite->s_height * 128;
+				sprite->texy = ((sprite->d * T_H) / sprite->s_height) / 256;
+				sprite->c = info->texture[4][T_W * sprite->texy
+						+ sprite->texx];
+				if ((sprite->c & 0x00FFFFFF) != 0)
+					info->buf[sprite->y][sprite->stripe] = sprite->c;
 				sprite->y++;
 			}
 		}

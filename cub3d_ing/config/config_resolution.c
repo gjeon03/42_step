@@ -12,7 +12,7 @@
 
 #include "../include/cub3d.h"
 
-int		config_resolution(char *line,  t_info *info)
+int		config_resolution(char *line, t_info *info)
 {
 	int	i;
 	int	x;
@@ -24,17 +24,11 @@ int		config_resolution(char *line,  t_info *info)
 	while (is_space(line[i]) || line[i] == 'R')
 		i++;
 	while (ft_isdigit(line[i]))
-	{
-		x = (x * 10) + (line[i] - '0');
-		i++;
-	}
+		x = (x * 10) + (line[i++] - '0');
 	while (is_space(line[i]))
 		i++;
 	while (ft_isdigit(line[i]))
-	{
-		y = (y * 10) + (line[i] - '0');
-		i++;
-	}
+		y = (y * 10) + (line[i++] - '0');
 	if (line[i] != '\0')
 		return (-1);
 	else
@@ -70,13 +64,10 @@ void	path_free(t_info *info, int index)
 	int i;
 
 	i = 0;
-	while (info->path[i])
+	while (info->path[i] && i < 5)
 		free(info->path[i++]);
-	if (info->path)
-	{
-		free(info->path);
-		info->path = 0;
-	}
+	free(info->path);
+	info->path = 0;
 }
 
 int		config_path(int index, char *line, t_info *info)
@@ -85,13 +76,13 @@ int		config_path(int index, char *line, t_info *info)
 	int		end;
 	char	*path;
 	int		i;
-	
+
 	start = 0;
 	while (is_space(line[start]))
 		start++;
 	end = ft_strlen(line);
 	if (!(path = ft_substr(line, start, end - start)))
-		return(print_error("ERROR\ninvalid path\n", info));
+		return (print_error("ERROR\ninvalid path\n", info));
 	if (!(file_exists(path)))
 		return (print_error("ERROR\ninvalid path\n", info));
 	i = 0;
@@ -120,7 +111,8 @@ int		config_color(char location, char *line, t_info *info)
 	i++;
 	while (line[i] && ft_isdigit(line[i]))
 		info->rgb.b = info->rgb.b * 10 + (line[i++] - '0');
-	info->rgb.color = (info->rgb.r * 256 * 256) + (info->rgb.g * 256) + info->rgb.b;
+	info->rgb.color = (info->rgb.r * 256 * 256) + (info->rgb.g * 256)
+			+ info->rgb.b;
 	if (location == 'F')
 		info->config.f_color = info->rgb.color;
 	else if (location == 'C')

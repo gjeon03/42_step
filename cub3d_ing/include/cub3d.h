@@ -37,8 +37,8 @@
 
 # define DIR_CH "NSEW"
 
-# define T_WIDTH 64
-# define T_HEIGHT 64
+# define T_W 64
+# define T_H 64
 
 typedef struct			s_player
 {
@@ -107,10 +107,10 @@ typedef struct			s_sprite
 	double				transformy;
 	int					spritescreenx;
 	int					vmovescreen;
-	int					spriteheight;
+	int					s_height;
 	int					drawstarty;
 	int					drawendy;
-	int					spritewidth;
+	int					s_width;
 	int					drawstartx;
 	int					drawendx;
 	int					texx;
@@ -118,7 +118,7 @@ typedef struct			s_sprite
 	int					stripe;
 	int					y;
 	int					d;
-	int					color;
+	int					c;
 }						t_sprite;
 
 typedef struct			s_sprites
@@ -178,6 +178,7 @@ typedef struct			s_info
 	double				*zbuffer;
 	int					**texture;
 	char				**path;
+	int					save;
 }						t_info;
 
 int						check_file_name(char *file_name);
@@ -197,6 +198,7 @@ int						check_space_sround_position(t_info *info, int i, int j);
 int						treat_description(char *file_name, t_info *info);
 int						map_error(t_info *info, int i, int j);
 int						set_map(t_info *info, char *save);
+void					map_free(t_info *info);
 
 int						config_resolution(char *line, t_info *info);
 int						file_exists(char *file_name);
@@ -211,9 +213,10 @@ int						cub_close(t_info *info);
 
 int						get_next_line(int fd, char **line);
 
-void					load_image(t_info *info, int *texture,
+int						load_image(t_info *info, int *texture,
 		char *path, t_img *img);
 int						load_texture(t_info *info);
+void					texture_free(t_info *info, int index);
 
 t_sprites				*order_find(t_sprites *sprites, int s_order);
 void					sprites_lts(int x, int y, t_info *info);

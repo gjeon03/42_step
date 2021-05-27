@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_update.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:45:06 by gjeon             #+#    #+#             */
+/*   Updated: 2021/05/27 18:45:07 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 void	player_movright(t_info *info)
@@ -6,18 +18,18 @@ void	player_movright(t_info *info)
 
 	if (info->key.d == 1)
 	{
-		ch = info->map.tab[(int)(info->config.posX
-				+ info->player.planeX * info->player.moveSpeed)]
-				[(int)(info->config.posY)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posX += info->player.planeX
-					* info->player.moveSpeed;
-		ch = info->map.tab[(int)(info->config.posX)]
-				[(int)(info->config.posY + info->player.planeY
-				* info->player.moveSpeed)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posY += info->player.planeY
-					* info->player.moveSpeed;
+		ch = info->map.tab[(int)(info->config.posx
+				+ info->player.planex * info->player.movespeed)]
+				[(int)(info->config.posy)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posx += info->player.planex
+					* info->player.movespeed;
+		ch = info->map.tab[(int)(info->config.posx)]
+				[(int)(info->config.posy + info->player.planey
+				* info->player.movespeed)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posy += info->player.planey
+					* info->player.movespeed;
 	}
 }
 
@@ -27,18 +39,18 @@ void	player_movleft(t_info *info)
 
 	if (info->key.a == 1)
 	{
-		ch = info->map.tab[(int)(info->config.posX
-				- info->player.planeX * info->player.moveSpeed)]
-				[(int)(info->config.posY)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posX -= info->player.planeX
-					* info->player.moveSpeed;
-		ch = info->map.tab[(int)(info->config.posX)]
-				[(int)(info->config.posY - info->player.planeY
-				* info->player.moveSpeed)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posY -= info->player.planeY
-					* info->player.moveSpeed;
+		ch = info->map.tab[(int)(info->config.posx
+				- info->player.planex * info->player.movespeed)]
+				[(int)(info->config.posy)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posx -= info->player.planex
+					* info->player.movespeed;
+		ch = info->map.tab[(int)(info->config.posx)]
+				[(int)(info->config.posy - info->player.planey
+				* info->player.movespeed)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posy -= info->player.planey
+					* info->player.movespeed;
 	}
 }
 
@@ -48,18 +60,18 @@ void	player_movback(t_info *info)
 
 	if (info->key.s == 1 || info->key.down == 1)
 	{
-		ch = info->map.tab[(int)(info->config.posX
-				- info->player.dirX * info->player.moveSpeed)]
-				[(int)(info->config.posY)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posX -= info->player.dirX
-					* info->player.moveSpeed;
-		ch = info->map.tab[(int)(info->config.posX)]
-				[(int)(info->config.posY
-				- info->player.dirY * info->player.moveSpeed)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posY -= info->player.dirY
-					* info->player.moveSpeed;
+		ch = info->map.tab[(int)(info->config.posx
+				- info->player.dirx * info->player.movespeed)]
+				[(int)(info->config.posy)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posx -= info->player.dirx
+					* info->player.movespeed;
+		ch = info->map.tab[(int)(info->config.posx)]
+				[(int)(info->config.posy
+				- info->player.diry * info->player.movespeed)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posy -= info->player.diry
+					* info->player.movespeed;
 	}
 }
 
@@ -69,18 +81,18 @@ void	player_movforward(t_info *info)
 
 	if (info->key.w == 1 || info->key.up == 1)
 	{
-		ch = info->map.tab[(int)(info->config.posX
-				+ info->player.dirX * info->player.moveSpeed)]
-				[(int)(info->config.posY)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posX += info->player.dirX
-					* info->player.moveSpeed;
-		ch = info->map.tab[(int)(info->config.posX)]
-				[(int)(info->config.posY
-				+ info->player.dirY * info->player.moveSpeed)];
-		if((!(ch - '0')) || ft_strchr(DIR_CH, ch))
-			info->config.posY += info->player.dirY
-					* info->player.moveSpeed;
+		ch = info->map.tab[(int)(info->config.posx
+				+ info->player.dirx * info->player.movespeed)]
+				[(int)(info->config.posy)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posx += info->player.dirx
+					* info->player.movespeed;
+		ch = info->map.tab[(int)(info->config.posx)]
+				[(int)(info->config.posy
+				+ info->player.diry * info->player.movespeed)];
+		if ((!(ch - '0')) || ft_strchr(DIR_CH, ch))
+			info->config.posy += info->player.diry
+					* info->player.movespeed;
 	}
 }
 
