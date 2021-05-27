@@ -82,8 +82,8 @@ int		main(int argc, char **argv)
 		print_error("ERROR\nmlx fuction failed\n", &info);
 	first_set(&info, argv[1], argc);
 	start_dir(&info);
-	//if (argc == 3)
-		//save_bmp(&info, argv[2]);
+	if (argc == 3)
+		save_bmp(&info, argv[2]);
 	if (!(info.win = screen_check(&info)))
 		print_error("ERROR\nmlx fuction failed\n", &info);
 	mlx_loop_hook(info.mlx, &main_loop, &info);

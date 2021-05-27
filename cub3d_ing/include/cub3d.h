@@ -262,7 +262,6 @@ void					malloc_clear(t_info *info);
 void					buf_free(t_info *info);
 int						info_malloc(t_info *info);
 
-int						take_screenshot(t_info *info);
 int						bmp_data(int fd, t_info *info, int padsize);
 int						bmp_header(int fd, int h, int w, int padsize);
 void					int_to_char(unsigned char *c, int i);
