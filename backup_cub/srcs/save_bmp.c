@@ -18,7 +18,7 @@ void	bmp_header(int fd, int h, int w, int padsize)
 	t_bmp	bmp;
 
 	filesize = (w * 3 + padsize) * h;
-	//filesize	= 54 + 4 * (int)info->config.width * (int)info->config.height;
+	//filesize = (54 + 4) * w * h;
 	bmp.bf_type1 = 'B';
 	bmp.bf_type2 = 'M';
 	bmp.bf_size = filesize;
@@ -29,19 +29,16 @@ void	bmp_header(int fd, int h, int w, int padsize)
 	bmp.bi_width = w;
 	bmp.bi_height = h;
 	bmp.bi_planes = 1;
-	bmp.bi_bit_count = 24;
+	bmp.bi_bit_count = 32;
 	bmp.bi_compression = 0;
-	//bmp.bi_size_image = 4 * (int)info->config.width
-	// * (int)info->config.height;
 	bmp.bi_size_image = 0;
 	bmp.bi_xpels_per_meter = 0;
 	bmp.bi_ypels_per_meter = 0;
-	//bmp.bi_xpels_per_meter = info->config.width;
-	//bmp.bi_ypels_per_meter = info->config.height;
 	bmp.bi_clr_used = 0;
 	bmp.bi_clr_important = 0;
+	printf("w=%d\n",w);
+	printf("h=%d\n",h);
 	write(fd, &bmp, 54);
-	//write(fd, info->img.data,	bmp.bi_size_image);
 }
 
 int		bmp_data(int fd, t_info *info, int padsize)
@@ -51,17 +48,30 @@ int		bmp_data(int fd, t_info *info, int padsize)
 	int				y;
 	int				pixel;
 
-	y = info->config.height - 1;
+	/*y = info->config.height - 1;
 	ft_bzero(zero, 3);
 	while (y >= 0)
 	{
 		x = 0;
-		while (x < info->config.width)
+		while (x < (info->img.size_l / 4))
 		{
-			pixel = *(info->img.data + x + y * info->img.size_l / 4);
+			pixel = *(info->img.data + x + y * (info->img.size_l / 4));
 			if (write(fd, &pixel, 3) < 0)
 				return (0);
 			if (padsize > 0 && write(fd, &zero, padsize) < 0)
+				return (0);
+			x++;
+		}
+		y--;
+	}*/
+	y = info->config.height - 1;
+	while (y >= 0)
+	{
+		x = 0;
+		while (x < (info->img.size_l / 4))
+		{
+			pixel = *(info->img.data + x + y * info->img.size_l / 4);
+			if (write(fd, &pixel, 4) < 0)
 				return (0);
 			x++;
 		}
@@ -80,11 +90,11 @@ void	save_bmp(t_info *info, char *str)
 		print_error("ERROR\n'--save' is not correct\n", info);
 	write(1, "saveing...\n", 11);
 	main_loop(info);
-	padsize = (4 - ((int)info->config.width * 3) % 4) % 4;
+	padsize = (4 - ((int)(info->img.size_l / 4) * 3) % 4) % 4;
 	if ((fd = open("save.bmp", O_WRONLY |
 			O_CREAT | O_TRUNC | O_APPEND)) < 0)
 		print_error("ERROR\nCouldn't create/open .bmp\n", info);
-	bmp_header(fd, info->config.height, info->config.width, padsize);
+	bmp_header(fd, info->config.height, (info->img.size_l / 4), padsize);
 	bmp_data(fd, info, padsize);
 	close(fd);
 	write(1, "save.bmp saved!\n", 16);

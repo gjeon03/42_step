@@ -52,11 +52,11 @@ void	buf_free(t_info *info)
 void	malloc_clear(t_info *info)
 {
 	if (info->path)
-		path_free(info, 5);
+		path_free(info);
 	if (info->map.tab)
 		map_free(info);
 	if (info->texture)
-		texture_free(info, 5);
+		texture_free(info);
 	if (info->sprites)
 		lstclear(&info->sprites);
 	buf_free(info);

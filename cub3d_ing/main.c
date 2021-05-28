@@ -27,8 +27,8 @@ void	info_set(t_info *info)
 	info->key.r = 0;
 	info->key.up = 0;
 	info->key.down = 0;
-	info->config.width = 0;
-	info->config.height = 0;
+	info->config.width = S_WIDTH;
+	info->config.height = S_HEIGHT;
 	info->config.f_color = 0;
 	info->config.c_color = 0;
 	info->rgb.r = 0;
@@ -38,7 +38,6 @@ void	info_set(t_info *info)
 	info->map.tab = 0;
 	info->texture = 0;
 	info->sprites = 0;
-	info->save = 0;
 }
 
 int		main_loop(t_info *info)
@@ -49,15 +48,12 @@ int		main_loop(t_info *info)
 			&info->img.bpp, &info->img.size_l, &info->img.endian);
 	raycast(info);
 	draw_sprites(info);
-	if (info->save == 1)
-		info->win = mlx_new_window(info->mlx, info->config.width,
-				info->config.height, WIN_TITLE);
 	image_draw(info);
 	key_update(info);
 	return (0);
 }
 
-int		first_set(t_info *info, char *argv, int argc)
+int		first_set(t_info *info, char *argv)
 {
 	if (info_malloc(info) == -1)
 		return (print_error("ERROR\ninfo memory allocation\n", info));
@@ -74,16 +70,14 @@ int		main(int argc, char **argv)
 	t_info	info;
 
 	info_set(&info);
-	if (argc > 3)
+	if (argc > 2)
 		print_error("ERROR\ntoo many arguments\n", &info);
 	if (argc < 2)
 		print_error("ERROR\nnot enough arguments\n", &info);
 	if (!(info.mlx = mlx_init()))
 		print_error("ERROR\nmlx fuction failed\n", &info);
-	first_set(&info, argv[1], argc);
+	first_set(&info, argv[1]);
 	start_dir(&info);
-	if (argc == 3)
-		save_bmp(&info, argv[2]);
 	if (!(info.win = screen_check(&info)))
 		print_error("ERROR\nmlx fuction failed\n", &info);
 	mlx_loop_hook(info.mlx, &main_loop, &info);

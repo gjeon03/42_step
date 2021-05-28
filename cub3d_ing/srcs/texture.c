@@ -12,7 +12,7 @@
 
 #include "../include/cub3d.h"
 
-void	texture_free(t_info *info, int index)
+void	texture_free(t_info *info)
 {
 	int i;
 

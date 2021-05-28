@@ -12,33 +12,6 @@
 
 #include "../include/cub3d.h"
 
-int		config_resolution(char *line, t_info *info)
-{
-	int	i;
-	int	x;
-	int	y;
-
-	i = 0;
-	x = 0;
-	y = 0;
-	while (is_space(line[i]) || line[i] == 'R')
-		i++;
-	while (ft_isdigit(line[i]))
-		x = (x * 10) + (line[i++] - '0');
-	while (is_space(line[i]))
-		i++;
-	while (ft_isdigit(line[i]))
-		y = (y * 10) + (line[i++] - '0');
-	if (line[i] != '\0')
-		return (-1);
-	else
-	{
-		info->config.width = x;
-		info->config.height = y;
-	}
-	return (1);
-}
-
 int		file_exists(char *file_name)
 {
 	int	fd;
@@ -59,7 +32,7 @@ int		file_exists(char *file_name)
 	return (1);
 }
 
-void	path_free(t_info *info, int index)
+void	path_free(t_info *info)
 {
 	int i;
 

@@ -14,14 +14,6 @@
 
 int		*screen_check(t_info *info)
 {
-	int max_x;
-	int max_y;
-
-	mlx_get_screen_size(info->mlx, &max_x, &max_y);
-	if (max_x < info->config.width)
-		info->config.width = max_x;
-	if (max_y < info->config.height)
-		info->config.height = max_y;
 	return (mlx_new_window(info->mlx, info->config.width,
 			info->config.height, WIN_TITLE));
 }

@@ -40,6 +40,9 @@
 # define T_W 64
 # define T_H 64
 
+# define S_WIDTH 640
+# define S_HEIGHT 480
+
 typedef struct			s_player
 {
 	double				dirx;
@@ -178,40 +181,7 @@ typedef struct			s_info
 	double				*zbuffer;
 	int					**texture;
 	char				**path;
-	int					save;
 }						t_info;
-
-# pragma pack(push, 1)
-
-typedef struct			s_bmp
-{
-	unsigned char		bf_type1;
-	unsigned char		bf_type2;
-	unsigned int		bf_size;
-	unsigned short		bf_reserved1;
-	unsigned short		bf_reserved2;
-	unsigned int		bf_off_bits;
-	unsigned int		bi_size;
-	int					bi_width;
-	int					bi_height;
-	unsigned short		bi_planes;
-	unsigned short		bi_bit_count;
-	unsigned int		bi_compression;
-	unsigned int		bi_size_image;
-	int					bi_xpels_per_meter;
-	int					bi_ypels_per_meter;
-	unsigned int		bi_clr_used;
-	unsigned int		bi_clr_important;
-}						t_bmp;
-
-typedef struct			s_bmp_rgb
-{
-	unsigned char		r;
-	unsigned char		g;
-	unsigned char		b;
-}						t_bmp_rgb;
-
-# pragma pack(pop)
 
 int						check_file_name(char *file_name);
 int						treat_description(char *file_name, t_info *info);
@@ -232,7 +202,6 @@ int						map_error(t_info *info, int i, int j);
 int						set_map(t_info *info, char *save);
 void					map_free(t_info *info);
 
-int						config_resolution(char *line, t_info *info);
 int						file_exists(char *file_name);
 int						config_path(int index, char *line, t_info *info);
 int						config_color(char location, char *line, t_info *info);
@@ -248,7 +217,7 @@ int						get_next_line(int fd, char **line);
 int						load_image(t_info *info, int *texture,
 		char *path, t_img *img);
 int						load_texture(t_info *info);
-void					texture_free(t_info *info, int index);
+void					texture_free(t_info *info);
 
 t_sprites				*order_find(t_sprites *sprites, int s_order);
 void					sprites_lts(int x, int y, t_info *info);
@@ -258,6 +227,7 @@ void					lstclear(t_sprites **lst);
 
 int						main_loop(t_info *info);
 void					info_set(t_info *info);
+int						first_set(t_info *info, char *argv);
 
 void					image_draw(t_info *info);
 void					start_dir(t_info *info);
@@ -299,6 +269,6 @@ void					bmp_header(int fd, int h, int w, int padsize);
 void					int_to_char(unsigned char *c, int i);
 void					save_bmp(t_info *info, char *str);
 
-void					path_free(t_info *info, int index);
+void					path_free(t_info *info);
 
 #endif

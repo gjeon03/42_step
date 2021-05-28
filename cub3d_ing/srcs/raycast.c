@@ -96,7 +96,6 @@ void	ray_init(t_info *info, int x)
 int		raycast(t_info *info)
 {
 	int	x;
-	int y;
 
 	celling_floot(info);
 	x = 0;

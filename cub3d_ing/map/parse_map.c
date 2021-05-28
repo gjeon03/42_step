@@ -60,9 +60,7 @@ int		is_type_identifier(char a, char b, char *line, t_info *info)
 {
 	if ((a == 'R' || a == 'S' || a == 'F' || a == 'C') && is_space(b))
 	{
-		if (a == 'R')
-			return (config_resolution(line + 1, info));
-		else if (a == 'S')
+		if (a == 'S')
 			return (config_path(4, line + 1, info));
 		else
 			return (config_color(a, line + 1, info));
