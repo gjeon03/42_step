@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   save_bmp.c                                         :+:      :+:    :+:   */
+/*   save	bmp.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,31 +12,36 @@
 
 #include "../include/cub3d.h"
 
-void	int_to_char(unsigned char *c, int i)
+void	bmp_header(int fd, int h, int w, int padsize)
 {
-	c[0] = (unsigned char)(i);
-	c[1] = (unsigned char)(i >> 8);
-	c[2] = (unsigned char)(i >> 16);
-	c[3] = (unsigned char)(i >> 24);
-}
+	int		filesize;
+	t_bmp	bmp;
 
-int		bmp_header(int fd, int h, int w, int padsize)
-{
-	unsigned char	header[54];
-	int				filesize;
-
-	filesize = 54 + (w * 3 * h) + (padsize * h);
-	ft_bzero(header, 54);
-	header[0] = (unsigned char)('B');
-	header[1] = (unsigned char)('M');
-	int_to_char(header + 2, filesize);
-	header[10] = (unsigned char)(54);
-	header[14] = (unsigned char)(40);
-	int_to_char(header + 18, w);
-	int_to_char(header + 22, h);
-	header[26] = (unsigned char)(1);
-	header[28] = (unsigned char)(24);
-	return (!(write(fd, header, 54) < 0));
+	filesize = (w * 3 + padsize) * h;
+	//filesize	= 54 + 4 * (int)info->config.width * (int)info->config.height;
+	bmp.bf_type1 = 'B';
+	bmp.bf_type2 = 'M';
+	bmp.bf_size = filesize;
+	bmp.bf_reserved1 = 0;
+	bmp.bf_reserved1 = 0;
+	bmp.bf_off_bits = 54;
+	bmp.bi_size = 40;
+	bmp.bi_width = w;
+	bmp.bi_height = h;
+	bmp.bi_planes = 1;
+	bmp.bi_bit_count = 24;
+	bmp.bi_compression = 0;
+	//bmp.bi_size_image = 4 * (int)info->config.width
+	// * (int)info->config.height;
+	bmp.bi_size_image = 0;
+	bmp.bi_xpels_per_meter = 0;
+	bmp.bi_ypels_per_meter = 0;
+	//bmp.bi_xpels_per_meter = info->config.width;
+	//bmp.bi_ypels_per_meter = info->config.height;
+	bmp.bi_clr_used = 0;
+	bmp.bi_clr_important = 0;
+	write(fd, &bmp, 54);
+	//write(fd, info->img.data,	bmp.bi_size_image);
 }
 
 int		bmp_data(int fd, t_info *info, int padsize)
