@@ -18,6 +18,7 @@ void	bmp_header(int fd, int h, int w, int padsize)
 	t_bmp	bmp;
 
 	filesize = (w * 3 + padsize) * h;
+	//filesize	= 54 + 4 * (int)info->config.width * (int)info->config.height;
 	bmp.bf_type1 = 'B';
 	bmp.bf_type2 = 'M';
 	bmp.bf_size = filesize;
@@ -30,12 +31,17 @@ void	bmp_header(int fd, int h, int w, int padsize)
 	bmp.bi_planes = 1;
 	bmp.bi_bit_count = 24;
 	bmp.bi_compression = 0;
+	//bmp.bi_size_image = 4 * (int)info->config.width
+	// * (int)info->config.height;
 	bmp.bi_size_image = 0;
 	bmp.bi_xpels_per_meter = 0;
 	bmp.bi_ypels_per_meter = 0;
+	//bmp.bi_xpels_per_meter = info->config.width;
+	//bmp.bi_ypels_per_meter = info->config.height;
 	bmp.bi_clr_used = 0;
 	bmp.bi_clr_important = 0;
 	write(fd, &bmp, 54);
+	//write(fd, info->img.data,	bmp.bi_size_image);
 }
 
 int		bmp_data(int fd, t_info *info, int padsize)
