@@ -56,7 +56,7 @@ int		treat_description(char *file_name, t_info *info)
 	error_ch = 1;
 	if (check_file_name(file_name) == 0)
 		return (print_error("ERROR\nFile format is not correct\n", info));
-	if (!(fd = open(file_name, O_RDONLY)))
+	if ((fd = open(file_name, O_RDONLY)) <= 0)
 		return (print_error("ERROR\nCouldn't open map file\n", info));
 	while ((gnl_return = get_next_line(fd, &line)) >= 0)
 	{
@@ -65,6 +65,8 @@ int		treat_description(char *file_name, t_info *info)
 		if (gnl_return == 0)
 			break ;
 	}
+	if (gnl_return < 0)
+		return (print_error("ERROR\ngnl fail\n", info));
 	close(fd);
 	if ((load_texture(info) == -1))
 		return (print_error("ERROR\ntexture memory allocation\n", info));

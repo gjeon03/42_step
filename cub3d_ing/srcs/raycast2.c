@@ -40,16 +40,16 @@ int		get_text_id(t_info *info)
 	if (info->ray.side == 0)
 	{
 		if (info->ray.raydirx > 0)
-			return (2);
-		else
 			return (1);
+		else
+			return (0);
 	}
 	else
 	{
 		if (info->ray.raydiry > 0)
-			return (0);
-		else
 			return (3);
+		else
+			return (2);
 	}
 }
 

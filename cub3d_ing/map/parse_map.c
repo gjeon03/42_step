@@ -58,13 +58,10 @@ int		save_map(char *line, int gnl_return, t_info *info)
 
 int		is_type_identifier(char a, char b, char *line, t_info *info)
 {
-	if ((a == 'R' || a == 'S' || a == 'F' || a == 'C') && is_space(b))
-	{
-		if (a == 'S')
-			return (config_path(4, line + 1, info));
-		else
-			return (config_color(a, line + 1, info));
-	}
+	if (a == 'S' && is_space(b))
+		return (config_path(4, line + 1, info));
+	else if ((a == 'F' || a == 'C') && is_space(b))
+		return (config_color(a, line + 1, info));
 	else if (a == 'N' && b == 'O')
 		return (config_path(0, line + 2, info));
 	else if (a == 'S' && b == 'O')
@@ -79,10 +76,8 @@ int		is_type_identifier(char a, char b, char *line, t_info *info)
 int		parse_line(char *line, int gnl_return, t_info *info)
 {
 	int		i;
-	int		line_length;
 
 	i = 0;
-	line_length = ft_strlen(line);
 	if (gnl_return == 0)
 		save_map(line, gnl_return, info);
 	else

@@ -55,6 +55,8 @@ int		check_space_around_position(t_info *info, int i, int j)
 {
 	if (i <= 0 || i >= info->map.row || j <= 0)
 		return (1);
+	else if (i + 1 >= info->map.row)
+		return (1);
 	else if (info->map.tab[i][j + 1] == ' ' ||
 			info->map.tab[i][j + 1] == '\0' ||
 			info->map.tab[i][j - 1] == ' ')

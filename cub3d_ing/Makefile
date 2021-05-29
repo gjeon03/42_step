@@ -32,7 +32,7 @@ OBJS		= $(SRCS:.c=.o)
 
 $(NAME) : $(OBJS)
 	make all -C $(LIBFT)
-	make -C mlx
+	make all -C mlx
 	$(CC) $(CFLAGS) $(MLXFLAGS) $(LIBFT)/$(LIBFT_LIB) -o $(NAME) $^
 
 all : $(NAME)

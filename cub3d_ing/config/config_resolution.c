@@ -14,21 +14,18 @@
 
 int		file_exists(char *file_name)
 {
-	int	fd;
 	int	len;
+	int i;
 
+	i = 0;
 	len = ft_strlen(file_name);
 	if (!file_name || len == 0)
-		return (-1);
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-	{
-		close(fd);
-		return (-1);
-	}
-	if (!(file_name[len - 4] == '.' && file_name[len - 3] == 'x' &&
-				file_name[len - 2] == 'p' && file_name[len - 1] == 'm'))
-		return (-1);
+		return (0);
+	while (file_name[len - 1 - i] != 'm' && i <= len)
+		i++;
+	if (file_name[len - 4 - i] != '.' && file_name[len - 3 - i] != 'x' &&
+				file_name[len - 2 - i] != 'p' && file_name[len - 1 - i] != 'm')
+		return (0);
 	return (1);
 }
 

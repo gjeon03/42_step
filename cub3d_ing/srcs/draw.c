@@ -42,7 +42,7 @@ void	start_dir(t_info *info)
 		info->player.planex = 0.0;
 		info->player.planey = 0.66;
 	}
-	else if (info->config.dir == 's')
+	else if (info->config.dir == 'S')
 	{
 		info->player.dirx = 1.0;
 		info->player.diry = 0.0;
