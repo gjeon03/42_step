@@ -1,13 +1,37 @@
 #include "minitalk.h"
 
-void		activebit(int sig, siginfo_t *info, void *context)
+void	put_char(int flag)
 {
-	printf("11111111\n");
+	static int		count;
+	static uint8_t	ch;
+
+	if (flag == 1)
+	{
+		ch <<= 1;
+		ch += 1;
+	}
+	else
+		ch <<= 1;
+	count++;
+	if (count == 7)
+	{
+		if (ch != '\0')
+			ft_putchar_fd(ch, 1);
+		else
+			write(1, "\n", 1);
+		count = 0;
+		ch = 0;
+	}
 }
 
-void		nullbit(int sig, siginfo_t *info, void *context)
+void	activebit(int sig)
 {
-	printf("22222222\n");
+	put_char(1);
+}
+
+void	nullbit(int sig)
+{
+	put_char(0);
 }
 
 int	main(void)
@@ -16,10 +40,8 @@ int	main(void)
 	struct sigaction active_act;
 	struct sigaction null_act;
 
-	active_act.sa_sigaction = activebit;
-	null_act.sa_sigaction = nullbit;
-	active_act.sa_flags = SA_SIGINFO;
-	null_act.sa_flags = SA_SIGINFO;
+	active_act.sa_handler = activebit;
+	null_act.sa_handler = nullbit;
 	if (sigaction(SIGUSR1, &active_act, NULL) != 0)
 		printf("1-1-1-1-1\n");
 	if (sigaction(SIGUSR2, &null_act, NULL) != 0)
