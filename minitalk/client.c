@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/05 20:47:23 by gjeon             #+#    #+#             */
+/*   Updated: 2021/06/05 20:47:25 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 int		pid_check(char *str)
@@ -15,7 +27,7 @@ int		pid_check(char *str)
 	return (1);
 }
 
-int		send_char(int pid, char ch, int i)
+int		send_char(int pid, uint8_t ch, int i)
 {
 	uint8_t	bit;
 
@@ -39,7 +51,7 @@ int		send_char(int pid, char ch, int i)
 			}
 		}
 		bit >>= 1;
-		usleep(70);
+		usleep(30);
 	}
 	return (++i);
 }
