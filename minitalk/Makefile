@@ -12,12 +12,18 @@ CFLAGS		= -Wall -Wextra -Werror
 
 OBJS		= $(SRCS:.c=.o)
 
-$(SERVER) : $(OBJS)
-	make all -C $(LIBFT)
-	$(CC) $(CFLAGS) $(LIBFT)/$(LIBFT_LIB) error.o server.o -o $(SERVER)
-	$(CC) $(CFLAGS) $(LIBFT)/$(LIBFT_LIB) client.o -o $(CLIENT)
+all : $(LIBFT_LIB) $(SERVER) $(CLIENT)
 
-all : $(SERVER)
+$(LIBFT_LIB) :
+	@make all -C $(LIBFT)
+
+$(SERVER) : $(OBJS)
+	@$(CC) $(CFLAGS) $(LIBFT)/$(LIBFT_LIB) error.o server.o -o $@
+	@printf "\e[38;5;46m$@ successfully build\e[0m\n"
+
+$(CLIENT) : $(OBJS)
+	@$(CC) $(CFLAGS) $(LIBFT)/$(LIBFT_LIB) error.o client.o -o $@
+	@printf "\e[38;5;46m$@ successfully build\e[0m\n"
 
 clean :
 	$(RM) $(OBJS)

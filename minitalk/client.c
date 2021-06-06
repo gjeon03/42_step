@@ -27,7 +27,7 @@ int		pid_check(char *str)
 	return (1);
 }
 
-int		send_char(int pid, uint8_t ch, int i)
+void	send_char(int pid, uint8_t ch)
 {
 	uint8_t	bit;
 
@@ -37,23 +37,16 @@ int		send_char(int pid, uint8_t ch, int i)
 		if (ch & bit)
 		{
 			if (kill(pid, SIGUSR1) == -1)
-			{
-				ft_putstr_fd("ERROR\nInvalid pid.\n", 1);
-				return (-1);
-			}
+				print_error("ERROR\nInvalid pid.\n");
 		}
 		else
 		{
 			if (kill(pid, SIGUSR2) == -1)
-			{
-				ft_putstr_fd("ERROR\nInvalid pid.\n", 1);
-				return (-1);
-			}
+				print_error("ERROR\nInvalid pid.\n");
 		}
 		bit >>= 1;
 		usleep(30);
 	}
-	return (++i);
 }
 
 int		main(int ac, char **av)
@@ -67,15 +60,14 @@ int		main(int ac, char **av)
 		if (pid_check(av[1]))
 		{
 			pid = ft_atoi(av[1]);
-			while (av[2][i] && i >= 0)
-				i = send_char(pid, av[2][i], i);
-			if (i >= 0)
-				send_char(pid, av[2][i], i);
+			while (av[2][i])
+				send_char(pid, av[2][i++]);
+			send_char(pid, av[2][i]);
 		}
 		else
-			ft_putstr_fd("ERROR\nEnter the pid as an integer.\n", 1);
+			print_error("ERROR\nEnter the pid as an integer.\n");
 	}
 	else
-		ft_putstr_fd("ERROR\nThe argument is incorrect.\n", 1);
+		print_error("ERROR\nThe argument is incorrect.\n");
 	return (0);
 }
