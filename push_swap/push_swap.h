@@ -34,6 +34,8 @@ typedef struct			s_stack
 typedef struct			s_info
 {
 	t_stack				stack;
+	int					pivot;
+	int					count;
 }						t_info;
 
 t_stack_ls				*stack_lsnew(int index, int data);
@@ -41,11 +43,17 @@ void					stack_lsadd_back(t_stack_ls **lst, t_stack_ls *new);
 void					stack_lsadd_front(t_stack_ls **lst, t_stack_ls *new);
 void					set_stack(t_stack_ls **stack, int index, int data);
 void					stack_lsclear(t_stack_ls **stack);
-t_stack_ls  			*stack_lslast(t_stack_ls *lst);
+t_stack_ls				*stack_lslast(t_stack_ls *lst);
+int						stack_lssize(t_stack_ls *lst);
 
 void					set_sa_sb(t_stack_ls **stack);
 void					set_pa_pb(t_stack_ls **a, t_stack_ls **b);
 void					set_ra_rb(t_stack_ls **a);
 void					set_rra_rrb(t_stack_ls **a);
+
+int						set_pivot(t_stack_ls *stack, t_info *info);
+
+void					a_to_b(t_info *info, int count);
+void					b_to_a(t_info *info, int count);
 
 #endif
