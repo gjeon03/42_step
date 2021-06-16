@@ -14,42 +14,15 @@
 
 void	b_to_a(t_info *info, int count)
 {
-	int	pivot;
-	int	i;
-	int	rb_count;
-	int	pa_count;
+	static int	pivot;
 
+	set_pa_pb(&info->stack.a, &info->stack.b);
 	if (count == 1)
-	{
-		set_pa_pb(&info->stack.a, &info->stack.b);
 		return ;
-	}
-	pivot = set_pivot(info->stack.b, info);
-	i = 0;
-	rb_count = 0;
-	pa_count = 0;
-	while (i < count)
-	{
-		if (info->stack.b->data > pivot)
-		{
-			set_ra_rb(&info->stack.b);
-			rb_count++;
-		}
-		else
-		{
-			set_pa_pb(&info->stack.a, &info->stack.b);
-			pa_count++;
-		}
-		i++;
-	}
-	i = 0;
-	while (i < rb_count)
-	{
-		set_rra_rrb(&info->stack.b);
-		i++;
-	}
-	a_to_b(info, rb_count);
-	b_to_a(info, pa_count);
+	if (info->stack.a->data > info->stack.a->next->data)
+		set_sa_sb(&info->stack.a);
+	//a_to_b(info, rb_count);
+	b_to_a(info, count - 1);
 }
 
 void	a_to_b(t_info *info, int count)
@@ -59,10 +32,13 @@ void	a_to_b(t_info *info, int count)
 	int	ra_count;
 	int	pb_count;
 
-	printf("#####\n");
-	if (count == 1)
+	if (count == 2)
+	{
+		if (info->stack.a->data > info->stack.a->next->data)
+			set_ra_rb(&info->stack.a);
 		return ;
-	pivot = set_pivot(info->stack.a, info);
+	}
+	pivot = set_pivot(info->stack.a, info, count);
 	i = 0;
 	ra_count = 0;
 	pb_count = 0;
@@ -87,12 +63,12 @@ void	a_to_b(t_info *info, int count)
 		i++;
 	}
 	a_to_b(info, ra_count);
-	b_to_a(info, pb_count);
+	//b_to_a(info, pb_count);
 }
 
 int		main(int ac, char **av)
 {
-	int	arr1[5] = {10,7,9,3,2};
+	int	arr1[10] = {2,4,5,1,7,9,3,8,6,10};
 	t_info	info;
 	int		i;
 	t_stack_ls *tmp;
@@ -101,12 +77,13 @@ int		main(int ac, char **av)
 	info.stack.b = 0;
 	info.count = 0;
 	i = 0;
-	while (i < 5)
+	while (i < 10)
 	{
 		set_stack(&info.stack.a, i, arr1[i]);
 		info.count++;
 		i++;
 	}
+	printf("count=%d\n", info.count);
 	tmp = info.stack.a;
 	while (tmp != 0)
 	{
@@ -117,21 +94,23 @@ int		main(int ac, char **av)
 	//set_pivot(info.stack.a, &info);
 	//printf("pivot = %d\n", info.pivot);
 	a_to_b(&info, info.count);
-
-	printf("******\n");
+	b_to_a(&info, info.count - 2);
+	/*###############################*/
+	printf("a******\n");
 	tmp = info.stack.a;
 	while (tmp != 0)
 	{
 		printf("a=%d\n", tmp->data);
 		tmp = tmp->next;
 	}
-	printf("******\n");
+	printf("b******\n");
 	tmp = info.stack.b;
 	while (tmp != 0)
 	{
 		printf("a=%d\n", tmp->data);
 		tmp = tmp->next;
 	}
+	/*###############################*/
 	stack_lsclear(&info.stack.a);
 	return (0);
 }

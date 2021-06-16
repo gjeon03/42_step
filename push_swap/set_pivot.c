@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-int		set_pivot(t_stack_ls *stack, t_info *info)
+int		set_pivot(t_stack_ls *stack, t_info *info, int p_count)
 {
 	int			count;
 	t_stack_ls	*tmp;
@@ -17,11 +17,11 @@ int		set_pivot(t_stack_ls *stack, t_info *info)
 			return (0) ;
 		while (tmp2 != NULL)
 		{
-			if (pivot > tmp2->data)
+			if (pivot >= tmp2->data)
 				count++;
 			tmp2 = tmp2->next;
 		}
-		if (count == info->count / 2)
+		if (count == p_count / 2)
 		{
 			info->pivot = pivot;
 			return (pivot);

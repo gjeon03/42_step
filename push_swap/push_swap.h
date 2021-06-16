@@ -51,7 +51,7 @@ void					set_pa_pb(t_stack_ls **a, t_stack_ls **b);
 void					set_ra_rb(t_stack_ls **a);
 void					set_rra_rrb(t_stack_ls **a);
 
-int						set_pivot(t_stack_ls *stack, t_info *info);
+int						set_pivot(t_stack_ls *stack, t_info *info, int p_count);
 
 void					a_to_b(t_info *info, int count);
 void					b_to_a(t_info *info, int count);
