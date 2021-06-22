@@ -14,15 +14,56 @@
 
 void	b_to_a(t_info *info, int count)
 {
-	static int	pivot;
+	int	pivot;
+	int	i;
+	int	rb_count;
+	int	pa_count;
 
-	set_pa_pb(&info->stack.a, &info->stack.b);
-	if (count == 1)
+	if (count == 0)
 		return ;
-	if (info->stack.a->data > info->stack.a->next->data)
-		set_sa_sb(&info->stack.a);
-	//a_to_b(info, rb_count);
-	b_to_a(info, count - 1);
+	if (count == 1)
+	{
+		//if (count == 2 && info->stack.b->data < info->stack.b->next->data)
+		//	set_sa_sb(&info->stack.b);
+		set_pa_pb(&info->stack.a, &info->stack.b);
+		return ;
+	}
+	if (count == 2 && info->stack.b->data < info->stack.b->next->data)
+		set_sa_sb(&info->stack.b);
+	/*if (count == 1)
+	{
+		set_pa_pb(&info->stack.a, &info->stack.b);
+		return ;
+	}*/
+	pivot = set_pivot(info->stack.b, info, count);
+	i = 0;
+	rb_count = 0;
+	pa_count = 0;
+	while (i < count)
+	{
+		if (info->stack.b->data < pivot)
+		{
+			printf("rb\n");
+			set_ra_rb(&info->stack.b);
+			rb_count++;
+		}
+		else
+		{
+			printf("pb\n");
+			set_pa_pb(&info->stack.a, &info->stack.b);
+			pa_count++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < rb_count)
+	{
+		printf("rrb\n");
+		set_rra_rrb(&info->stack.b);
+		i++;
+	}
+	//a_to_b(info, pa_count);
+	b_to_a(info, rb_count);
 }
 
 void	a_to_b(t_info *info, int count)
@@ -35,9 +76,14 @@ void	a_to_b(t_info *info, int count)
 	if (count == 2)
 	{
 		if (info->stack.a->data > info->stack.a->next->data)
-			set_ra_rb(&info->stack.a);
+		{
+			set_sa_sb(&info->stack.a);
+			printf("sa\n");
+		}
 		return ;
 	}
+	if (count == 1)
+		return ;
 	pivot = set_pivot(info->stack.a, info, count);
 	i = 0;
 	ra_count = 0;
@@ -46,11 +92,13 @@ void	a_to_b(t_info *info, int count)
 	{
 		if (info->stack.a->data > pivot)
 		{
+			printf("ra\n");
 			set_ra_rb(&info->stack.a);
 			ra_count++;
 		}
 		else
 		{
+			printf("pa\n");
 			set_pa_pb(&info->stack.b, &info->stack.a);
 			pb_count++;
 		}
@@ -59,6 +107,7 @@ void	a_to_b(t_info *info, int count)
 	i = 0;
 	while (i < ra_count)
 	{
+		printf("rra\n");
 		set_rra_rrb(&info->stack.a);
 		i++;
 	}
@@ -68,7 +117,7 @@ void	a_to_b(t_info *info, int count)
 
 int		main(int ac, char **av)
 {
-	int	arr1[10] = {2,4,5,1,7,9,3,8,6,10};
+	int	arr1[10] = {4,2,10,7,5,3,8,1,6,9};
 	t_info	info;
 	int		i;
 	t_stack_ls *tmp;
@@ -91,10 +140,22 @@ int		main(int ac, char **av)
 		tmp = tmp->next;
 	}
 	printf("******\n");
-	//set_pivot(info.stack.a, &info);
-	//printf("pivot = %d\n", info.pivot);
 	a_to_b(&info, info.count);
-	b_to_a(&info, info.count - 2);
+	i = 1;
+	while (info.stack.b != 0)
+	{
+		b_to_a(&info, info.count - 2 * i);
+		if (info.stack.b != 0)
+			a_to_b(&info, info.count - 2 * i);
+		i++;
+	}
+	/*tmp = info.stack.b;
+	while (tmp != 0)
+	{
+		set_pa_pb(&info.stack.a, &info.stack.b);
+		tmp = tmp->next;
+	}*/
+
 	/*###############################*/
 	printf("a******\n");
 	tmp = info.stack.a;
