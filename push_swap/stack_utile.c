@@ -1,63 +1,62 @@
 #include "push_swap.h"
 
-t_stack_ls	*stack_lsnew(int data)
+int		intlen(int *arr)
 {
-	t_stack_ls	*new;
+	int	i;
 
-	if (!(new = malloc(sizeof(t_stack_ls))))
-		return (0);
-	new->data = data;
-	new->next = 0;
-	return (new);
+	i = 0;
+	while (arr[i] != NULL)
+		i++;
+	return (i);
 }
 
-void		stack_lsadd_front(t_stack_ls **lst, t_stack_ls *new)
+int		malloc_stack(t_info *info, int total)
 {
-  if (lst == 0 || new == 0)
-		return ;
-  new->next = *lst;
-  *lst = new;
-}
-
-void		stack_lsadd_back(t_stack_ls **lst, t_stack_ls *new)
-{
-	t_stack_ls  *temp;
-
-	if (lst == 0 || new == 0)
-		return ;
-	if (*lst == 0)
-		*lst = new;
-	else
+	if (!(info->stack.a = malloc(sizeof(int) * total)))
+		return (error_msg("ERROR\n"));
+	if (!(info->stack.b = malloc(sizeof(int) * total)))
 	{
-		temp = *lst;
-		while (temp -> next)
-			temp = temp -> next;
-		temp -> next = new;
+		free(info->stack.a);
+		return (error_msg("ERROR\n"));
 	}
+	ft_memset(info->stack.a, '\0', total);
+	ft_memset(info->stack.b, '\0', total);
+	return (1);
 }
 
-void		set_stack(t_stack_ls **stack, int data)
+void stack_pop(Stack *pstack)
 {
-	t_stack_ls	*new;
+	if (is_empty(pstack) == TRUE)
+		pstack->top -= 1;
+}
 
-	new = stack_lsnew(data);
-	if (*stack != 0)
-		stack_lsadd_back(stack, new);
+void	stack_push(t_array_stack *pstack, int data)
+{
+	pstack->top += 1;
+	pstack->arr[pstack->top] = data;
+}
+
+void	stack_init(t_array_stack *pstack)
+{
+	pstack->top = -1;
+}
+
+int		is_empty(t_array_stack *pstack)
+{
+	if (pstack->top == -1)
+		return (TRUE);
 	else
-		*stack = new;
+		return (FALSE);
 }
 
-void		stack_lsclear(t_stack_ls **stack)
+void	set_stack(t_info *info, char **str, int total)
 {
-	t_stack_ls	*tmp;
+	int	i;
 
-	if (stack == 0)
+	info->count = total;
+	if (!(malloc_stack(info, total)))
 		return ;
-	while (*stack)
-	{
-		tmp = (*stack)->next;
-		free(*stack);
-		*stack = tmp;
-	}
-	*stack = 0;
+	i = -1;
+	while (++i < total)
+		info->a[i] = ft_atoi(str[i]);
 }
