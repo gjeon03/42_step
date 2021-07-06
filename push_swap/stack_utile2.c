@@ -1,31 +1,29 @@
 #include "push_swap.h"
 
-t_stack_ls	*stack_lslast(t_stack_ls *lst)
+void	stack_pop_first(t_array_stack *pstack)
 {
-	t_stack_ls	*tmp;
-
-	if (lst)
+	if (is_empty(pstack) != TRUE)
 	{
-		while (lst->next)
-		{
-			if (lst->next->next == 0)
-				tmp = lst;
-			lst = lst->next;
-		}
+		ft_memmove(&pstack->arr[0], &pstack->arr[1], sizeof(int) * pstack->top);
+		pstack->top -= 1;
 	}
-	tmp->next = 0;
-	return (lst);
 }
 
-int			stack_lssize(t_stack_ls *lst)
+void	stack_pop_end(t_array_stack *pstack)
 {
-	size_t	count;
+	if (is_empty(pstack) != TRUE)
+		pstack->top -= 1;
+}
 
-	count = 0;
-	while (lst)
-	{
-		lst = lst -> next;
-		count++;
-	}
-	return (count);
+void	stack_push_first(t_array_stack *pstack, int data)
+{
+	pstack->top += 1;
+	ft_memmove(&pstack->arr[1], &pstack->arr[0], sizeof(int) * pstack->top);
+	pstack->arr[0] = data;
+}
+
+void	stack_push_end(t_array_stack *pstack, int data)
+{
+	pstack->top += 1;
+	pstack->arr[pstack->top] = data;
 }

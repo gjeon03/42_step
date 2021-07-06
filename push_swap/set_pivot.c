@@ -1,94 +1,73 @@
 #include "push_swap.h"
 
-int		set_first_pivot(t_stack_ls *stack, t_info *info, int p_count)
+int		set_pivot(t_array_stack *stack)
 {
-	int			count;
-	t_stack_ls	*tmp;
-	int			pivot;
-	t_stack_ls	*tmp2;
+	int	i;
+	int	j;
+	int	count;
 
-	tmp = stack;
-	while (tmp != NULL)
+	i = 0;
+	while (i < stack->top + 1)
 	{
 		count = 0;
-		tmp2 = stack;
-		pivot = tmp->data;
-		if (tmp2 == NULL)
-			return (0) ;
-		while (tmp2 != NULL)
+		j = 0;
+		while (j < stack->top + 1)
 		{
-			if (pivot > tmp2->data)
+			if (stack->arr[i] < stack->arr[j])
 				count++;
-			tmp2 = tmp2->next;
+			j++;
 		}
-		if (count == p_count / 3)
-		{
-			info->pivot = pivot;
-			return (pivot);
-		}
-		tmp = tmp->next;
+		if (count == (stack->top + 1) / 2)
+			return (stack->arr[i]);
+		i++;
 	}
-	return (0);
+	return (error_msg("ERROR\npivot1\n"));
 }
 
-int		set_second_pivot(t_stack_ls *stack, t_info *info, int p_count)
+int		set_pivot1(t_array_stack *stack)
 {
-	int			count;
-	t_stack_ls	*tmp;
-	int			pivot;
-	t_stack_ls	*tmp2;
+	int	i;
+	int	j;
+	int	count;
 
-	tmp = stack;
-	while (tmp != NULL)
+	i = 0;
+	while (i < stack->top + 1)
 	{
 		count = 0;
-		tmp2 = stack;
-		pivot = tmp->data;
-		if (tmp2 == NULL)
-			return (0) ;
-		while (tmp2 != NULL)
+		j = 0;
+		while (j < stack->top + 1)
 		{
-			if (pivot > tmp2->data)
+			if (stack->arr[i] < stack->arr[j])
 				count++;
-			tmp2 = tmp2->next;
+			j++;
 		}
-		if (count == p_count * 2 / 3)
-		{
-			info->pivot = pivot;
-			return (pivot);
-		}
-		tmp = tmp->next;
+		if (count == (stack->top + 1) / 3)
+			return (stack->arr[i]);
+		i++;
 	}
-	return (0);
+	return (error_msg("ERROR\npivot1\n"));
 }
 
-int		set_pivot(t_stack_ls *stack, t_info *info, int p_count)
+int		set_pivot2(t_array_stack *stack)
 {
-	int			count;
-	t_stack_ls	*tmp;
-	int			pivot;
-	t_stack_ls	*tmp2;
+	int	i;
+	int	j;
+	int	count;
 
-	tmp = stack;
-	while (tmp != NULL)
+	i = 0;
+	while (i < stack->top + 1)
 	{
 		count = 0;
-		tmp2 = stack;
-		pivot = tmp->data;
-		if (tmp2 == NULL)
-			return (0) ;
-		while (tmp2 != NULL)
+		j = 0;
+		while (j < stack->top + 1)
 		{
-			if (pivot > tmp2->data)
+			if (stack->arr[i] < stack->arr[j])
 				count++;
-			tmp2 = tmp2->next;
+			j++;
 		}
-		if (count == p_count / 2)
-		{
-			info->pivot = pivot;
-			return (pivot);
-		}
-		tmp = tmp->next;
+		if (count == ((stack->top + 1) / 3) * 2)
+			return (stack->arr[i]);
+		i++;
 	}
-	return (0);
+	return (error_msg("ERROR\npivot2\n"));
 }

@@ -1,77 +1,77 @@
 #include "push_swap.h"
 
-void	set_sa_sb(t_stack_ls **stack, int flag)
+void	sort_info_init(t_sort_info *sort, t_array_stack *stack)
 {
-	t_stack_ls	*tmp;
-
-	if ((*stack) != 0 && (*stack)->next != 0)
-	{
-		tmp = (*stack)->next;
-		(*stack)->next = (*stack)->next->next;
-		stack_lsadd_front(stack, tmp);
-	}
-	if (flag == 1)
-		ft_putstr_fd("sa\n", 1);
-	else if (flag == 2)
-		ft_putstr_fd("sb\n", 1);
+	sort->ra_count = 0;
+	sort->rb_count = 0;
+	sort->pa_count = 0;
+	sort->pb_count = 0;
+	sort->rr_count = 0;
+	//sort->pivot1 = set_pivot1(stack);
+	//sort->pivot2 = set_pivot2(stack);
+	sort->pivot1 = set_pivot(stack);
 }
 
-void	set_pa_pb(t_stack_ls **a, t_stack_ls **b, int flag, t_info *info)
+void	b_to_a(t_info *info, int count)
 {
-	t_stack_ls	*tmp;
+	int	i;
+	t_sort_info	sort;
 
-	if (*b != 0)
+	if (count < 3)
 	{
-		tmp = *b;
-		*b = (*b)->next;
-		stack_lsadd_front(a, tmp);
+		if (count == 2 && info->stack.b.arr[0] < info->stack.b.arr[1])
+			set_sa_sb(&info->stack.b, 2);
+		if (count != 0)
+			set_pa_pb(&info->stack.a, &info->stack.b, 1, &sort);
+		return ;
 	}
-	if (flag == 1)
-	{
-		ft_putstr_fd("pa\n", 1);
-		info->pa_count++;
-	}
-	else if (flag == 2)
-	{
-		ft_putstr_fd("pb\n", 1);
-		info->pb_count++;
-	}
+	sort_info_init(&sort, &info->stack.b);
+	
 }
 
-void	set_ra_rb(t_stack_ls **a, int flag, t_info *info)
+void	a_to_b(t_info *info, int count)
 {
-	t_stack_ls	*tmp;
+	int	i;
+	t_sort_info	sort;
 
-	if (*a != 0)
+	if (count < 3)
 	{
-		tmp = *a;
-		*a = (*a)->next;
-		tmp->next = 0;
-		stack_lsadd_back(a, tmp);
+		if (count == 2 && info->stack.a.arr[0] > info->stack.a.arr[1])
+			set_sa_sb(&info->stack.a, 1);
+		return ;
 	}
-	if (flag == 1)
+	sort_info_init(&sort, &info->stack.a);
+	i = 0;
+	while (i < count)
 	{
-		ft_putstr_fd("ra\n", 1);
-		info->ra_count++;
+		if (info->stack.a.arr[0] > sort.pivot1)
+			set_ra_rb(&info->stack.a, 1, &sort);
+		else
+			set_pa_pb(&info->stack.b, &info->stack.a, 1, &sort);
+		i++;
 	}
-	else if (flag == 2)
-	{
-		ft_putstr_fd("rb\n", 1);
-		info->rb_count++;
-	}
+	i = -1;
+	while (i++ < sort.ra_count  && count != info->count)
+		set_rra_rrb(&info->stack.a, 1);
+	a_to_b(info, sort.ra_count);
+	//b_to_a(info, sort.pb_count);
 }
 
-void	set_rra_rrb(t_stack_ls **a, int flag)
+/*void	a_to_b(t_info *info, int count)
 {
-	t_stack_ls	*tmp;
+	t_sort_info	sort;
+	int			i;
 
-	if (*a != 0 && (*a)->next != 0)
+	if (count < 3)
 	{
-		tmp = stack_lslast(*a);
-		stack_lsadd_front(a, tmp);
+		if (count == 2 && info->stack.a.arr[0] > info->stack.a.arr[1])
+			set_sa_sb(&info->stack.a, 1);
+		return ;
 	}
-	if (flag == 1)
-		ft_putstr_fd("rra\n", 1);
-	else if (flag == 2)
-		ft_putstr_fd("rrb\n", 1);
-}
+	sort_info_init(sort, &info->stack.a);
+	i = 0;
+	while (i < count)
+	{
+		if ()
+	}
+}*/
