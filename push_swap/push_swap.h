@@ -39,8 +39,10 @@ typedef struct			s_sort_info
 	int					pa_count;
 	int					pb_count;
 	int					rr_count;
+	int					rrr_count;
 	int					pivot1;
 	int					pivot2;
+	int					pivot;
 }						t_sort_info;
 
 typedef struct			s_info
@@ -70,9 +72,9 @@ void					stack_push_end(t_array_stack *pstack, int data);
 void					stack_init(t_array_stack *pstack);
 int						is_empty(t_array_stack *pstack);
 
-int						set_pivot(t_array_stack *stack);
-int						set_pivot1(t_array_stack *stack);
-int						set_pivot2(t_array_stack *stack);
+int						set_pivot(t_array_stack *stack, int range);
+int						set_pivot1(t_array_stack *stack, int range);
+int						set_pivot2(t_array_stack *stack, int range);
 
 void					a_to_b(t_info *info, int count);
 void					b_to_a(t_info *info, int count);

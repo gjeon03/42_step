@@ -36,11 +36,17 @@ int		is_empty(t_array_stack *pstack)
 void	set_stack(t_info *info, char **str, int total)
 {
 	int	i;
+	int	num;
 
 	info->count = total;
 	if (!(malloc_stack(info, total)))
 		return ;
 	i = -1;
 	while (++i < total)
-		stack_push_end(&info->stack.a, ft_atoi(str[i]));
+	{
+		num = ft_atoi(str[i]);
+		if (num == 0 && ft_strlen(str[i]) > 1)
+			error_msg("ERROR\n");
+		stack_push_end(&info->stack.a, num);
+	}
 }
