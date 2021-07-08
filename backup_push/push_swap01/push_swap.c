@@ -83,12 +83,54 @@ int		sort_check(t_info *info)
 	return (0);
 }
 
+void	swap(char **a, char **b)
+{
+	char *tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
 int		main(int ac, char **av)
 {
+	char	**arr;
 	t_info	info;
 
+	arr = malloc(sizeof(char) * 500);
+	for (int k = 0; k < 500; k++)
+		arr[k] = malloc(sizeof(char) * 10);
+	for (int k = 0; k < 500; k++)
+		arr[k] = ft_itoa(k + 1);
+
+	for (int k = 0; k < 500; k++)
+		swap(&arr[rand() % 499], &arr[rand() % 499]);
+
+	/*
+	* arr info
+	*/
+/*	printf("-------arr-------\n");
 	if (ac == 1)
+	{
+		for (int k = 0; k < 100; k++)
+			printf("%s ", arr[k]);
+	}
+	else
+	{
+		for (int k = 1; k < ac; k++)
+			printf("%s ", av[k]);
+	}
+	printf("\n");
+*/
+	/*
+	* set stack
+	*/	
+	if (ac == 1)
+	{
 		return (0);
+		//info.count = 500;
+		//set_stack(&info, arr, 500);
+	}
 	else if (ac == 2 && (info.count = (ft_strchar_count(av[1]) + 1)) > 1)
 		blank_handling(&info, av[1], info.count);
 	else
@@ -97,10 +139,7 @@ int		main(int ac, char **av)
 		set_stack(&info, av + 1, ac - 1);
 	}
 	if (!(sort_check(&info)))
-		return (0);
-	a_to_b(&info, info.count);
-	if (info.stack.b.top != -1)
-		set_pa_pb(&info.stack.a, &info.stack.b, 2, &info.sort);
+		error_msg("Error\n");
 	/*
 	* stack a,b info
 	*/
@@ -112,5 +151,30 @@ int		main(int ac, char **av)
 		printf("%d ", info.stack.b.arr[k]);
 	printf("\n-----------------\n");
 */
+	/*
+	* sort test
+	*/
+	//set_sa_sb(&info.stack.a, 1);
+	//set_pa_pb(&info.stack.b, &info.stack.a, 1, &info.sort);
+	//set_ra_rb(&info.stack.a, 1, &info.sort);
+	//set_rra_rrb(&info.stack.a, 1);
+	//set_ss(&info.stack.a, &info.stack.b);
+	//set_rr(&info.stack.a, &info.stack.b, &info.sort);
+	//set_rrr(&info.stack.a, &info.stack.b);
+
+	a_to_b(&info, info.count);
+	if (info.stack.b.top != -1)
+		set_pa_pb(&info.stack.a, &info.stack.b, 2, &info.sort);
+	/*
+	* stack a,b info
+	*/
+	printf("-----a_stack-----\n");
+	for (int k = 0; k <= info.stack.a.top; k++)
+		printf("%d ", info.stack.a.arr[k]);
+	printf("\n-----b_stack-----\n");
+	for (int k = 0; k <= info.stack.b.top; k++)
+		printf("%d ", info.stack.b.arr[k]);
+	printf("\n-----------------\n");
+
 	return (0);
 }
