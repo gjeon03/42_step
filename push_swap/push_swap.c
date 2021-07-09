@@ -98,19 +98,24 @@ int		main(int ac, char **av)
 	}
 	if (!(sort_check(&info)))
 		return (0);
-	a_to_b(&info, info.count);
-	if (info.stack.b.top != -1)
-		set_pa_pb(&info.stack.a, &info.stack.b, 2, &info.sort);
+	if (info.stack.a.top != 2)
+	{
+		a_to_b(&info, info.count);
+		if (info.stack.b.top != -1)
+			set_pa_pb(&info.stack.a, &info.stack.b, 2, &info.sort);
+	}
+	else
+		arr3_sort(&info);
 	/*
 	* stack a,b info
 	*/
-/*	printf("-----a_stack-----\n");
+	printf("-----a_stack-----\n");
 	for (int k = 0; k <= info.stack.a.top; k++)
 		printf("%d ", info.stack.a.arr[k]);
 	printf("\n-----b_stack-----\n");
 	for (int k = 0; k <= info.stack.b.top; k++)
 		printf("%d ", info.stack.b.arr[k]);
 	printf("\n-----------------\n");
-*/
+
 	return (0);
 }

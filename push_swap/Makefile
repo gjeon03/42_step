@@ -4,7 +4,7 @@ LIBFT_LIB	= libft.a
 
 SRCS		= push_swap.c set_pivot.c stack_action1.c\
 			stack_action2.c stack_sort.c stack_utile1.c\
-			stack_utile2.c error.c
+			stack_utile2.c error.c arr3_sort.c
 
 RM			= rm -f
 CC			= gcc

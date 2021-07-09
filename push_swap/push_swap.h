@@ -64,7 +64,6 @@ void					set_rra_rrb(t_array_stack *stack, int flag);
 
 int						malloc_stack(t_info *info, int total);
 void					set_stack(t_info *info, char **str, int total);
-//int						stack_peek(t_array_stack *pstack);
 void					stack_pop_first(t_array_stack *pstack);
 void					stack_pop_end(t_array_stack *pstack);
 void					stack_push_first(t_array_stack *pstack, int data);
@@ -78,5 +77,7 @@ int						set_pivot2(t_array_stack *stack, int range);
 
 void					a_to_b(t_info *info, int count);
 void					b_to_a(t_info *info, int count);
+
+void					arr3_sort(t_info *info);
 
 #endif
