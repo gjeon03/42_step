@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_action2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/11 03:19:25 by gjeon             #+#    #+#             */
+/*   Updated: 2021/07/11 03:32:19 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	set_ss(t_array_stack *a, t_array_stack *b)
@@ -41,5 +53,4 @@ void	set_rrr(t_array_stack *a, t_array_stack *b)
 		set_rra_rrb(a, 1);
 	else if (b->top > 0)
 		set_rra_rrb(b, 2);
-	
 }

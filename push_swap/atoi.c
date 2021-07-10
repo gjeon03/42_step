@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 22:25:36 by gjeon             #+#    #+#             */
-/*   Updated: 2021/01/17 01:26:02 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/07/11 02:39:36 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	check(const char *str, int *sign)
 	int	i;
 
 	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' ||
-			str[i] == '\v' || str[i] == '\f' ||
+	while (str[i] == '\t' || str[i] == '\n' || \
+			str[i] == '\v' || str[i] == '\f' || \
 			str[i] == '\r' || str[i] == ' ')
 		i++;
 	while (str[i] == '-' || str[i] == '+')
@@ -34,7 +34,7 @@ int	check(const char *str, int *sign)
 
 int	digit_check(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -56,7 +56,7 @@ int	ft_atoi(const char *str)
 	j = 0;
 	sign = 1;
 	i = check(str, &sign);
-	if (digit_check((char*)str + i))
+	if (digit_check((char *)str + i))
 		return (0);
 	while ('0' <= str[i] && str[i] <= '9')
 	{

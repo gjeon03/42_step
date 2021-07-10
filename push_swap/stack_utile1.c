@@ -1,10 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_utile1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/11 03:19:43 by gjeon             #+#    #+#             */
+/*   Updated: 2021/07/11 03:43:43 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int		malloc_stack(t_info *info, int total)
+int	malloc_stack(t_info *info, int total)
 {
-	if (!(info->stack.a.arr = malloc(sizeof(int) * total)))
+	info->stack.a.arr = malloc(sizeof(int) * total);
+	if (info->stack.a.arr == 0)
 		return (error_msg("Error\n"));
-	if (!(info->stack.b.arr = malloc(sizeof(int) * total)))
+	info->stack.b.arr = malloc(sizeof(int) * total);
+	if (info->stack.b.arr == 0)
 	{
 		free(info->stack.a.arr);
 		return (error_msg("Error\n"));
@@ -14,18 +28,12 @@ int		malloc_stack(t_info *info, int total)
 	return (1);
 }
 
-/*int		stack_peek(t_array_stack *pstack) {
-	if (is_empty(pstack) == TRUE)
-		return (error_msg("ERROR\n"));
-	return (pstack->arr[pstack->top]);                                                                       
-}*/
-
 void	stack_init(t_array_stack *pstack)
 {
 	pstack->top = -1;
 }
 
-int		is_empty(t_array_stack *pstack)
+int	is_empty(t_array_stack *pstack)
 {
 	if (pstack->top == -1)
 		return (TRUE);

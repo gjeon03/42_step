@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_action1.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/11 03:19:20 by gjeon             #+#    #+#             */
+/*   Updated: 2021/07/11 03:31:37 by gjeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	set_sa_sb(t_array_stack *stack, int flag)
@@ -16,7 +28,8 @@ void	set_sa_sb(t_array_stack *stack, int flag)
 	}
 }
 
-void	set_pa_pb(t_array_stack *a, t_array_stack *b, int flag, t_sort_info *sort)
+void	set_pa_pb(t_array_stack *a, t_array_stack *b, \
+		int flag, t_sort_info *sort)
 {
 	int	tmp;
 
