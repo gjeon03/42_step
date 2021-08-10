@@ -38,12 +38,19 @@ int	sort_check(t_info *info)
 	return (0);
 }
 
+void	info_init(t_info *info)
+{
+	info->stack.a.arr = 0;
+	info->stack.b.arr = 0;
+}
+
 int	main(int ac, char **av)
 {
 	t_info	info;
 
 	if (ac == 1)
 		return (0);
+	info_init(&info);
 	info.count = (ft_strchar_count(av[1]) + 1);
 	if (ac == 2 && info.count > 1)
 		blank_handling(&info, av[1], info.count);
@@ -56,7 +63,7 @@ int	main(int ac, char **av)
 	if (!(info.check))
 		return (0);
 	else if (info.check == 2)
-		error_msg("Error\n");
+		error_msg("Error\n", &info);
 	if (info.stack.a.top != 2)
 		a_to_b(&info, info.count);
 	else

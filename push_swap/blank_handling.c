@@ -65,7 +65,7 @@ void	blank_handling(t_info *info, char *str, int count)
 
 	tmp = malloc(sizeof(char *) * count);
 	if (tmp == 0)
-		error_msg("Error\n");
+		error_msg("Error\n", info);
 	i = 0;
 	j = 0;
 	start = 0;

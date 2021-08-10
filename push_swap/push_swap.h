@@ -54,7 +54,10 @@ typedef struct s_info
 	int			check;
 }				t_info;
 
-int						error_msg(char *str);
+int						sort_check(t_info *info);
+void					info_init(t_info *info);
+
+int						error_msg(char *str, t_info *info);
 
 void					set_ss(t_array_stack *a, t_array_stack *b);
 void					set_rr(t_array_stack *a, t_array_stack *b, \

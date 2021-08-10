@@ -14,9 +14,10 @@
 
 int	set_pivot(t_array_stack *stack, int range)
 {
-	int	i;
-	int	j;
-	int	count;
+	int		i;
+	int		j;
+	int		count;
+	t_info	info;
 
 	i = 0;
 	while (i < range)
@@ -33,5 +34,5 @@ int	set_pivot(t_array_stack *stack, int range)
 			return (stack->arr[i]);
 		i++;
 	}
-	return (error_msg("Error\n"));
+	return (error_msg("Error\n", &info));
 }
