@@ -70,5 +70,5 @@ int	main(int ac, char **av)
 		arr3_sort(&info);
 	if (info.stack.b.top != -1)
 		set_pa_pb(&info.stack.a, &info.stack.b, 2, &info.sort);
-	return (0);
+	return (stack_free(&info));
 }

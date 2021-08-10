@@ -12,14 +12,20 @@
 
 #include "push_swap.h"
 
-int	error_msg(char *str, t_info *info)
+int	stack_free(t_info *info)
 {
-	ft_putstr_fd(str, 1);
 	if (info->stack.a.arr && info->stack.b.arr)
 	{
 		free(info->stack.a.arr);
 		free(info->stack.b.arr);
 	}
+	return (0);
+}
+
+int	error_msg(char *str, t_info *info)
+{
+	ft_putstr_fd(str, 1);
+	stack_free(info);
 	exit(0);
 	return (-1);
 }
