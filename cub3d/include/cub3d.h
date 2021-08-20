@@ -6,7 +6,7 @@
 /*   By: gjeon <gjeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 00:10:30 by gjeon             #+#    #+#             */
-/*   Updated: 2021/05/27 00:18:18 by gjeon            ###   ########.fr       */
+/*   Updated: 2021/08/14 02:00:29 by gjeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <math.h>
 # include "../utiles/libft/libft.h"
-# include "mlx.h"
+# include "../mlx/mlx.h"
 # include <fcntl.h>
 
 # define O_MAX 256
