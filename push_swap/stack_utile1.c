@@ -51,7 +51,7 @@ void	set_stack(t_info *info, char **str, int total)
 	if (total == 1)
 	{
 		c = **str;
-		if (!ft_isdigit(c))
+		if (!ft_isdigit(c) && c != '-')
 			error_msg("Error\n", info);
 	}
 	if (!(malloc_stack(info, total)))
@@ -61,6 +61,8 @@ void	set_stack(t_info *info, char **str, int total)
 	{
 		num = ft_atoi(str[i]);
 		if (num == 0 && ft_strlen(str[i]) > 1)
+			error_msg("Error\n", info);
+		else if (num == 0 && !ft_isdigit(str[i][0]))
 			error_msg("Error\n", info);
 		stack_push_end(&info->stack.a, num);
 	}

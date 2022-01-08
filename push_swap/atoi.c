@@ -67,7 +67,7 @@ int	ft_atoi(const char *str)
 	if (j > LLONG_MAX && sign == -1)
 		return (0);
 	if (j >= LLONG_MAX && sign == 1)
-		return (-1);
+		return (0);
 	if (j > INT_MAX && sign == 1)
 		return (0);
 	if (j > (unsigned long long)INT_MAX + 1 && sign == -1)
